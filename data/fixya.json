@@ -100,14 +100,14 @@
     "solicitudes": [
         {
             "id": 1,
-            "descripcion": "Problema con la tubería del baño",
+            "descripcion": "Problema con la tubería del baño y la taza",
             "tipoServicio": "Plomería",
-            "estado": "Pendiente",
+            "estado": "realizado",
             "fechaCreacion": "2024-07-10",
             "fechaFinalizacion": null,
             "prioridad": "Alta",
             "residenteId": 1,
-            "proveedorId": 1
+            "proveedorId": 2
         },
         {
             "id": 2,
@@ -236,7 +236,9 @@
             "id": 1,
             "nombre": "Plomeros de Mérida",
             "servicioOfrecido": "Plomería",
-            "certificaciones": ["Plomero Certificado"],
+            "certificaciones": [
+                "Plomero Certificado"
+            ],
             "calificacion": 4.8,
             "informacionContacto": {
                 "telefono": "999-888-7777",
@@ -245,20 +247,24 @@
         },
         {
             "id": 2,
-            "nombre": "Carpintería López",
-            "servicioOfrecido": "Carpintería",
-            "certificaciones": ["Carpintero Profesional"],
-            "calificacion": 4.6,
+            "nombre": "Jardinería el chuy",
+            "servicioOfrecido": "Jardinería",
+            "certificaciones": [
+                "Jardinero Certificado"
+            ],
+            "calificacion": 8.6,
             "informacionContacto": {
-                "telefono": "999-555-6666",
-                "email": "contacto@carpinterialopez.com"
+                "telefono": "9091312210",
+                "email": "contacto@jardineriaelchuy.com"
             }
         },
         {
             "id": 3,
             "nombre": "Cerrajería Segura",
             "servicioOfrecido": "Cerrajería",
-            "certificaciones": ["Cerrajero Certificado"],
+            "certificaciones": [
+                "Cerrajero Certificado"
+            ],
             "calificacion": 4.7,
             "informacionContacto": {
                 "telefono": "999-444-3333",
@@ -269,7 +275,9 @@
             "id": 4,
             "nombre": "Climatización Meridana",
             "servicioOfrecido": "Climatización",
-            "certificaciones": ["Técnico en Climatización"],
+            "certificaciones": [
+                "Técnico en Climatización"
+            ],
             "calificacion": 4.5,
             "informacionContacto": {
                 "telefono": "999-222-1111",
@@ -280,7 +288,9 @@
             "id": 5,
             "nombre": "Pinturas Express",
             "servicioOfrecido": "Pintura",
-            "certificaciones": ["Pintor Profesional"],
+            "certificaciones": [
+                "Pintor Profesional"
+            ],
             "calificacion": 4.4,
             "informacionContacto": {
                 "telefono": "999-333-2222",
@@ -291,11 +301,26 @@
             "id": 6,
             "nombre": "ElectroMerida",
             "servicioOfrecido": "Electricidad",
-            "certificaciones": ["Electricista Certificado"],
+            "certificaciones": [
+                "Electricista Certificado"
+            ],
             "calificacion": 4.9,
             "informacionContacto": {
                 "telefono": "999-666-7777",
                 "email": "contacto@electromerida.com"
+            }
+        },
+        {
+            "id": 7,
+            "nombre": "Jardinería Verde",
+            "servicioOfrecido": "Jardinería",
+            "certificaciones": [
+                "Jardinero Certificado"
+            ],
+            "calificacion": 4.6,
+            "informacionContacto": {
+                "telefono": "9891312211",
+                "email": "contacto@jardineriaverde.com"
             }
         }
     ],
@@ -332,84 +357,84 @@
     "facturas": [
         {
             "id": 1,
-            "monto": 150.00,
+            "monto": 150,
             "fechaEmision": "2024-09-17",
             "proveedorId": 1,
             "solicitudId": 1
         },
         {
             "id": 2,
-            "monto": 250.00,
+            "monto": 250,
             "fechaEmision": "2024-09-16",
             "proveedorId": 2,
             "solicitudId": 2
         },
         {
             "id": 3,
-            "monto": 80.00,
+            "monto": 80,
             "fechaEmision": "2024-09-15",
             "proveedorId": 3,
             "solicitudId": 3
         },
         {
             "id": 4,
-            "monto": 300.00,
+            "monto": 300,
             "fechaEmision": "2024-09-14",
             "proveedorId": 4,
             "solicitudId": 4
         },
         {
             "id": 5,
-            "monto": 200.00,
+            "monto": 200,
             "fechaEmision": "2024-09-13",
             "proveedorId": 5,
             "solicitudId": 5
         },
         {
             "id": 6,
-            "monto": 150.00,
+            "monto": 150,
             "fechaEmision": "2024-09-12",
             "proveedorId": 1,
             "solicitudId": 6
         },
         {
             "id": 7,
-            "monto": 180.00,
+            "monto": 180,
             "fechaEmision": "2024-09-11",
             "proveedorId": 6,
             "solicitudId": 7
         },
         {
             "id": 8,
-            "monto": 100.00,
+            "monto": 100,
             "fechaEmision": "2024-09-10",
             "proveedorId": 7,
             "solicitudId": 8
         },
         {
             "id": 9,
-            "monto": 90.00,
+            "monto": 90,
             "fechaEmision": "2024-09-09",
             "proveedorId": 8,
             "solicitudId": 9
         },
         {
             "id": 10,
-            "monto": 220.00,
+            "monto": 220,
             "fechaEmision": "2024-09-08",
             "proveedorId": 9,
             "solicitudId": 10
         },
         {
             "id": 11,
-            "monto": 250.00,
+            "monto": 250,
             "fechaEmision": "2024-09-07",
             "proveedorId": 10,
             "solicitudId": 11
         },
         {
             "id": 12,
-            "monto": 200.00,
+            "monto": 200,
             "fechaEmision": "2024-09-06",
             "proveedorId": 11,
             "solicitudId": 12
@@ -420,144 +445,144 @@
             "id": 1,
             "nombre": "Plomería",
             "descripcion": "Reparación de tuberías y grifos",
-            "costoBase": 120.00
+            "costoBase": 120
         },
         {
             "id": 2,
             "nombre": "Carpintería",
             "descripcion": "Reparación de puertas y muebles",
-            "costoBase": 250.00
-        },
-        {
-            "id": 3,
-            "nombre": "Cerrajería",
-            "descripcion": "Cambio y reparación de cerraduras",
-            "costoBase": 80.00
+            "costoBase": 250
         },
         {
             "id": 4,
             "nombre": "Climatización",
             "descripcion": "Instalación y reparación de sistemas de aire acondicionado y calefacción",
-            "costoBase": 300.00
+            "costoBase": 300
         },
         {
             "id": 5,
             "nombre": "Pintura",
             "descripcion": "Pintura de interiores y exteriores",
-            "costoBase": 200.00
+            "costoBase": 200
         },
         {
             "id": 6,
             "nombre": "Electricidad",
             "descripcion": "Instalación y reparación de sistemas eléctricos",
-            "costoBase": 150.00
+            "costoBase": 150
         },
         {
             "id": 7,
             "nombre": "Impermeabilización",
             "descripcion": "Aplicación de productos impermeabilizantes para techos y paredes",
-            "costoBase": 180.00
+            "costoBase": 180
         },
         {
             "id": 8,
             "nombre": "Limpieza",
             "descripcion": "Limpieza profunda y mantenimiento de espacios",
-            "costoBase": 100.00
+            "costoBase": 100
         },
         {
             "id": 9,
             "nombre": "Jardinería",
             "descripcion": "Mantenimiento y diseño de jardines",
-            "costoBase": 90.00
+            "costoBase": 90
         },
         {
             "id": 10,
             "nombre": "Albañilería",
             "descripcion": "Reparación y construcción de estructuras de albañilería",
-            "costoBase": 220.00
+            "costoBase": 220
+        },
+        {
+            "id": 11,
+            "nombre": "Electricidad",
+            "descripcion": "Instalación y reparación de sistemas eléctricos",
+            "costoBase": 150
         }
     ],
     "pagos": [
         {
             "id": 1,
-            "monto": 150.00,
+            "monto": 150,
             "fechaPago": "2024-09-18",
             "metodo": "Tarjeta de crédito",
             "facturaId": 1
         },
         {
             "id": 2,
-            "monto": 250.00,
+            "monto": 250,
             "fechaPago": "2024-09-18",
             "metodo": "Transferencia bancaria",
             "facturaId": 2
         },
         {
             "id": 3,
-            "monto": 80.00,
+            "monto": 80,
             "fechaPago": "2024-09-17",
             "metodo": "Efectivo",
             "facturaId": 3
         },
         {
             "id": 4,
-            "monto": 300.00,
+            "monto": 300,
             "fechaPago": "2024-09-16",
             "metodo": "Tarjeta de crédito",
             "facturaId": 4
         },
         {
             "id": 5,
-            "monto": 200.00,
+            "monto": 200,
             "fechaPago": "2024-09-15",
             "metodo": "Transferencia bancaria",
             "facturaId": 5
         },
         {
             "id": 6,
-            "monto": 150.00,
+            "monto": 150,
             "fechaPago": "2024-09-14",
             "metodo": "Efectivo",
             "facturaId": 6
         },
         {
             "id": 7,
-            "monto": 180.00,
+            "monto": 180,
             "fechaPago": "2024-09-13",
             "metodo": "Tarjeta de crédito",
             "facturaId": 7
         },
         {
             "id": 8,
-            "monto": 100.00,
+            "monto": 100,
             "fechaPago": "2024-09-12",
             "metodo": "Transferencia bancaria",
             "facturaId": 8
         },
         {
             "id": 9,
-            "monto": 90.00,
+            "monto": 90,
             "fechaPago": "2024-09-11",
             "metodo": "Efectivo",
             "facturaId": 9
         },
         {
             "id": 10,
-            "monto": 220.00,
+            "monto": 220,
             "fechaPago": "2024-09-10",
             "metodo": "Tarjeta de crédito",
             "facturaId": 10
         },
         {
             "id": 11,
-            "monto": 250.00,
+            "monto": 250,
             "fechaPago": "2024-09-09",
             "metodo": "Transferencia bancaria",
             "facturaId": 11
         },
         {
             "id": 12,
-            "monto": 200.00,
+            "monto": 200,
             "fechaPago": "2024-09-08",
             "metodo": "Efectivo",
             "facturaId": 12
@@ -658,13 +683,6 @@
             "comentarios": "Servicio completado con éxito."
         },
         {
-            "id": 2,
-            "proveedorId": 2,
-            "solicitudId": 2,
-            "fechaFinalizacion": "2024-09-16",
-            "comentarios": "Reparación realizada sin problemas."
-        },
-        {
             "id": 3,
             "proveedorId": 3,
             "solicitudId": 3,
@@ -733,6 +751,13 @@
             "solicitudId": 12,
             "fechaFinalizacion": "2024-09-09",
             "comentarios": "Sistema de calefacción reparado y funcionando correctamente."
+        },
+        {
+            "id": 13,
+            "proveedorId": 7,
+            "solicitudId": 2,
+            "fechaFinalizacion": "2024-09-20",
+            "comentarios": "Nuevo servicio agregado correctamente."
         }
     ]
 }

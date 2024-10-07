@@ -42,8 +42,11 @@ router.post("/residents",
 
 // Actualizar un residente
 router.put("/residents/:id", async (req, res) => {
+    const { id } = req.params;
+    const updatedData = req.body; // Datos que vienen en el cuerpo de la solicitud
+
     try {
-        const updatedResident = await residentService.updateResident(req.params.id, req.body);
+        const updatedResident = await residentService.updateResident(id, updatedData);
         res.json(updatedResident);
     } catch (error) {
         res.status(404).json({ error: error.message });
@@ -61,13 +64,15 @@ router.delete("/residents/:id", async (req, res) => {
 });
 
 // Obtener residentes por número de departamento
-router.get("/residents/department/:numeroDepartamento", async (req, res) => {
+router.get("/residents/department/:departmentNumber", async (req, res) => {
     try {
-        const residents = await residentService.findResidentsByDepartment(req.params.numeroDepartamento);
+        const residents = await residentService.findResidentsByDepartment(req.params.departmentNumber);
         res.json(residents);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
+
+
 
 export default router;

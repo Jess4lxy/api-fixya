@@ -1,0 +1,284 @@
+Rutas para ejecutar Get, Put, post, delete
+
+CREAR UN NUEVO SERVICIO
+Método: POST
+URL:  http://localhost:3000/api/services
+Cuerpo de la ejecución (Es un ejemplo del servicio que se va a crear):
+{
+  "nombre": "Limpieza de ventanas",
+  "descripcion": "Servicio de limpieza de ventanas interiores y exteriores",
+  "precio": 80.50
+}
+
+
+ELIMINAR UN SERVICIO
+Método: DELETE
+URL: http://localhost:3000/api/services/:id (Remplazar el id por el número de id que tiene el servicio que vas a eliminar)
+ 
+
+
+
+ACTUALIZAR UN SERVICIO EXISTENTE
+Método: PUT
+URL:  http://localhost:3000/api/services/:id (Remplazar el id por el número de id que tiene el servicio que vas a actualizar)
+Cuerpo de la ejecución (ahí vas a escribir los parámetros o lo que le vas a actualizar a el servicio):
+{
+  "nombre": "Limpieza profunda de ventanas",
+  "descripcion": "Servicio extendido de limpieza de ventanas",
+  "precio": 100.00
+}
+
+
+PARA VER TODOS LOS SERVICIOS
+Método: GET
+URL: http://localhost:3000/api/services
+
+
+
+
+
+
+
+
+
+PARA VER SOLICITUDES
+Método: GET
+URL: http://localhost:3000/api/solicitudes
+
+
+CREAR UNA NUEVA SOLICITUD
+Método: POST
+URL: http://localhost:3000/api/solicitudes
+Cuerpo de la ejecución (Es un ejemplo de la solicitud que se va a crear):
+{
+ 
+  "descripcion": "Problema con la tubería del baño y la taza",
+  "tipoServicio": "Plomería",
+  "estado": "pendiente",
+  "fechaCreacion": "2024-09-28",
+  "fechaFinalizacion": "2024-10-12",
+  "prioridad": "Alta",
+  "residenteId": 2,
+  "proveedorId": 2
+}
+
+
+ELIMINAR UNA SOLICITUD
+Método: DELETE
+URL: http://localhost:3000/api/solicitudes/:id (Remplazar el id por el número de id que tiene la solicitud que vas a eliminar)
+
+
+
+ACTUALIZAR UNA SOLICITUD EXISTENTE
+Método: PUT
+URL: http://localhost:3000/api/solicitudes/:id  (Remplazar el id por el número de id que tiene la solicitud que vas a actualizar)
+Cuerpo de la ejecución (ahí vas a escribir los parámetros o lo que le vas a actualizar a la solicitud):
+       {
+            "descripcion": "Problema con la tubería del baño y la taza",
+            "tipoServicio": "Plomería",
+            "estado": "realizado",
+            "fechaCreacion": "2024-07-10",
+            "fechaFinalizacion": null,
+            "prioridad": "Alta",
+            "residenteId": 1,
+            "proveedorId": 2
+        }
+
+
+
+
+
+
+PARA VER TODOS LOS PROVEEDORES
+Método: GET
+URL: http://localhost:3000/api/proveedores
+
+
+CREAR UN NUEVO PROVEEDOR
+Método: POST
+URL: http://localhost:3000/api/proveedores
+Cuerpo de la ejecución (Es un ejemplo del proveedor que se va a crear):
+{
+    
+    "nombre": "Jardinería Verde",
+    "servicioOfrecido": "Jardinería",
+    "certificaciones": ["Jardinero Certificado"],
+    "calificacion": 4.6,
+    "informacionContacto": {
+        "telefono": "9891312211",
+        "email": "contacto@jardineriaverde.com"
+    }
+}
+
+
+
+ACTUALIZAR ALGÚN PROVEEDOR
+Método: PUT
+URL: http://localhost:3000/api/solicitudes/:id (Remplazar el id por el número de id que tiene el proveedor que vas a actualizar)
+Cuerpo de la ejecución (ahí vas a escribir los parámetros o lo que le vas a actualizar a el proveedor):
+{
+    
+    "nombre": "Jardinería el chuy",
+    "servicioOfrecido": "Jardinería",
+    "certificaciones": ["Jardinero Certificado"],
+    "calificacion": 8.6,
+    "informacionContacto": {
+        "telefono": "9091312210",
+        "email": "contacto@jardineriaelchuy.com"
+    }
+}
+
+
+ELIMINAR ALGÚN PROVEEDOR
+Método: Delete
+URL: http://localhost:3000/api/solicitudes/:id  (Remplazar el id por el número de id que tiene el proveedor que vas a eliminar)
+
+
+
+
+
+
+
+
+VER TODO EL HISTORIAL DE SERVICIOS
+Método: GET
+URL: http://localhost:3000/api/historialServicios
+
+
+
+AGREGAR UNA NOTA DE SERVICIO PARA EL HISTORIAL DE SERVICIOS
+Método: POST
+URL: http://localhost:3000/api/historialServicios
+Cuerpo de la ejecución (Es un ejemplo de LA NOTA que se va a crear):
+{
+    "proveedorId": 7,
+    "solicitudId": 2,
+    "fechaFinalizacion": "2024-09-20",
+    "comentarios": "Nuevo servicio agregado correctamente."
+}
+
+
+ACTUALIZAR HISTORIAL DE SERVICIOS
+Método: PUT
+URL: http://localhost:3000/api/historialServicios/:id (Remplazar el id por el número de id que tiene la nota de servicio del historial de servicio que vas a actualizar)
+Cuerpo de la ejecución (ahí vas a escribir los parámetros o lo que le vas a actualizar a la nota de servicio del historial de servicio):
+{
+    "fechaFinalizacion": "2024-09-21",
+    "comentarios": "Servicio actualizado con éxito."
+}
+
+
+
+ELIMINAR ALGUNA NOTA DE SERVICIO DEL HISTORIAL DE SERVICIO
+Método: Delete
+URL: http://localhost:3000/api/historialServicios/:id  (Remplazar el id por el número de id que tiene la nota de servicio del historial de servicio que vas a eliminar)
+
+
+
+1. Administradores
+
+Obtener todos los administradores (GET)
+URL: http://localhost:3000/api/administrators
+
+Obtener un administrador por ID (GET)
+URL: http://localhost:3000/api/administrators/:id
+Ejemplo: http://localhost:3000/api/administrators/1
+
+Agregar un nuevo administrador (POST)
+URL: http://localhost:3000/api/administrators
+Body (JSON):
+json
+{
+    "nombre": "Juan Pérez",
+    "email": "juan.perez2@ejemplo.com",
+    "rol": "Administrador",
+    "fechaIngreso": "2023-01-01"
+}
+
+Actualizar un administrador (PUT)
+URL: http://localhost:3000/api/administrators/:id
+Ejemplo: http://localhost:3000/api/administrators/1
+Body (JSON):
+json
+{
+    "nombre": "Carlos Sánchez Actualizado",
+    "email": "carlos.sanchez2@ejemplo.com",
+    "rol": "Gerente"
+}
+
+Eliminar un administrador (DELETE)
+URL: http://localhost:3000/api/administrators/:id
+Ejemplo: http://localhost:3000/api/administrators/1
+
+2. Pagos
+Operaciones: GET, POST, PUT, DELETE
+
+Obtener todos los pagos (GET)
+URL: http://localhost:3000/api/payments
+
+Obtener un pago por ID (GET)
+URL: http://localhost:3000/api/payments/:id
+Ejemplo: http://localhost:3000/api/payments/1
+
+Agregar un nuevo pago (POST)
+URL: http://localhost:3000/api/payments
+Body (JSON):
+json
+{
+    "monto": 300,
+    "fechaPago": "2024-09-20",
+    "metodo": "Tarjeta de crédito",
+    "facturaId": 4
+}
+
+Actualizar un pago (PUT)
+URL: http://localhost:3000/api/payments/:id
+Ejemplo: http://localhost:3000/api/payments/1
+Body (JSON):
+json
+{
+    "monto": 250,
+    "metodo": "Transferencia bancaria"
+}
+
+Eliminar un pago (DELETE)
+URL: http://localhost:3000/api/payments/:id
+Ejemplo: http://localhost:3000/api/payments/1
+
+3. Facturas
+Operaciones: GET, POST, DELETE
+
+Obtener todas las facturas (GET)
+URL: http://localhost:3000/api/invoices
+
+Obtener una factura por ID (GET)
+URL: http://localhost:3000/api/invoices/:id
+Ejemplo: http://localhost:3000/api/invoices/1
+
+Agregar una nueva factura (POST)
+URL: http://localhost:3000/api/invoices
+Body (JSON):
+json
+{
+    "monto": 500,
+    "fechaEmision": "2024-09-22",
+    "proveedorId": 3,
+    "solicitudId": 3
+}
+
+Eliminar una factura (DELETE)
+URL: http://localhost:3000/api/invoices/:id
+Ejemplo: http://localhost:3000/api/invoices/1
+
+4. Notificaciones
+Operaciones: Solo GET (lectura)
+
+Obtener todas las notificaciones (GET)
+URL: http://localhost:3000/api/notifications
+
+Obtener una notificación por ID (GET)
+URL: http://localhost:3000/api/notifications/:id
+Ejemplo: http://localhost:3000/api/notifications/1
+
+
+
