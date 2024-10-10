@@ -4,6 +4,26 @@ import administrativeService from "../services/administrativeService.js";
 
 const router = express.Router();
 
+// Middleware de validación para administrador
+const validateAdministrative = [
+    check("nombre").notEmpty().withMessage("El nombre es requerido"),
+    check("email").isEmail().withMessage("Debe ser un email válido"),
+    check("rol").notEmpty().withMessage("El rol es requerido"),
+    check("email").custom(async (email) => {
+        const exists = await administrativeService.findByEmail(email);
+        if (exists) {
+            throw new Error("Ya existe un administrador con ese email.");
+        }
+    }),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    }
+];
+
 // Obtener todos los administradores
 router.get("/administrators", async (req, res) => {
     try {
@@ -14,15 +34,17 @@ router.get("/administrators", async (req, res) => {
     }
 });
 
-// Obtener un administrador por ID
+// Obtener un administrador por ID con validación
 router.get("/administrators/:id", [
     check("id").isNumeric().withMessage("El ID debe ser un número"),
-], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
     }
-
+], async (req, res) => {
     try {
         const admin = await administrativeService.getAdministrativeById(req.params.id);
         if (!admin) {
@@ -34,23 +56,8 @@ router.get("/administrators/:id", [
     }
 });
 
-// Crear un nuevo administrador con validaciones
-router.post("/administrators", [
-    check("nombre").notEmpty().withMessage("El nombre es requerido"),
-    check("email").isEmail().withMessage("Debe ser un email válido"),
-    check("rol").notEmpty().withMessage("El rol es requerido"),
-    check("email").custom(async (email) => {
-        const exists = await administrativeService.findByEmail(email);
-        if (exists) {
-            throw new Error("Ya existe un administrador con ese email.");
-        }
-    }),
-], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
+// Crear un nuevo administrador con validación
+router.post("/administrators", validateAdministrative, async (req, res) => {
     try {
         const { nombre, email, rol, fechaIngreso } = req.body;
         const newAdmin = { nombre, email, rol, fechaIngreso };
@@ -61,16 +68,8 @@ router.post("/administrators", [
     }
 });
 
-// Actualizar un administrador
-router.put("/administrators/:id", [
-    check("nombre").notEmpty().withMessage("El nombre es requerido"),
-    check("email").isEmail().withMessage("Debe ser un email válido")
-], async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
+// Actualizar un administrador con validación
+router.put("/administrators/:id", validateAdministrative, async (req, res) => {
     try {
         const updatedAdmin = await administrativeService.updateAdministrative(req.params.id, req.body);
         res.json(updatedAdmin);

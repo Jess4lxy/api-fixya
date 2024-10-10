@@ -1,4 +1,5 @@
 import express from 'express';
+import { check, validationResult } from 'express-validator';
 import notificationService from '../services/notificationService.js';
 
 const router = express.Router();
@@ -13,8 +14,15 @@ router.get('/notifications', async (req, res) => {
     }
 });
 
-// Obtener una notificación específica por ID
-router.get('/notifications/:id', async (req, res) => {
+// Obtener una notificación específica por ID con validación
+router.get('/notifications/:id', [
+    check('id').isNumeric().withMessage('El ID debe ser un número') // Validación del ID
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
         const notification = await notificationService.getNotificationById(req.params.id);
         if (notification) {

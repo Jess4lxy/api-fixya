@@ -65,8 +65,16 @@ router.delete("/residents/:id", async (req, res) => {
     }
 });
 
-// Obtener residentes por número de departamento
-router.get("/residents/department/:departmentNumber", async (req, res) => {
+// Obtener residentes por número de departamento con validación
+router.get("/residents/department/:departmentNumber", [
+    check("departmentNumber")
+        .matches(/^[a-zA-Z0-9]+$/).withMessage("El número de departamento debe contener solo letras y números"),
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
         const residents = await residentService.findResidentsByDepartment(req.params.departmentNumber);
         res.json(residents);
@@ -74,7 +82,5 @@ router.get("/residents/department/:departmentNumber", async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
-
-
 
 export default router;

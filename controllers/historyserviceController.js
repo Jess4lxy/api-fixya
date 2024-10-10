@@ -40,18 +40,31 @@ router.post("/historialServicios",
     }
 );
 
-// Actualizar un servicio
-router.put("/historialServicios/:id", async (req, res) => {
-    const { id } = req.params;
-    const updatedData = req.body;
+// Actualizar un servicio con validación
+router.put("/historialServicios/:id", 
+    [
+        check('proveedorId').optional().not().isEmpty().withMessage('El proveedor ID es requerido si se proporciona'),
+        check('solicitudId').optional().not().isEmpty().withMessage('El solicitud ID es requerido si se proporciona'),
+        check('fechaFinalizacion').optional().isISO8601().withMessage('La fecha debe ser válida'),
+        check('comentarios').optional().not().isEmpty().withMessage('Los comentarios son requeridos si se proporcionan')
+    ],
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
 
-    try {
-        const updatedService = await historyService.updateService(id, updatedData);
-        res.json(updatedService);
-    } catch (error) {
-        res.status(404).json({ error: error.message });
+        const { id } = req.params;
+        const updatedData = req.body;
+
+        try {
+            const updatedService = await historyService.updateService(id, updatedData);
+            res.json(updatedService);
+        } catch (error) {
+            res.status(404).json({ error: error.message });
+        }
     }
-});
+);
 
 // Eliminar un servicio
 router.delete("/historialServicios/:id", async (req, res) => {

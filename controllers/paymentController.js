@@ -52,8 +52,9 @@ router.post("/payments", [
     }
 });
 
-// Actualizar pago
+// Actualizar pago con validaciones
 router.put("/payments/:id", [
+    check("id").isNumeric().withMessage("El ID debe ser un número"), // Validación del ID
     check("monto").isFloat({ gt: 0 }).withMessage("El monto debe ser un número positivo"),
     check("fechaPago").isISO8601().withMessage("Debe ser una fecha válida")
 ], async (req, res) => {
@@ -70,8 +71,15 @@ router.put("/payments/:id", [
     }
 });
 
-// Eliminar pago
-router.delete("/payments/:id", async (req, res) => {
+// Eliminar pago con validación
+router.delete("/payments/:id", [
+    check("id").isNumeric().withMessage("El ID debe ser un número") // Validación del ID
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
         await paymentService.deletePayment(req.params.id);
         res.json({ message: "Pago eliminado correctamente" });

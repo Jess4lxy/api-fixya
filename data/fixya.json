@@ -95,6 +95,14 @@
             "numeroContacto": "555-254-8718",
             "numeroDepartamento": "715",
             "historialSolicitudes": []
+        },
+        {
+            "id": 13,
+            "nombre": "Emilio Osorio",
+            "email": "chico512@gmail.com",
+            "numeroContacto": "5521091253",
+            "numeroDepartamento": "512",
+            "historialSolicitudes": []
         }
     ],
     "solicitudes": [

@@ -1,6 +1,7 @@
 import express from "express";
 import { check, validationResult } from "express-validator";
 import invoiceService from "../services/invoiceService.js";
+import proveedorService from "../services/proveedorService.js"; // Asegúrate de importar el servicio de proveedor
 
 const router = express.Router();
 
@@ -40,8 +41,15 @@ router.post("/invoices", [
     }
 });
 
-// Eliminar factura
-router.delete("/invoices/:id", async (req, res) => {
+// Eliminar factura con validación
+router.delete("/invoices/:id", [
+    check("id").isNumeric().withMessage("El ID debe ser un número") // Validación del ID
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     try {
         await invoiceService.deleteInvoice(req.params.id);
         res.json({ message: "Factura eliminada correctamente" });
