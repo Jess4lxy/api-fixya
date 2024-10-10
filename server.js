@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
+import cors from 'cors';
 import residentRoutes from './controllers/residentController.js';
 import serviceRoutes from './controllers/serviceController.js';
 import solicitudRoutes from './controllers/solicitudController.js';
@@ -13,13 +14,18 @@ import invoiceRoutes from './controllers/invoiceController.js';
 import notificationRoutes from './controllers/notificationController.js'; 
 
 const app = express();
+
+// CORS para todos los origenes
+app.use(cors());
+
+// configuracion JWT
 const secretKey = 'D7f!zPq3*Qm9@wX4';
 const payload = {
     userId: '512',
 };
 
 const token = jwt.sign(payload, secretKey, { expiresIn: '3h' });
-console.log(token); // Imprime el token para usarlo en Postman
+console.log("Token de acceso JWT: " + token);
 
 // middleware de Morgan para logging de peticiones HTTP
 app.use(morgan('dev'));
