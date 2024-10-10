@@ -1,4 +1,6 @@
 import express from 'express';
+import morgan from 'morgan';
+import bodyParser from 'body-parser';
 import residentRoutes from './controllers/residentController.js';
 import serviceRoutes from './controllers/serviceController.js'; // Cambiado aquí
 import solicitudRoutes from './controllers/solicitudController.js';
@@ -12,6 +14,21 @@ import notificationRoutes from './controllers/notificationController.js';
 
 const app = express();
 
+// Middleware de Morgan para logging de peticiones HTTP
+app.use(morgan('dev'));
+
+// Middleware de Body-parser
+app.use(bodyParser.urlencoded({ extended: true })); // para datos codificados en url
+app.use(bodyParser.json()); // para parsear JSON en el cuerpo de las solicitudes
+
+// Middleware personalizado para loguear solicitudes
+const logRequest = (req, res, next) => {
+    console.log(`${req.method} ${req.url} - Time: ${new Date().toISOString()}`);
+    next();
+};
+app.use(logRequest);
+
+// middleware nativo
 app.use(express.json());
 
 // Rutas de residentes
@@ -24,18 +41,14 @@ app.use ('/fixya', solicitudRoutes);
 app.use ('/fixya', proveedorRoutes);
 //Rutas de historial de servicios
 app.use ('/fixya', historyserviceRoutes);
-
 // Rutas de facturas
 app.use('/fixya', invoiceRoutes);
-
 // Rutas de pagos
 app.use('/fixya', paymentRoutes);
-
 // Rutas de notificaciones
-app.use('/fixya', notificationRoutes); 
-
+app.use('/fixya', notificationRoutes);
 // Rutas de administrativos
-app.use('/fixya', administrativeRoutes); 
+app.use('/fixya', administrativeRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
