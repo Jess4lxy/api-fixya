@@ -15,27 +15,27 @@ const app = express();
 app.use(express.json());
 
 // Rutas de residentes
-app.use('/api', residentRoutes);
+app.use('/fixya', residentRoutes);
 // Rutas de servicios
-app.use('/api', serviceRoutes);
+app.use('/fixya', serviceRoutes);
 //Rutas de solicitudes
-app.use ('/api', solicitudRoutes);
+app.use ('/fixya', solicitudRoutes);
 //Rutas de proveedor
-app.use ('/api', proveedorRoutes);
+app.use ('/fixya', proveedorRoutes);
 //Rutas de historial de servicios
-app.use ('/api', historyserviceRoutes);
+app.use ('/fixya', historyserviceRoutes);
 
 // Rutas de facturas
-app.use('/api', invoiceRoutes);
+app.use('/fixya', invoiceRoutes);
 
 // Rutas de pagos
-app.use('/api', paymentRoutes);
+app.use('/fixya', paymentRoutes);
 
 // Rutas de notificaciones
-app.use('/api', notificationRoutes); 
+app.use('/fixya', notificationRoutes); 
 
 // Rutas de administrativos
-app.use('/api', administrativeRoutes); 
+app.use('/fixya', administrativeRoutes); 
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
