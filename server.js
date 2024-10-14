@@ -8,10 +8,10 @@ import serviceRoutes from './controllers/serviceController.js';
 import solicitudRoutes from './controllers/solicitudController.js';
 import proveedorRoutes from './controllers/proveedorController.js';
 import historyserviceRoutes from './controllers/historyserviceController.js';
-import administrativeRoutes from './controllers/administrativeController.js'; 
+import administrativeRoutes from './controllers/administrativeController.js';
 import paymentRoutes from './controllers/paymentController.js';
 import invoiceRoutes from './controllers/invoiceController.js';
-import notificationRoutes from './controllers/notificationController.js'; 
+import notificationRoutes from './controllers/notificationController.js';
 
 const app = express();
 
