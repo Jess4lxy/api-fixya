@@ -16,7 +16,7 @@ import notificationRoutes from './controllers/notificationController.js';
 const app = express();
 
 // CORS para todos los origenes
-app.use(cors());
+app.use(cors({origin: 'https://api-fixya.onrender.com'}));
 
 // configuracion JWT
 const secretKey = 'D7f!zPq3*Qm9@wX4';
