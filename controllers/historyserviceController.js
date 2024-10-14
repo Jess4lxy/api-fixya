@@ -1,6 +1,6 @@
 import express from "express";
 import { check, validationResult } from 'express-validator';
-import historyService from "../services/historyserviceService.js"; // Cambiar a "historyserviceService.js"
+import historyService from "../services/historyserviceService.js";
 import HistoryService from "../models/historyService.js";
 
 const router = express.Router();
