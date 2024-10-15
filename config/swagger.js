@@ -10,7 +10,7 @@ const options = {
         },
         servers: [
         {
-            url: 'https://api-fixya.onrender.com/fixya',  // URL recuerda cambiar despues
+            url: 'https://api-fixya.onrender.com/api-docs',  // URL recuerda cambiar despues
         },
         ],
     },
