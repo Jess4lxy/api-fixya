@@ -61,8 +61,8 @@ app.use(logRequest);
 //     });
 // };
 
-// Aplicar el middleware de autenticación a todas las rutas
-app.use(authMiddleware);
+// // Aplicar el middleware de autenticación a todas las rutas
+// app.use(authMiddleware);
 
 // Middleware nativo
 app.use(express.json());
