@@ -12,6 +12,7 @@ import administrativeRoutes from './controllers/administrativeController.js';
 import paymentRoutes from './controllers/paymentController.js';
 import invoiceRoutes from './controllers/invoiceController.js';
 import notificationRoutes from './controllers/notificationController.js';
+import authRoutes from './routes/authController.js';
 
 const app = express();
 
@@ -65,36 +66,25 @@ app.use(authMiddleware);
 app.use(express.json());
 
 // Rutas de residentes
-app.use('/fixya', residentRoutes);
+app.use('/api', residentRoutes);
 // Rutas de servicios
-app.use('/fixya', serviceRoutes);
+app.use('/api', serviceRoutes);
 // Rutas de solicitudes
-app.use('/fixya', solicitudRoutes);
+app.use('/api', solicitudRoutes);
 // Rutas de proveedor
-app.use('/fixya', proveedorRoutes);
+app.use('/api', proveedorRoutes);
 // Rutas de historial de servicios
-app.use('/fixya', historyserviceRoutes);
+app.use('/api', historyserviceRoutes);
 // Rutas de facturas
-app.use('/fixya', invoiceRoutes);
+app.use('/api', invoiceRoutes);
 // Rutas de pagos
-app.use('/fixya', paymentRoutes);
+app.use('/api', paymentRoutes);
 // Rutas de notificaciones
-app.use('/fixya', notificationRoutes);
+app.use('/api', notificationRoutes);
 // Rutas de administrativos
-app.use('/fixya', administrativeRoutes);
-
-// // Ruta para obtener un token (ejemplo)
-// app.post('/fixya/login', (req, res) => {
-//     const { username, password } = req.body; // Obtener credenciales
-
-//     // Aquí deberías validar las credenciales (por ejemplo, con una base de datos)
-//     if (username === 'user' && password === 'pass') { // Ejemplo simple
-//         const token = jwt.sign({ username }, secretKey, { expiresIn: '1h' }); // Generar el token
-//         return res.json({ token });
-//     }
-
-//     return res.status(401).json({ error: 'Credenciales inválidas.' });
-// });
+app.use('/api', administrativeRoutes);
+// Rutas de autenticacion
+app.use('/api', authRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
