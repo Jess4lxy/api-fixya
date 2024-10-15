@@ -12,7 +12,7 @@ import administrativeRoutes from './controllers/administrativeController.js';
 import paymentRoutes from './controllers/paymentController.js';
 import invoiceRoutes from './controllers/invoiceController.js';
 import notificationRoutes from './controllers/notificationController.js';
-import authRoutes from './routes/authController.js';
+import authRoutes from './routes/authRoutes.js';
 
 const app = express();
 
