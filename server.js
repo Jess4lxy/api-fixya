@@ -3,6 +3,8 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
 import cors from 'cors';
+import swaggerUI from 'swagger-ui-express'
+import swaggerSpec from './config/swagger.js';
 import residentRoutes from './controllers/residentController.js';
 import serviceRoutes from './controllers/serviceController.js';
 import solicitudRoutes from './controllers/solicitudController.js';
@@ -42,22 +44,22 @@ const logRequest = (req, res, next) => {
 };
 app.use(logRequest);
 
-// middleware de autenticación
-const authMiddleware = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    if (!authHeader) {
-        return res.status(401).json({ error: 'Se requiere autorización.' });
-    }
+// // middleware de autenticación
+// const authMiddleware = (req, res, next) => {
+//     const authHeader = req.headers['authorization'];
+//     if (!authHeader) {
+//         return res.status(401).json({ error: 'Se requiere autorización.' });
+//     }
 
-    const token = authHeader.split(' ')[1]; // Obtener el token del encabezado
-    jwt.verify(token, secretKey, (err, decoded) => {
-        if (err) {
-            return res.status(401).json({ error: 'Token no válido.' });
-        }
-        req.user = decoded;
-        next();
-    });
-};
+//     const token = authHeader.split(' ')[1]; // Obtener el token del encabezado
+//     jwt.verify(token, secretKey, (err, decoded) => {
+//         if (err) {
+//             return res.status(401).json({ error: 'Token no válido.' });
+//         }
+//         req.user = decoded;
+//         next();
+//     });
+// };
 
 // Aplicar el middleware de autenticación a todas las rutas
 app.use(authMiddleware);
@@ -66,7 +68,7 @@ app.use(authMiddleware);
 app.use(express.json());
 
 // Rutas de residentes
-app.use('/api', residentRoutes);
+app.use('/api', residentRoutes, swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 // Rutas de servicios
 app.use('/api', serviceRoutes);
 // Rutas de solicitudes
