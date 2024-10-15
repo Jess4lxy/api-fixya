@@ -44,25 +44,29 @@ const logRequest = (req, res, next) => {
 };
 app.use(logRequest);
 
-// // middleware de autenticación
-// const authMiddleware = (req, res, next) => {
-//     const authHeader = req.headers['authorization'];
-//     if (!authHeader) {
-//         return res.status(401).json({ error: 'Se requiere autorización.' });
-//     }
+// middleware de autenticación
+const authMiddleware = (req, res, next) => {
+    if (req.path.startsWith('/api-docs') || req.path.startsWith('/api/swagger')) {
+        return next();
+    }
 
-//     const token = authHeader.split(' ')[1]; // Obtener el token del encabezado
-//     jwt.verify(token, secretKey, (err, decoded) => {
-//         if (err) {
-//             return res.status(401).json({ error: 'Token no válido.' });
-//         }
-//         req.user = decoded;
-//         next();
-//     });
-// };
+    const authHeader = req.headers['authorization'];
+    if (!authHeader) {
+        return res.status(401).json({ error: 'Se requiere autorización.' });
+    }
 
-// // Aplicar el middleware de autenticación a todas las rutas
-// app.use(authMiddleware);
+    const token = authHeader.split(' ')[1]; // Obtener el token del encabezado
+    jwt.verify(token, secretKey, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ error: 'Token no válido.' });
+        }
+        req.user = decoded;
+        next();
+    });
+};
+
+// Aplicar el middleware de autenticación a todas las rutas
+app.use(authMiddleware);
 
 // Middleware nativo
 app.use(express.json());
