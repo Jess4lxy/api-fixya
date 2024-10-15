@@ -16,7 +16,7 @@ import authRoutes from './routes/authController.js';
 
 const app = express();
 
-// CORS para todos los origenes
+// CORS middleware
 app.use(cors({origin: 'https://api-fixya.onrender.com'}));
 
 // configuracion JWT
