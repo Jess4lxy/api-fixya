@@ -6,7 +6,12 @@ config(); // cargando variables de entorno
 const SECRET_KEY = process.env.SECRET_KEY;
 
 export const authMiddleware = (req, res, next) => {
-  const token = req.header('Authorization')?.split(' ')[1]; // obteniendo el token de autorizacion
+
+    if (req.path.startsWith('/api-docs') || req.path.startsWith('/api/swagger')) {
+        return next();
+    }
+
+    const token = req.header('Authorization')?.split(' ')[1]; // obteniendo el token de autorizacion
 
     if (!token) {
         return res.status(401).json({ message: 'Acceso denegado, se requiere autenticación' });
