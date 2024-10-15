@@ -21,14 +21,14 @@ const app = express();
 // CORS middleware
 app.use(cors({origin: 'https://api-fixya.onrender.com'}));
 
-// // configuracion JWT
-// const secretKey = 'D7f!zPq3*Qm9@wX4';
-// const payload = {
-//     userId: '512',
-// };
+// configuracion JWT
+const secretKey = 'D7f!zPq3*Qm9@wX4';
+const payload = {
+    userId: '512',
+};
 
-// const token = jwt.sign(payload, secretKey, { expiresIn: '3h' });
-// console.log("Token de acceso JWT: " + token);
+const token = jwt.sign(payload, secretKey, { expiresIn: '3h' });
+console.log("Token de acceso JWT: " + token);
 
 // middleware de Morgan para logging de peticiones HTTP
 app.use(morgan('dev'));
