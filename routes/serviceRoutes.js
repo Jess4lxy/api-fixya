@@ -6,10 +6,47 @@ const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Servicios
+ *   description: Gestión de los servicios ofrecidos
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Servicio:
+ *       type: object
+ *       required:
+ *         - nombre
+ *         - descripcion
+ *         - costoBase
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: ID del servicio
+ *         nombre:
+ *           type: string
+ *           description: Nombre del servicio
+ *         descripcion:
+ *           type: string
+ *           description: Breve descripción del servicio
+ *         costoBase:
+ *           type: number
+ *           format: float
+ *           description: Costo base del servicio en MXN
+ *       example:
+ *         id: 1
+ *         nombre: "Plomería"
+ *         descripcion: "Reparación de tuberías y grifos"
+ *         costoBase: 120
+ */
+
+/**
+ * @swagger
  * /api/services:
  *   post:
  *     summary: Crea un nuevo servicio
- *     description: Agrega un nuevo servicio al sistema
  *     tags: [Servicios]
  *     security:
  *       - bearerAuth: []
@@ -18,23 +55,16 @@ const router = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nombre:
- *                 type: string
- *               descripcion:
- *                 type: string
- *               costoBase:
- *                 type: number
- *             example:
- *               nombre: "Plomería"
- *               descripcion: "Reparación de tuberías y grifos"
- *               costoBase: 120
+ *             $ref: '#/components/schemas/Servicio'
  *     responses:
  *       201:
  *         description: Servicio creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Servicio'
  *       400:
- *         description: Datos inválidos
+ *         description: Error en la solicitud o datos inválidos
  */
 router.post('/services', authMiddleware, serviceController.post);
 
@@ -42,8 +72,7 @@ router.post('/services', authMiddleware, serviceController.post);
  * @swagger
  * /api/services:
  *   get:
- *     summary: Obtiene todos los servicios
- *     description: Retorna una lista de todos los servicios registrados
+ *     summary: Obtiene la lista de todos los servicios
  *     tags: [Servicios]
  *     security:
  *       - bearerAuth: []
@@ -55,21 +84,7 @@ router.post('/services', authMiddleware, serviceController.post);
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   nombre:
- *                     type: string
- *                   descripcion:
- *                     type: string
- *                   costoBase:
- *                     type: number
- *                 example:
- *                   id: 1
- *                   nombre: "Plomería"
- *                   descripcion: "Reparación de tuberías y grifos"
- *                   costoBase: 120
+ *                 $ref: '#/components/schemas/Servicio'
  *       401:
  *         description: No autorizado
  */
@@ -80,7 +95,6 @@ router.get('/services', authMiddleware, serviceController.get);
  * /api/services/{id}:
  *   put:
  *     summary: Actualiza un servicio existente
- *     description: Modifica los datos de un servicio basado en su ID
  *     tags: [Servicios]
  *     security:
  *       - bearerAuth: []
@@ -90,29 +104,24 @@ router.get('/services', authMiddleware, serviceController.get);
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID del servicio
+ *         description: ID del servicio a actualizar
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nombre:
- *                 type: string
- *               descripcion:
- *                 type: string
- *               costoBase:
- *                 type: number
- *             example:
- *               nombre: "Plomería"
- *               descripcion: "Reparación de tuberías y grifos"
- *               costoBase: 150
+ *             $ref: '#/components/schemas/Servicio'
  *     responses:
  *       200:
  *         description: Servicio actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Servicio'
  *       404:
  *         description: Servicio no encontrado
+ *       400:
+ *         description: Datos inválidos
  */
 router.put('/services/:id', authMiddleware, serviceController.put);
 
@@ -121,7 +130,6 @@ router.put('/services/:id', authMiddleware, serviceController.put);
  * /api/services/{id}:
  *   delete:
  *     summary: Elimina un servicio
- *     description: Elimina un servicio del sistema usando su ID
  *     tags: [Servicios]
  *     security:
  *       - bearerAuth: []
@@ -131,7 +139,7 @@ router.put('/services/:id', authMiddleware, serviceController.put);
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID del servicio
+ *         description: ID del servicio a eliminar
  *     responses:
  *       200:
  *         description: Servicio eliminado exitosamente
