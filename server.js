@@ -27,6 +27,7 @@ app.use(morgan('dev'));
 // middleware de Body-parser
 app.use(bodyParser.urlencoded({ extended: true })); // para datos codificados en url
 app.use(bodyParser.json()); // para parsear JSON en el cuerpo de las solicitudes
+app.use(express.json()); // middleware nativo
 
 // middleware personalizado para loguear solicitudes
 const logRequest = (req, res, next) => {
@@ -34,9 +35,6 @@ const logRequest = (req, res, next) => {
     next();
 };
 app.use(logRequest);
-
-// Middleware nativo
-app.use(express.json());
 
 // swagger
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));

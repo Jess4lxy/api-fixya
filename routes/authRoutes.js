@@ -10,7 +10,7 @@ router.post('/login', login);
 // registro
 router.post('/register', register);
 
-router.get('/protected-route', authMiddleware, (req, res) => {
+router.get('/api', authMiddleware, (req, res) => {
     res.json({ message: 'Acceso permitido', user: req.user });
 });
 
