@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 import cors from 'cors';
 import swaggerUI from 'swagger-ui-express'
 import swaggerSpec from './config/swagger.js';
