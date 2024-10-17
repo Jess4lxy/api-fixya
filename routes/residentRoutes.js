@@ -20,16 +20,24 @@ const router = express.Router();
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               nombre:
  *                 type: string
- *               departmentNumber:
+ *               email:
  *                 type: string
- *               phone:
+ *               numeroContacto:
  *                 type: string
+ *               numeroDepartamento:
+ *                 type: string
+ *               historialSolicitudes:
+ *                 type: array
+ *                 items:
+ *                   type: object
  *             example:
- *               name: "John Doe"
- *               departmentNumber: "101"
- *               phone: "555-1234"
+ *               nombre: "Renato Augusto Ávila"
+ *               email: "sosateresa@reyna.com"
+ *               numeroContacto: "555-236-5225"
+ *               numeroDepartamento: "283"
+ *               historialSolicitudes: []
  *     responses:
  *       201:
  *         description: Residente creado exitosamente
@@ -58,13 +66,19 @@ router.post('/residents', authMiddleware, createResident);
  *                 type: object
  *                 properties:
  *                   id:
+ *                     type: integer
+ *                   nombre:
  *                     type: string
- *                   name:
+ *                   email:
  *                     type: string
- *                   departmentNumber:
+ *                   numeroContacto:
  *                     type: string
- *                   phone:
+ *                   numeroDepartamento:
  *                     type: string
+ *                   historialSolicitudes:
+ *                     type: array
+ *                     items:
+ *                       type: object
  *       401:
  *         description: No autorizado
  */
@@ -83,7 +97,7 @@ router.get('/residents', authMiddleware, getResidents);
  *       - in: path
  *         name: id
  *         schema:
- *           type: string
+ *           type: integer
  *         required: true
  *         description: ID del residente
  *     requestBody:
@@ -93,16 +107,24 @@ router.get('/residents', authMiddleware, getResidents);
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               nombre:
  *                 type: string
- *               departmentNumber:
+ *               email:
  *                 type: string
- *               phone:
+ *               numeroContacto:
  *                 type: string
+ *               numeroDepartamento:
+ *                 type: string
+ *               historialSolicitudes:
+ *                 type: array
+ *                 items:
+ *                   type: object
  *             example:
- *               name: "Jane Doe"
- *               departmentNumber: "102"
- *               phone: "555-5678"
+ *               nombre: "Renato Augusto Ávila"
+ *               email: "renato.avila@correo.com"
+ *               numeroContacto: "555-8888-555"
+ *               numeroDepartamento: "123"
+ *               historialSolicitudes: []
  *     responses:
  *       200:
  *         description: Residente actualizado exitosamente
@@ -124,7 +146,7 @@ router.put('/residents/:id', authMiddleware, updateResident);
  *       - in: path
  *         name: id
  *         schema:
- *           type: string
+ *           type: integer
  *         required: true
  *         description: ID del residente
  *     responses:
