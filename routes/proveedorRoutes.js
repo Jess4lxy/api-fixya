@@ -6,13 +6,6 @@ const router = express.Router();
 
 /**
  * @swagger
- * tags:
- *   name: Proveedores
- *   description: API para gestionar proveedores
- */
-
-/**
- * @swagger
  * /api/proveedores:
  *   post:
  *     summary: Crea un nuevo proveedor
