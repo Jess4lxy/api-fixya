@@ -21,15 +21,6 @@ const app = express();
 // CORS middleware
 app.use(cors({origin: 'https://api-fixya.onrender.com'}));
 
-// configuracion JWT
-const secretKey = 'D7f!zPq3*Qm9@wX4';
-const payload = {
-    userId: '512',
-};
-
-const token = jwt.sign(payload, secretKey, { expiresIn: '3h' });
-console.log("Token de acceso JWT: " + token);
-
 // middleware de Morgan para logging de peticiones HTTP
 app.use(morgan('dev'));
 
@@ -43,30 +34,6 @@ const logRequest = (req, res, next) => {
     next();
 };
 app.use(logRequest);
-
-// middleware de autenticación
-const authMiddleware = (req, res, next) => {
-    if (req.path.startsWith('/api-docs') || req.path.startsWith('/api/swagger')) {
-        return next();
-    }
-
-    const authHeader = req.headers['authorization'];
-    if (!authHeader) {
-        return res.status(401).json({ error: 'Se requiere autorización.' });
-    }
-
-    const token = authHeader.split(' ')[1]; // Obtener el token del encabezado
-    jwt.verify(token, secretKey, (err, decoded) => {
-        if (err) {
-            return res.status(401).json({ error: 'Token no válido.' });
-        }
-        req.user = decoded;
-        next();
-    });
-};
-
-// Aplicar el middleware de autenticación a todas las rutas
-app.use(authMiddleware);
 
 // Middleware nativo
 app.use(express.json());

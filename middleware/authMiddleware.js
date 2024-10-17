@@ -6,19 +6,25 @@ config(); // cargando variables de entorno
 const SECRET_KEY = process.env.SECRET_KEY;
 
 export const authMiddleware = (req, res, next) => {
-
-    const token = req.header('Authorization')?.split(' ')[1]; // obteniendo el token de autorizacion
-
-    if (!token) {
-        return res.status(401).json({ message: 'Acceso denegado, se requiere autenticación' });
+    // verificar si existe un encabezado de autorizacion
+    const authHeader = req.headers('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: 'Acceso denegado, no se encuentra un token de autorización.' });
     }
 
+    // extraer el token del encabezado
+    const token = authHeader.split(' ')[1];
+
     try {
-        // verificacion del token
+        // verificar el token
         const verified = jwt.verify(token, SECRET_KEY);
-        req.user = verified; // adjuntando los datos del usuario al request
+        req.user = verified; // relacionando los datos del usuario con la request
         next();
     } catch (error) {
-        res.status(401).json({ message: 'Token inválido' });
+        // verificacion de tokens expirados
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ message: 'Token expirado, inicia sesión nuevamente' });
+        }
+        res.status(401).json({ message: 'Token inválido.' });
     }
 };
