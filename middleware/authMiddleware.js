@@ -7,7 +7,7 @@ const SECRET_KEY = process.env.SECRET_KEY;
 
 export const authMiddleware = (req, res, next) => {
     // verificar si existe un encabezado de autorizacion
-    const authHeader = req.headers('Authorization');
+    const authHeader = req.header('Authorization');
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
         return res.status(401).json({ message: 'Acceso denegado, no se encuentra un token de autorización.' });
     }
