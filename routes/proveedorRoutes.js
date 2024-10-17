@@ -8,7 +8,7 @@ const router = express.Router();
  * @swagger
  * tags:
  *   name: Proveedores
- *   description: apartado para gestionar proveedores
+ *   description: Gestión de los proveedores existentes
  */
 
 /**

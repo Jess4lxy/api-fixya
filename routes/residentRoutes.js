@@ -8,7 +8,7 @@ const router = express.Router();
  * @swagger
  * tags:
  *   name: Residentes
- *   description: apartado para gestionar residentes
+ *   description: Gestión de los residentes existentes
  */
 
 /**
