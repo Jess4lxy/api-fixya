@@ -3,7 +3,7 @@
         {
             "id": 1,
             "nombre": "Renato Augusto Ávila",
-            "email": "sosateresa@reyna.com",
+            "email": "renato.augusto@gmail.com",
             "numeroContacto": "555-236-5225",
             "numeroDepartamento": "283",
             "historialSolicitudes": []
@@ -766,6 +766,15 @@
             "solicitudId": 2,
             "fechaFinalizacion": "2024-09-20",
             "comentarios": "Nuevo servicio agregado correctamente."
+        }
+    ],
+    "usuarios": [
+        {
+            "id": 1,
+            "username": "Renato Augusto Avila",
+            "email": "renato.augusto@gmail.com",
+            "password": "#######",
+            "role": "residente"
         }
     ]
 }
