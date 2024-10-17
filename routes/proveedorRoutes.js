@@ -6,6 +6,13 @@ const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Proveedores
+ *   description: apartado para gestionar proveedores
+ */
+
+/**
+ * @swagger
  * components:
  *   schemas:
  *     Proveedor:

@@ -6,6 +6,54 @@ const router = express.Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Residentes
+ *   description: apartado para gestionar residentes
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Residente:
+ *       type: object
+ *       required:
+ *         - nombre
+ *         - email
+ *         - numeroContacto
+ *         - numeroDepartamento
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: ID del residente
+ *         nombre:
+ *           type: string
+ *           description: Nombre completo del residente
+ *         email:
+ *           type: string
+ *           description: Correo electrónico del residente
+ *         numeroContacto:
+ *           type: string
+ *           description: Número de contacto del residente
+ *         numeroDepartamento:
+ *           type: string
+ *           description: Número de departamento del residente
+ *         historialSolicitudes:
+ *           type: array
+ *           items:
+ *             type: object
+ *           description: Historial de solicitudes de servicio realizadas por el residente
+ *       example:
+ *         id: 1
+ *         nombre: "Renato Augusto Ávila"
+ *         email: "renato.avila@correo.com"
+ *         numeroContacto: "555-236-5225"
+ *         numeroDepartamento: "283"
+ *         historialSolicitudes: []
+ */
+
+/**
+ * @swagger
  * /api/residents:
  *   post:
  *     summary: Crea un nuevo residente
@@ -18,29 +66,14 @@ const router = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nombre:
- *                 type: string
- *               email:
- *                 type: string
- *               numeroContacto:
- *                 type: string
- *               numeroDepartamento:
- *                 type: string
- *               historialSolicitudes:
- *                 type: array
- *                 items:
- *                   type: object
- *             example:
- *               nombre: "Renato Augusto Ávila"
- *               email: "sosateresa@reyna.com"
- *               numeroContacto: "555-236-5225"
- *               numeroDepartamento: "283"
- *               historialSolicitudes: []
+ *             $ref: '#/components/schemas/Residente'
  *     responses:
  *       201:
  *         description: Residente creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Residente'
  *       400:
  *         description: Datos inválidos
  */
@@ -63,22 +96,7 @@ router.post('/residents', authMiddleware, createResident);
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: integer
- *                   nombre:
- *                     type: string
- *                   email:
- *                     type: string
- *                   numeroContacto:
- *                     type: string
- *                   numeroDepartamento:
- *                     type: string
- *                   historialSolicitudes:
- *                     type: array
- *                     items:
- *                       type: object
+ *                 $ref: '#/components/schemas/Residente'
  *       401:
  *         description: No autorizado
  */
@@ -105,31 +123,18 @@ router.get('/residents', authMiddleware, getResidents);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               nombre:
- *                 type: string
- *               email:
- *                 type: string
- *               numeroContacto:
- *                 type: string
- *               numeroDepartamento:
- *                 type: string
- *               historialSolicitudes:
- *                 type: array
- *                 items:
- *                   type: object
- *             example:
- *               nombre: "Renato Augusto Ávila"
- *               email: "renato.avila@correo.com"
- *               numeroContacto: "555-8888-555"
- *               numeroDepartamento: "123"
- *               historialSolicitudes: []
+ *             $ref: '#/components/schemas/Residente'
  *     responses:
  *       200:
  *         description: Residente actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Residente'
  *       404:
  *         description: Residente no encontrado
+ *       400:
+ *         description: Datos inválidos
  */
 router.put('/residents/:id', authMiddleware, updateResident);
 
@@ -176,6 +181,10 @@ router.delete('/residents/:id', authMiddleware, deleteResident);
  *     responses:
  *       200:
  *         description: Residente encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Residente'
  *       404:
  *         description: Residente no encontrado
  */
