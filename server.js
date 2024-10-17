@@ -15,6 +15,7 @@ import paymentRoutes from './controllers/paymentController.js';
 import invoiceRoutes from './controllers/invoiceController.js';
 import notificationRoutes from './controllers/notificationController.js';
 import authRoutes from './routes/authRoutes.js';
+import { authMiddleware } from './middleware/authMiddleware.js';
 
 const app = express();
 
@@ -36,8 +37,14 @@ const logRequest = (req, res, next) => {
 };
 app.use(logRequest);
 
-// swagger
+// ruta de swagger (por ahora, sin proteccion)
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
+
+// rutas de autenticacion (publicas)
+app.use('/api', authRoutes);
+
+// Middleware de autorizacion que protege las siguientes rutas
+app.use(authMiddleware)
 // Rutas de residentes
 app.use('/api', residentRoutes);
 // Rutas de servicios
@@ -56,8 +63,6 @@ app.use('/api', paymentRoutes);
 app.use('/api', notificationRoutes);
 // Rutas de administrativos
 app.use('/api', administrativeRoutes);
-// Rutas de autenticacion
-app.use('/api', authRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

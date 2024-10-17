@@ -10,8 +10,9 @@ router.post('/login', login);
 // registro
 router.post('/register', register);
 
-router.get('/api', authMiddleware, (req, res) => {
-    res.json({ message: 'Acceso permitido', user: req.user });
-});
+// en caso de que necesitemos proteger una ruta en especifico ya por separado (lo dudo), utiliza esto:
+// router.get('/protected-route', authMiddleware, (req, res) => {
+//     res.json({ message: 'Acceso permitido', user: req.user });
+// });
 
 export default router;
