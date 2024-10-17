@@ -4,6 +4,8 @@ import { authMiddleware } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
+// cuando implementes correctamente la funcion de login y register, documenta todo en swagger
+
 // inicio de sesion
 router.post('/login', login);
 
