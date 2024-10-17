@@ -6,6 +6,55 @@ const router = express.Router();
 
 /**
  * @swagger
+ * components:
+ *   schemas:
+ *     Proveedor:
+ *       type: object
+ *       required:
+ *         - nombre
+ *         - servicioOfrecido
+ *       properties:
+ *         id:
+ *           type: integer
+ *           description: ID del proveedor
+ *         nombre:
+ *           type: string
+ *           description: Nombre del proveedor
+ *         servicioOfrecido:
+ *           type: string
+ *           description: Tipo de servicio que ofrece el proveedor
+ *         certificaciones:
+ *           type: array
+ *           items:
+ *             type: string
+ *           description: Lista de certificaciones del proveedor
+ *         calificacion:
+ *           type: number
+ *           format: float
+ *           description: Calificación promedio del proveedor
+ *         informacionContacto:
+ *           type: object
+ *           properties:
+ *             telefono:
+ *               type: string
+ *               description: Número de teléfono de contacto
+ *             email:
+ *               type: string
+ *               description: Correo electrónico del proveedor
+ *       example:
+ *         id: 1
+ *         nombre: "Plomeros de Mérida"
+ *         servicioOfrecido: "Plomería"
+ *         certificaciones:
+ *           - "Plomero Certificado"
+ *         calificacion: 4.8
+ *         informacionContacto:
+ *           telefono: "999-888-7777"
+ *           email: "contacto@plomerosmerida.com"
+ */
+
+/**
+ * @swagger
  * /api/proveedores:
  *   post:
  *     summary: Crea un nuevo proveedor
@@ -15,20 +64,14 @@ const router = express.Router();
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 description: Nombre del proveedor
- *               serviceType:
- *                 type: string
- *                 description: Tipo de servicio del proveedor
- *             required:
- *               - name
- *               - serviceType
+ *             $ref: '#/components/schemas/Proveedor'
  *     responses:
  *       201:
  *         description: Proveedor creado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Proveedor'
  *       400:
  *         description: Error en la solicitud o datos inválidos
  */
@@ -48,17 +91,7 @@ router.post('/proveedores', authMiddleware, createProveedor);
  *             schema:
  *               type: array
  *               items:
- *                 type: object
- *                 properties:
- *                   id:
- *                     type: string
- *                     description: ID del proveedor
- *                   name:
- *                     type: string
- *                     description: Nombre del proveedor
- *                   serviceType:
- *                     type: string
- *                     description: Tipo de servicio que ofrece el proveedor
+ *                 $ref: '#/components/schemas/Proveedor'
  *       401:
  *         description: No autorizado
  */
@@ -74,7 +107,7 @@ router.get('/proveedores', authMiddleware, getProveedores);
  *       - in: path
  *         name: id
  *         schema:
- *           type: string
+ *           type: integer
  *         required: true
  *         description: ID del proveedor a actualizar
  *     requestBody:
@@ -82,17 +115,14 @@ router.get('/proveedores', authMiddleware, getProveedores);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *                 description: Nombre actualizado del proveedor
- *               serviceType:
- *                 type: string
- *                 description: Tipo de servicio actualizado del proveedor
+ *             $ref: '#/components/schemas/Proveedor'
  *     responses:
  *       200:
  *         description: Proveedor actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Proveedor'
  *       404:
  *         description: Proveedor no encontrado
  *       400:
@@ -110,7 +140,7 @@ router.put('/proveedores/:id', authMiddleware, updateProveedor);
  *       - in: path
  *         name: id
  *         schema:
- *           type: string
+ *           type: integer
  *         required: true
  *         description: ID del proveedor a eliminar
  *     responses:

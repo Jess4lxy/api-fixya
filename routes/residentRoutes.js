@@ -10,7 +10,7 @@ const router = express.Router();
  *   post:
  *     summary: Crea un nuevo residente
  *     description: Agrega un nuevo residente al sistema
- *     tags: [Residents]
+ *     tags: [Residentes]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -52,7 +52,7 @@ router.post('/residents', authMiddleware, createResident);
  *   get:
  *     summary: Obtiene todos los residentes
  *     description: Retorna una lista de todos los residentes registrados
- *     tags: [Residents]
+ *     tags: [Residentes]
  *     security:
  *       - bearerAuth: []
  *     responses:
@@ -90,7 +90,7 @@ router.get('/residents', authMiddleware, getResidents);
  *   put:
  *     summary: Actualiza un residente existente
  *     description: Modifica los datos de un residente basado en su ID
- *     tags: [Residents]
+ *     tags: [Residentes]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -139,7 +139,7 @@ router.put('/residents/:id', authMiddleware, updateResident);
  *   delete:
  *     summary: Elimina un residente
  *     description: Elimina un residente del sistema usando su ID
- *     tags: [Residents]
+ *     tags: [Residentes]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -163,7 +163,7 @@ router.delete('/residents/:id', authMiddleware, deleteResident);
  *   get:
  *     summary: Obtiene un residente por su número de departamento
  *     description: Busca y devuelve un residente según su número de departamento
- *     tags: [Residents]
+ *     tags: [Residentes]
  *     security:
  *       - bearerAuth: []
  *     parameters:
