@@ -6,7 +6,7 @@ const options = {
         info: {
         title: 'FixYa API Documentation',
         version: '1.0.0',
-        description: 'API para gestionar FixYa, incluyendo residentes, servicios, solicitudes, y más.',
+        description: 'API para gestionar FixYa, incluyendo residentes, servicios, solicitudes y más.',
         },
         servers: [
         {
