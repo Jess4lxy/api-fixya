@@ -11,6 +11,7 @@
     "jsonwebtoken": "^9.0.2",
     "jws": "^4.0.0",
     "morgan": "^1.10.0",
+    "mysql2": "^3.11.3",
     "node": "^22.9.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"

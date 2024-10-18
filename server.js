@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import mysql from 'mysql2/promise';
 import cors from 'cors';
 import swaggerUI from 'swagger-ui-express'
 import swaggerSpec from './config/swagger.js';
@@ -20,8 +21,24 @@ import { authMiddleware } from './middleware/authMiddleware.js';
 
 const app = express();
 
+dotenv.config();
+
+const initializeDBConnection = async () => {
+    try {
+        const connection = await mysql.createConnection(process.env.MYSQL_URI);
+        console.log('Conexión a la base de datos establecida');
+        return connection;
+    } catch (err) {
+        console.error('Error al conectar a la base de datos:', err);
+        process.exit(1); // Salir si no se puede conectar
+    }
+};
+
+const connection = await initializeDBConnection();
+
+
 // CORS middleware
-app.use(cors({origin: 'https://api-fixya.onrender.com'}));
+app.use(cors({origin: ['https://api-fixya.onrender.com', 'http://localhost:3000']}));
 
 // middleware de Morgan para logging de peticiones HTTP
 app.use(morgan('dev'));
@@ -46,26 +63,34 @@ app.use('/api', authRoutes);
 
 // Middleware de autorizacion que protege las siguientes rutas
 app.use(authMiddleware)
-// Rutas de residentes
-app.use('/api', residentRoutes);
-// Rutas de servicios
-app.use('/api', serviceRoutes);
-// Rutas de solicitudes
-app.use('/api', solicitudRoutes);
-// Rutas de proveedor
-app.use('/api', proveedorRoutes);
-// Rutas de historial de servicios
-app.use('/api', historyserviceRoutes);
-// Rutas de facturas
-app.use('/api', invoiceRoutes);
-// Rutas de pagos
-app.use('/api', paymentRoutes);
-// Rutas de notificaciones
-app.use('/api', notificationRoutes);
-// Rutas de administrativos
-app.use('/api', administrativeRoutes);
+
+// Rutas
+const routes = [
+    residentRoutes,
+    serviceRoutes,
+    solicitudRoutes,
+    proveedorRoutes,
+    historyserviceRoutes,
+    invoiceRoutes,
+    paymentRoutes,
+    notificationRoutes,
+    administrativeRoutes,
+];
+
+routes.forEach(route => app.use('/api', route));
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Algo salió mal.');
+});
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
+});
+
+process.on('SIGINT', async () => {
+    await connection.end();
+    console.log('Conexión a la base de datos cerrada.');
+    process.exit(0);
 });
