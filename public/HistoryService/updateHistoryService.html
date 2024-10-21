@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Historial de Servicio</title>
+    <link rel="stylesheet" type="text/css" href="../UPDATE.css">
+
+</head>
+<body>
+
+    <div class ="container">
+<h2>Actualizar Historial de Servicio</h2>
+
+<form id="getHistoryServiceForm">
+    <label for="historialId">Ingresa el ID del historial de servicio:</label>
+    <input type="text" id="historialId" name="historialId" required>
+    <button type="submit">Buscar Historial de Servicio</button>
+</form>
+
+<div id="historyServiceData" style="display:none;">
+    <form id="updateHistoryServiceForm">
+        <label for="comentarios">Comentarios:</label>
+        <input type="text" id="comentarios" name="comentarios" required>
+        
+        <label for="fechaFinalizacion">Fecha de Finalización:</label>
+        <input type="date" id="fechaFinalizacion" name="fechaFinalizacion" required>
+        
+        <button type="submit">Actualizar Historial de Servicio</button>
+    </form>
+</div>
+
+<button onclick="window.history.back();">Volver</button>
+</div>
+<script>
+document.getElementById('getHistoryServiceForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    
+    const historialId = document.getElementById('historialId').value;
+    
+    try {
+        const response = await fetch(`http://localhost:3001/api/historialServicios/${historialId}`);
+        if (!response.ok) {
+            throw new Error('Error en la solicitud');
+        }
+        const historyService = await response.json();
+        document.getElementById('historyServiceData').style.display = 'block';
+        document.getElementById('comentarios').value = historyService.comentarios;
+        document.getElementById('fechaFinalizacion').value = historyService.fechaFinalizacion.split('T')[0]; // Formatear la fecha
+    } catch (error) {
+        alert('Error al obtener el historial de servicio: ' + error.message);
+    }
+});
+
+document.getElementById('updateHistoryServiceForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const historialId = document.getElementById('historialId').value;
+    const updatedHistoryService = {
+        comentarios: document.getElementById('comentarios').value,
+        fechaFinalizacion: document.getElementById('fechaFinalizacion').value
+    };
+
+    try {
+        const response = await fetch(`http://localhost:3001/api/historialServicios/${historialId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedHistoryService)
+        });
+
+        if (response.ok) {
+            alert('Historial de servicio actualizado con éxito');
+        } else {
+            const result = await response.json();
+            alert('Error al actualizar: ' + result.error);
+        }
+    } catch (error) {
+        alert('Error al actualizar el historial de servicio: ' + error.message);
+    }
+});
+</script>
+
+</body>
+</html>

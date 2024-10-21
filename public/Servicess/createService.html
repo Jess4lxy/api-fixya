@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Servicio</title>
+    <link rel="stylesheet" type="text/css" href="../CREATE.css"> <!-- Aquí se referencia el archivo CSS -->
+
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Crear Nuevo Servicio</h1>
+        <form id="serviceForm">
+            <label for="nombre">Nombre del Servicio:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="descripcion">Descripción:</label>
+            <input type="text" id="descripcion" name="descripcion" required>
+
+            <label for="costoBase">Costo Base:</label>
+            <input type="number" id="costoBase" name="costoBase" required min="0" step="0.01">
+
+            <button type="submit">Crear Servicio</button>
+        </form>
+
+        <div id="error-message"></div>
+
+        <button class="back-btn" onclick="window.history.back();">Volver</button>
+    </div>
+
+    <script>
+        document.getElementById('serviceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const descripcion = document.getElementById('descripcion').value;
+            const costoBase = document.getElementById('costoBase').value;
+
+            fetch('http://localhost:3001/api/services', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nombre: nombre,
+                    descripcion: descripcion,
+                    costoBase: parseFloat(costoBase)  // Asegurarse de enviar el costo como número
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.errors) {
+                    const errorMessage = data.errors.map(error => error.msg).join(', ');
+                    document.getElementById('error-message').textContent = errorMessage;
+                } else {
+                    alert('Servicio creado exitosamente');
+                    window.location.href = '/viewServices.html';  // Redirigir a la página de lista
+                }
+            })
+            .catch(error => {
+                console.error('Error al crear el servicio:', error);
+            });
+        });
+    </script>
+</body>
+</html>

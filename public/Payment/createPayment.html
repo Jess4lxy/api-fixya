@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Pago</title>
+    <link rel="stylesheet" type="text/css" href="../CREATE.css"> <!-- Aquí se referencia el archivo CSS -->
+
+</head>
+<body>
+    <div class="container">
+        <h1>Agregar Pago</h1>
+        <form id="paymentForm">
+            <label for="monto">Monto:</label>
+            <input type="number" id="monto" name="monto" required>
+
+            <label for="fechaPago">Fecha de Pago:</label>
+            <input type="date" id="fechaPago" name="fechaPago" required>
+
+            <label for="metodo">Método:</label>
+            <input type="text" id="metodo" name="metodo" required>
+
+            <label for="facturaId">ID de la Factura:</label>
+            <input type="number" id="facturaId" name="facturaId" required>
+
+            <button type="submit">Agregar Pago</button>
+        </form>
+
+        <div id="error-message" style="color:red;"></div>
+
+        <button onclick="window.history.back();">Volver</button>
+    </div>
+
+    <script>
+        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const monto = document.getElementById('monto').value;
+            const fechaPago = document.getElementById('fechaPago').value;
+            const metodo = document.getElementById('metodo').value;
+            const facturaId = document.getElementById('facturaId').value;
+
+            fetch('http://localhost:3001/api/payments', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    monto: monto,
+                    fechaPago: fechaPago,
+                    metodo: metodo,
+                    facturaId: facturaId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.errors) {
+                    const errorMessage = data.errors.map(error => error.msg).join(', ');
+                    document.getElementById('error-message').textContent = errorMessage;
+                } else {
+                    alert('Pago agregado exitosamente');
+                    window.location.href = '/viewPayments.html';  // Redirigir a la página de lista
+                }
+            })
+            .catch(error => {
+                console.error('Error al agregar el pago:', error);
+            });
+        });
+    </script>
+</body>
+</html>

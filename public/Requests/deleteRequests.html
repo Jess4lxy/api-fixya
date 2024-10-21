@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Solicitud</title>
+    <link rel="stylesheet" type="text/css" href="../DELETE.css">
+
+</head>
+<body>
+<div class="container">
+<h2>Eliminar Solicitud</h2>
+
+<form id="deleteSolicitudForm">
+    <label for="solicitudId">Ingresa el ID de la solicitud:</label>
+    <input type="text" id="solicitudId" name="solicitudId" required>
+    <button type="submit">Eliminar Solicitud</button>
+</form>
+
+<button onclick="window.history.back();">Volver</button>
+</div>
+<script>
+document.getElementById('deleteSolicitudForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const solicitudId = document.getElementById('solicitudId').value;
+
+    try {
+        const response = await fetch(`http://localhost:3001/api/solicitudes/${solicitudId}`, {
+            method: 'DELETE'
+        });
+
+        if (response.ok) {
+            alert('Solicitud eliminada con éxito');
+        } else {
+            const result = await response.json();
+            alert(result.message || 'Error al eliminar');
+        }
+    } catch (error) {
+        alert('Error al eliminar la solicitud');
+    }
+});
+</script>
+
+</body>
+</html>

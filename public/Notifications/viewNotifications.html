@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Notificaciones</title>
+    <link rel="stylesheet" type="text/css" href="../VIEW.css">
+
+</head>
+<body>
+    <div class = "container">
+    <h1>Notificaciones</h1>
+    
+    <button id="getAllNotifications">Ver Notificaciones</button>
+    <div id="notificationsContainer"></div>
+
+    <h2>Buscar Notificación por ID</h2>
+    <label for="notificationId">ID:</label>
+    <input type="number" id="notificationId" name="notificationId" required>
+    <button id="getNotificationById">Ver Notificación</button>
+    <div id="notificationDetail"></div>
+
+    <button onclick="window.history.back();">Volver</button>
+    </div>
+    
+    <script>
+        document.getElementById('getAllNotifications').addEventListener('click', function() {
+            fetch('http://localhost:3001/api/notifications')
+                .then(response => response.json())
+                .then(data => {
+                    const notificationsContainer = document.getElementById('notificationsContainer');
+                    notificationsContainer.innerHTML = ''; // Limpiar el contenedor
+
+                    if (data.length > 0) {
+                        data.forEach(notification => {
+                            const notificationItem = document.createElement('div');
+                            notificationItem.innerHTML = `
+                                <strong>ID:</strong> ${notification.id}, 
+                                <strong>Contenido:</strong> ${notification.contenido}, 
+                                <strong>Fecha de Envío:</strong> ${new Date(notification.fechaEnvio).toLocaleDateString()}
+                            `;
+                            notificationsContainer.appendChild(notificationItem);
+                        });
+                    } else {
+                        notificationsContainer.textContent = 'No hay notificaciones disponibles.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al obtener las notificaciones:', error);
+                });
+        });
+
+        document.getElementById('getNotificationById').addEventListener('click', function() {
+            const id = document.getElementById('notificationId').value;
+
+            fetch(`http://localhost:3001/api/notifications/${id}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Notificación no encontrada');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const notificationDetail = document.getElementById('notificationDetail');
+                    notificationDetail.innerHTML = ''; // Limpiar el contenedor
+
+                    // Mostrar detalle de la notificación
+                    notificationDetail.innerHTML = `
+                        <h3>Detalles de la Notificación</h3>
+                        <p><strong>ID:</strong> ${data.id}</p>
+                        <p><strong>Contenido:</strong> ${data.contenido}</p>
+                        <p><strong>Fecha de Envío:</strong> ${new Date(data.fechaEnvio).toLocaleDateString()}</p>
+                        <p><strong>Destinatario ID:</strong> ${data.destinatarioId}</p>
+                        <p><strong>Tipo de Destinatario:</strong> ${data.tipoDestinatario}</p>
+                    `;
+                })
+                .catch(error => {
+                    const notificationDetail = document.getElementById('notificationDetail');
+                    notificationDetail.innerHTML = `<p style="color:red;">Error: ${error.message}</p>`;
+                    console.error('Error al obtener la notificación:', error);
+                });
+        });
+    </script>
+
+</body>
+</html>

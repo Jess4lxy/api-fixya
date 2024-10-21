@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Facturas</title>
+    <link rel="stylesheet" type="text/css" href="../VIEW.css">
+
+</head>
+
+<body>
+    <div class = "container">
+    <h1>Lista de Facturas</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Proveedor ID</th>
+                <th>Monto</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody id="invoice-table-body">
+            <!-- Los datos serán agregados dinámicamente aquí -->
+        </tbody>
+    </table>
+    <button onclick="window.history.back();">Volver</button>
+</div>
+    <script>
+        fetch('http://localhost:3001/api/invoices')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('invoice-table-body');
+            data.forEach(invoice => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${invoice.id}</td>
+                    <td>${invoice.proveedorId}</td>
+                    <td>${invoice.monto}</td>
+                    <td>${invoice.fecha}</td> <!-- Mostrar directamente la fecha en formato YYYY-MM-DD -->
+                `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error al obtener las facturas:', error);
+        });
+    </script>
+    
+</body>
+</html>

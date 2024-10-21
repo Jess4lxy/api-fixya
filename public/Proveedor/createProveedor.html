@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Proveedor</title>
+    <link rel="stylesheet" type="text/css" href="../CREATE.css"> <!-- Aquí se referencia el archivo CSS -->
+
+</head>
+<body>
+    <div class = "container">
+    <h1>Agregar Proveedor</h1>
+    <form id="createProveedorForm">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+
+        <label for="servicioOfrecido">Servicio Ofrecido:</label>
+        <input type="text" id="servicioOfrecido" name="servicioOfrecido" required><br><br>
+
+        <label for="calificacion">Calificación:</label>
+        <input type="number" id="calificacion" name="calificacion" step="0.1" min="0" max="10" required><br><br>
+
+        <label for="telefono">Teléfono:</label>
+        <input type="text" id="telefono" name="telefono" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="certificaciones">Certificaciones (separadas por comas):</label>
+        <input type="text" id="certificaciones" name="certificaciones"><br><br>
+
+        <button type="submit">Crear Proveedor</button>
+    </form>
+
+    <div id="error-message" style="color:red;"></div>
+    <button onclick="window.history.back();">Volver</button>
+</div>
+
+    <script>
+        document.getElementById('createProveedorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const servicioOfrecido = document.getElementById('servicioOfrecido').value;
+            const calificacion = document.getElementById('calificacion').value;
+            const telefono = document.getElementById('telefono').value;
+            const email = document.getElementById('email').value;
+            const certificaciones = document.getElementById('certificaciones').value.split(',').map(cert => cert.trim());
+
+            fetch('http://localhost:3001/api/proveedores', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    nombre,
+                    servicioOfrecido,
+                    certificaciones,
+                    calificacion: parseFloat(calificacion),
+                    informacionContacto: {
+                        telefono,
+                        email
+                    }
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.errors) {
+                    const errorMessage = data.errors.map(error => error.msg).join(', ');
+                    document.getElementById('error-message').textContent = errorMessage;
+                } else {
+                    alert('Proveedor agregado exitosamente');
+                    window.location.href = '/viewProveedores.html';  // Redirigir a la página de lista
+                }
+            })
+            .catch(error => {
+                console.error('Error al crear el proveedor:', error);
+            });
+        });
+    </script>
+</body>
+</html>

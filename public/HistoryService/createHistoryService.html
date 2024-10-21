@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Historial de Servicio</title>
+    <link rel="stylesheet" type="text/css" href="../CREATE.css"> <!-- Aquí se referencia el archivo CSS -->
+
+</head>
+<body>
+    <div class = "container">
+    <h1>Crear Nuevo Historial de Servicio</h1>
+    <form id="historyServiceForm">
+        <label for="proveedorId">Proveedor ID:</label>
+        <input type="text" id="proveedorId" name="proveedorId" required><br><br>
+
+        <label for="solicitudId">Solicitud ID:</label>
+        <input type="text" id="solicitudId" name="solicitudId" required><br><br>
+
+        <label for="fechaFinalizacion">Fecha de Finalización:</label>
+        <input type="date" id="fechaFinalizacion" name="fechaFinalizacion" required><br><br>
+
+        <label for="comentarios">Comentarios:</label>
+        <textarea id="comentarios" name="comentarios" required></textarea><br><br>
+
+        <button type="submit">Crear Historial de Servicio</button>
+    </form>
+
+    <div id="error-message" style="color:red;"></div>
+
+    <button onclick="window.history.back();">Volver</button>
+</div>
+    <script>
+        document.getElementById('historyServiceForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const proveedorId = document.getElementById('proveedorId').value;
+            const solicitudId = document.getElementById('solicitudId').value;
+            const fechaFinalizacion = document.getElementById('fechaFinalizacion').value;
+            const comentarios = document.getElementById('comentarios').value;
+
+            fetch('http://localhost:3001/api/historialServicios', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    proveedorId: proveedorId,
+                    solicitudId: solicitudId,
+                    fechaFinalizacion: fechaFinalizacion,
+                    comentarios: comentarios
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.errors) {
+                    // Mostrar mensajes de error
+                    const errorMessage = data.errors.map(error => error.msg).join(', ');
+                    document.getElementById('error-message').textContent = errorMessage;
+                } else {
+                    alert('Historial de servicio creado exitosamente');
+                    window.location.href = '/viewHistoryService.html';  // Redirigir a la página de lista
+                }
+            })
+            .catch(error => {
+                console.error('Error al crear el historial de servicio:', error);
+            });
+        });
+    </script>
+</body>
+</html>

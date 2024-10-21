@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Proveedores</title>
+    <link rel="stylesheet" type="text/css" href="../VIEW.css">
+
+</head>
+<body>
+    <div class="container">
+    <h1>Lista de Proveedores</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Servicio Ofrecido</th>
+                <th>Calificación</th>
+                <th>Contacto</th>
+            </tr>
+        </thead>
+        <tbody id="proveedor-table-body">
+            <!-- Los datos serán agregados dinámicamente aquí -->
+        </tbody>
+    </table>
+    <button onclick="window.history.back();">Volver</button>
+</div>
+    <script>
+        // Obtiene los proveedores desde la API
+        fetch('http://localhost:3001/api/proveedores')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('proveedor-table-body');
+            data.forEach(proveedor => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${proveedor.nombre}</td>
+                    <td>${proveedor.servicioOfrecido}</td>
+                    <td>${proveedor.calificacion}</td>
+                    <td>${proveedor.contacto}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error al obtener los proveedores:', error);
+        });
+    </script>
+</body>
+</html>

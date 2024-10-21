@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pagos</title>
+    <link rel="stylesheet" type="text/css" href="../VIEW.css">
+
+</head>
+<body>
+    <div class = "container">
+    <h1>Lista de Pagos</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Monto</th>
+                <th>Fecha de Pago</th>
+                <th>Método</th>
+                <th>ID de Factura</th>
+                
+            </tr>
+        </thead>
+        <tbody id="pagos-table-body">
+            <!-- Los datos serán agregados dinámicamente aquí -->
+        </tbody>
+    </table>
+    <button onclick="window.history.back();">Volver</button>
+</div>
+    <script>
+        // Obtiene todos los pagos desde la API
+        fetch('http://localhost:3001/api/payments')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('pagos-table-body');
+            data.forEach(pago => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${pago.id}</td>
+                    <td>${pago.monto}</td>
+                    <td>${new Date(pago.fechaPago).toLocaleDateString()}</td>
+                    <td>${pago.metodo}</td>
+                    <td>${pago.facturaId}</td>
+                    
+                `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error al obtener los pagos:', error);
+        });
+
+        function obtenerPago(id) {
+            fetch(`http://localhost:3001/api/payments/${id}`)
+            .then(response => response.json())
+            .then(data => {
+                alert(`Pago encontrado: Monto: ${data.monto}, Fecha: ${new Date(data.fechaPago).toLocaleDateString()}, Método: ${data.metodo}, ID de Factura: ${data.facturaId}`);
+            })
+            .catch(error => {
+                console.error('Error al obtener el pago:', error);
+            });
+        }
+    </script>
+</body>
+</html>

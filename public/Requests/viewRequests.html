@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Solicitudes</title>
+    <link rel="stylesheet" type="text/css" href="../VIEW.css">
+
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Solicitudes</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Tipo de Servicio</th>
+                    <th>Estado</th>
+                    <th>Fecha de Creación</th>
+                    <th>Fecha de Finalización</th>
+                    <th>Prioridad</th>
+                    <th>ID Residente</th>
+                    <th>ID Proveedor</th>
+                </tr>
+            </thead>
+            <tbody id="solicitud-table-body">
+                <!-- Los datos serán agregados dinámicamente aquí -->
+            </tbody>
+        </table>
+        <button onclick="window.history.back();">Volver</button>
+    </div>
+
+    <script>
+        fetch('http://localhost:3001/api/solicitudes')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('solicitud-table-body');
+            data.forEach(solicitud => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${solicitud.descripcion}</td>
+                    <td>${solicitud.tipoServicio}</td>
+                    <td>${solicitud.estado}</td>
+                    <td>${solicitud.fechaCreacion}</td>
+                    <td>${solicitud.fechaFinalizacion ? solicitud.fechaFinalizacion : 'N/A'}</td>
+                    <td>${solicitud.prioridad}</td>
+                    <td>${solicitud.residenteId}</td>
+                    <td>${solicitud.proveedorId}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error al obtener las solicitudes:', error);
+        });
+    </script>
+</body>
+</html>

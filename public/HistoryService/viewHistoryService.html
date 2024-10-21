@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Historial de Servicio</title>
+    <link rel="stylesheet" type="text/css" href="../VIEW.css">
+
+</head>
+<body>
+    <div class = "container">
+    <h1>Lista de Historial de Servicio</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Proveedor ID</th>
+                <th>Solicitud ID</th>
+                <th>Fecha de Finalización</th>
+                <th>Comentarios</th>
+            </tr>
+        </thead>
+        <tbody id="history-table-body">
+            <!-- Los datos serán agregados dinámicamente aquí -->
+        </tbody>
+    </table>
+    <button onclick="window.history.back();">Volver</button>
+</div>
+    <script>
+        fetch('http://localhost:3001/api/historialServicios')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('history-table-body');
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.id}</td>
+                    <td>${item.proveedorId}</td>
+                    <td>${item.solicitudId}</td>
+                    <td>${new Date(item.fechaFinalizacion).toLocaleDateString()}</td>
+                    <td>${item.comentarios}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error al obtener el historial de servicios:', error);
+        });
+    </script>
+</body>
+</html>
