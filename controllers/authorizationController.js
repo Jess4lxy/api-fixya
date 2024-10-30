@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { pool } from '../database.js'; // Asegúrate de usar la conexión correcta
 
@@ -12,11 +11,8 @@ export const register = async (req, res) => {
             return res.status(400).json({ message: 'El usuario ya existe' });
         }
 
-        // Hashear la contraseña
-        const hashedPassword = await bcrypt.hash(contraseña, 10);
-
         // Guardar el nuevo administrador en la base de datos
-        await pool.query('INSERT INTO Administrador (Nombre, Username, Correo, Contraseña) VALUES (?, ?, ?, ?)', [nombre, username, correo, hashedPassword]);
+        await pool.query('INSERT INTO Administrador (Nombre, Username, Correo, Contraseña) VALUES (?, ?, ?, ?)', [nombre, username, correo, contraseña]);
 
         res.status(201).json({ message: 'Administrador registrado exitosamente' });
     } catch (error) {
@@ -34,9 +30,8 @@ export const login = async (req, res) => {
             return res.status(401).json({ message: 'Credenciales inválidas' });
         }
 
-        // Verificar la contraseña
-        const isPasswordValid = await bcrypt.compare(contraseña, admin[0].Contraseña);
-        if (!isPasswordValid) {
+        // Verificar la contraseña (sin hashing)
+        if (contraseña !== admin[0].Contraseña) {
             return res.status(401).json({ message: 'Credenciales inválidas' });
         }
 
