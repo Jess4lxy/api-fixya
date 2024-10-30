@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Servicios</title>
+    <link rel="stylesheet" type="text/css" href="../VIEW.css">
+
+</head>
+<body>
+    <div class="container">
+    <h1>Lista de Servicios</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody id="service-table-body">
+            <!-- Los datos serán agregados dinámicamente aquí -->
+        </tbody>
+    </table>
+    <button onclick="window.history.back();">Volver</button>
+</div>
+    <script>
+        fetch('http://localhost:3001/api/services')
+        .then(response => response.json())
+        .then(data => {
+            const tableBody = document.getElementById('service-table-body');
+            data.forEach(service => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${service.nombre}</td>
+                    <td>${service.descripcion}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error al obtener los servicios:', error);
+        });
+    </script>
+</body>
+</html>

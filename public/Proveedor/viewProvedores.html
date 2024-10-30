@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Proveedor</title>
+    <style>
+        /* Estilos generales */
+    </style>
+</head>
+<body>
+
+<h2>Buscar Proveedor</h2>
+
+<form id="getProviderForm">
+    <label for="providerId">Ingresa el ID del proveedor:</label>
+    <input type="text" id="providerId" name="providerId" required>
+    <button type="submit">Buscar Proveedor</button>
+</form>
+
+<div id="providerData" style="display:none;">
+    <p><strong>Nombre:</strong> <span id="nombre"></span></p>
+    <p><strong>Correo Electrónico:</strong> <span id="email"></span></p>
+    <p><strong>Servicio:</strong> <span id="servicio"></span></p>
+</div>
+
+<button onclick="window.history.back();">Volver</button>
+
+<script>
+document.getElementById('getProviderForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    
+    const providerId = document.getElementById('providerId').value;
+    
+    try {
+        const response = await fetch(`http://localhost:3001/api/providers/${providerId}`);
+        const provider = await response.json();
+
+        if (provider) {
+            document.getElementById('providerData').style.display = 'block';
+            document.getElementById('nombre').textContent = provider.nombre;
+            document.getElementById('email').textContent = provider.email;
+            document.getElementById('servicio').textContent = provider.servicio;
+        } else {
+            alert('Proveedor no encontrado');
+        }
+    } catch (error) {
+        alert('Error al buscar el proveedor');
+    }
+});
+</script>
+
+</body>
+</html>

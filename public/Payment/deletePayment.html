@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Pago</title>
+    <link rel="stylesheet" type="text/css" href="../DELETE.css">
+
+</head>
+<body>
+    <div class = "container">
+    <h1>Eliminar Pago</h1>
+    <form id="deletePaymentForm">
+        <label for="paymentId">ID del Pago a Eliminar:</label>
+        <input type="number" id="paymentId" required>
+        <button type="submit">Eliminar Pago</button>
+    </form>
+    <div id="responseMessage"></div>
+    <button onclick="window.history.back();">Volver</button>
+
+</div>
+    <script>
+        document.getElementById('deletePaymentForm').addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevenir el envío del formulario
+
+            const paymentId = document.getElementById('paymentId').value;
+
+            try {
+                const response = await fetch(`http://localhost:3001/api/payments/${paymentId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                const data = await response.json();
+                const responseMessage = document.getElementById('responseMessage');
+
+                if (response.ok) {
+                    responseMessage.textContent = data.message; // Mensaje de éxito
+                } else {
+                    responseMessage.textContent = data.error; // Mensaje de error
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('responseMessage').textContent = 'Error al eliminar el pago. Intenta nuevamente.';
+            }
+        });
+    </script>
+</body>
+</html>

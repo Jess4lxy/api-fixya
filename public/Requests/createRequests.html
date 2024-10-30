@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Solicitud</title>
+    <link rel="stylesheet" type="text/css" href="../CREATE.css"> <!-- Aquí se referencia el archivo CSS -->
+
+</head>
+<body>
+    <div class="container">
+        <h1>Crear Nueva Solicitud</h1>
+        <form id="solicitudForm">
+            <label for="descripcion">Descripción de la Solicitud:</label>
+            <input type="text" id="descripcion" name="descripcion" required><br><br>
+
+            <label for="tipoServicio">Tipo de Servicio:</label>
+            <input type="text" id="tipoServicio" name="tipoServicio" required><br><br>
+
+            <label for="estado">Estado de la Solicitud:</label>
+            <input type="text" id="estado" name="estado" required><br><br>
+
+            <label for="fechaCreacion">Fecha de Creación:</label>
+            <input type="date" id="fechaCreacion" name="fechaCreacion" required><br><br>
+
+            <label for="fechaFinalizacion">Fecha de Finalización:</label>
+            <input type="date" id="fechaFinalizacion" name="fechaFinalizacion"><br><br>
+
+            <label for="prioridad">Prioridad:</label>
+            <select id="prioridad" name="prioridad" required>
+                <option value="Alta">Alta</option>
+                <option value="Media">Media</option>
+                <option value="Baja">Baja</option>
+            </select><br><br>
+
+            <label for="residenteId">ID del Residente:</label>
+            <input type="number" id="residenteId" name="residenteId" required><br><br>
+
+            <label for="proveedorId">ID del Proveedor:</label>
+            <input type="number" id="proveedorId" name="proveedorId" required><br><br>
+
+            <button type="submit">Crear Solicitud</button>
+        </form>
+
+        <div id="error-message" style="color:red;"></div>
+
+        <button class="back-btn" onclick="window.history.back();">Volver</button>
+    </div>
+
+    <script>
+        document.getElementById('solicitudForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const descripcion = document.getElementById('descripcion').value;
+            const tipoServicio = document.getElementById('tipoServicio').value;
+            const estado = document.getElementById('estado').value;
+            const fechaCreacion = document.getElementById('fechaCreacion').value;
+            const fechaFinalizacion = document.getElementById('fechaFinalizacion').value || null;
+            const prioridad = document.getElementById('prioridad').value;
+            const residenteId = document.getElementById('residenteId').value;
+            const proveedorId = document.getElementById('proveedorId').value;
+
+            fetch('http://localhost:3001/api/solicitudes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    descripcion: descripcion,
+                    tipoServicio: tipoServicio,
+                    estado: estado,
+                    fechaCreacion: fechaCreacion,
+                    fechaFinalizacion: fechaFinalizacion,
+                    prioridad: prioridad,
+                    residenteId: residenteId,
+                    proveedorId: proveedorId
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.errors) {
+                    const errorMessage = data.errors.map(error => error.msg).join(', ');
+                    document.getElementById('error-message').textContent = errorMessage;
+                } else {
+                    alert('Solicitud creada exitosamente');
+                    window.location.href = '/viewSolicitudes.html';  // Redirigir a la página de lista
+                }
+            })
+            .catch(error => {
+                console.error('Error al crear la solicitud:', error);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Administrador</title>
+    <link rel="stylesheet" type="text/css" href="../UPDATE.css">
+
+</head>
+<body>
+
+    <div class="container"> 
+<h2>Actualizar Administrador</h2>
+
+<form id="getAdminForm">
+    <label for="adminId">Ingresa el ID del administrador:</label>
+    <input type="text" id="adminId" name="adminId" required>
+    <button type="submit">Buscar Administrador</button>
+</form>
+
+    <div id="adminData" style="display:none;">
+        <form id="updateAdminForm">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="rol">Rol:</label>
+            <input type="text" id="rol" name="rol" required>
+            
+            <label for="fechaIngreso">Fecha de Ingreso:</label>
+            <input type="date" id="fechaIngreso" name="fechaIngreso" required>
+            
+            <button type="submit">Actualizar Administrador</button>
+        </form>
+    </div>
+    <button onclick="window.history.back();">Volver</button>
+
+</div>
+<script>
+document.getElementById('getAdminForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    
+    const adminId = document.getElementById('adminId').value;
+    
+    try {
+        const response = await fetch(`http://localhost:3001/api/administrators/${adminId}`);
+        const admin = await response.json();
+
+        if (admin) {
+            document.getElementById('adminData').style.display = 'block';
+            document.getElementById('nombre').value = admin.nombre;
+            document.getElementById('email').value = admin.email;
+            document.getElementById('rol').value = admin.rol;
+            document.getElementById('fechaIngreso').value = admin.fechaIngreso.split('T')[0]; // Para formatear la fecha.
+        } else {
+            alert('Administrador no encontrado');
+        }
+    } catch (error) {
+        alert('Error al buscar el administrador');
+    }
+});
+
+document.getElementById('updateAdminForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const adminId = document.getElementById('adminId').value;
+    const updatedAdmin = {
+        nombre: document.getElementById('nombre').value,
+        email: document.getElementById('email').value,
+        rol: document.getElementById('rol').value,
+        fechaIngreso: document.getElementById('fechaIngreso').value
+    };
+
+    try {
+        const response = await fetch(`http://localhost:3001/api/administrators/${adminId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedAdmin)
+        });
+
+        if (response.ok) {
+            alert('Administrador actualizado con éxito');
+        } else {
+            const result = await response.json();
+            
+            // Aquí cambiamos la forma de manejar los errores, por si no son un array
+            let errorMessage = 'Error al actualizar';
+            if (result.error && Array.isArray(result.error)) {
+                errorMessage = result.error.map(err => err.msg).join(', ');
+            } else if (result.message) {
+                errorMessage = result.message; // Para manejar errores como strings
+            }
+            
+            alert(errorMessage);
+        }
+    } catch (error) {
+        alert('Error al actualizar el administrador');
+    }
+});
+</script>
+
+</body>
+</html>

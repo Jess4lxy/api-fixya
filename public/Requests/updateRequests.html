@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Solicitud</title>
+    <link rel="stylesheet" type="text/css" href="../UPDATE.css">
+
+</head>
+<body>
+<div class="container">
+<h2>Actualizar Solicitud</h2>
+
+<form id="getSolicitudForm">
+    <label for="solicitudId">Ingresa el ID de la solicitud:</label>
+    <input type="text" id="solicitudId" name="solicitudId" required>
+    <button type="submit">Buscar Solicitud</button>
+</form>
+
+<div id="solicitudData" style="display:none;">
+    <form id="updateSolicitudForm">
+        <label for="descripcion">Descripción de la Solicitud:</label>
+        <input type="text" id="descripcion" name="descripcion" required>
+        
+        <label for="estado">Estado de la Solicitud:</label>
+        <input type="text" id="estado" name="estado" required>
+        
+        <button type="submit">Actualizar Solicitud</button>
+    </form>
+</div>
+<button onclick="window.history.back();">Volver</button>
+</div>
+<script>
+document.getElementById('getSolicitudForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    
+    const solicitudId = document.getElementById('solicitudId').value;
+    
+    try {
+        const response = await fetch(`http://localhost:3001/api/solicitudes/${solicitudId}`);
+        const solicitud = await response.json();
+
+        if (solicitud) {
+            document.getElementById('solicitudData').style.display = 'block';
+            document.getElementById('descripcion').value = solicitud.descripcion;
+            document.getElementById('estado').value = solicitud.estado;
+        } else {
+            alert('Solicitud no encontrada');
+        }
+    } catch (error) {
+        alert('Error al buscar la solicitud');
+    }
+});
+
+document.getElementById('updateSolicitudForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const solicitudId = document.getElementById('solicitudId').value;
+    const updatedSolicitud = {
+        descripcion: document.getElementById('descripcion').value,
+        estado: document.getElementById('estado').value
+    };
+
+    try {
+        const response = await fetch(`http://localhost:3001/api/solicitudes/${solicitudId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedSolicitud)
+        });
+
+        if (response.ok) {
+            alert('Solicitud actualizada con éxito');
+        } else {
+            const result = await response.json();
+            alert(result.message || 'Error al actualizar');
+        }
+    } catch (error) {
+        alert('Error al actualizar la solicitud');
+    }
+});
+</script>
+
+</body>
+</html>

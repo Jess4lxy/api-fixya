@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Proveedor</title>
+    <link rel="stylesheet" type="text/css" href="../DELETE.css">
+
+</head>
+<body>
+    <div class = "container">
+    <h1>Eliminar Proveedor</h1>
+    <form id="deleteProveedorForm">
+        <label for="id">ID del Proveedor:</label>
+        <input type="text" id="id" name="id" required><br><br>
+
+        <button type="submit">Eliminar Proveedor</button>
+    </form>
+
+    <div id="error-message" style="color:red;"></div>
+
+    <button onclick="window.history.back();">Volver</button>
+</div>
+    <script>
+        document.getElementById('deleteProveedorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const id = document.getElementById('id').value;
+
+            fetch(`http://localhost:3001/api/proveedores/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.errors) {
+                    const errorMessage = data.errors.map(error => error.msg).join(', ');
+                    document.getElementById('error-message').textContent = errorMessage;
+                } else {
+                    alert('Proveedor eliminado exitosamente');
+                    window.location.href = '/viewProveedores.html';  // Redirigir a la página de lista
+                }
+            })
+            .catch(error => {
+                console.error('Error al eliminar el proveedor:', error);
+            });
+        });
+    </script>
+</body>
+</html>
