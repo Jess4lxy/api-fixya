@@ -1,65 +1,50 @@
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '../models/user.js';
-import { config } from 'dotenv';
+import { pool } from '../database.js'; // Asegúrate de usar la conexión correcta
 
-config(); // cargando variables de entorno como SECRET_KEY
-
-const secretKey = process.env.SECRET_KEY;
-
-// controlando la autenticacion
-export const login = async (req, res) => {
-    const { username, password } = req.body;
-
+// Registro de administrador
+export const register = async (req, res) => {
+    const { nombre, username, correo, contraseña } = req.body;
     try {
-        // verificando si el usuario existe
-        const user = await User.findOne({ username });
-        if(!user) return res.status(404).json({ message: 'Usuario no encontrado' });
-
-        // verificando la contraseña
-        const validPassword = await bcrypt.compare(password, user.password);
-        if(!validPassword) return res.status(401).json({ message: 'Contraseña incorrecta' });
-
-        // creando el payload para el token
-        const payload = {
-            id: user.id,
-            username: user.username,
-            role: user.role
-            // recuerda modificar los datos dependiendo de lo creado en users
+        // Verificar si el usuario ya existe
+        const [existingAdmin] = await pool.query('SELECT * FROM Administrador WHERE Username = ? OR Correo = ?', [username, correo]);
+        if (existingAdmin.length > 0) {
+            return res.status(400).json({ message: 'El usuario ya existe' });
         }
 
-        // generando el token
-        const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+        // Hashear la contraseña
+        const hashedPassword = await bcrypt.hash(contraseña, 10);
 
-        // respondiendo con el token
-        res.json({ token });
+        // Guardar el nuevo administrador en la base de datos
+        await pool.query('INSERT INTO Administrador (Nombre, Username, Correo, Contraseña) VALUES (?, ?, ?, ?)', [nombre, username, correo, hashedPassword]);
+
+        res.status(201).json({ message: 'Administrador registrado exitosamente' });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: 'Error al registrar el administrador', error });
     }
 };
 
-// apartado para controlar el registro de usuarios
-export const register = async (req, res) => {
-    const { username, password, role } = req.body;
-
+// Inicio de sesión
+export const login = async (req, res) => {
+    const { username, contraseña } = req.body;
     try {
-        // verificando si el usuario ya existe
-        const existingUser = await User.findOne({ username });
-        if(existingUser) return res.status(400).json({ message: 'Usuario ya existe' });
+        // Buscar el administrador en la base de datos
+        const [admin] = await pool.query('SELECT * FROM Administrador WHERE Username = ?', [username]);
+        if (admin.length === 0) {
+            return res.status(401).json({ message: 'Credenciales inválidas' });
+        }
 
-        // encriptando la contraseña
-        const hashedPassword = await bcrypt.hash(password, 10);
+        // Verificar la contraseña
+        const isPasswordValid = await bcrypt.compare(contraseña, admin[0].Contraseña);
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: 'Credenciales inválidas' });
+        }
 
-        // creando y guardando el nuevo usuario
-        const newUser = new User({
-            username,
-            password: hashedPassword,
-            role
-        });
-        await newUser.save();
+        // Generar el token JWT
+        const token = jwt.sign({ id: admin[0].ID, username: admin[0].Username }, process.env.SECRET_KEY, { expiresIn: '1h' });
 
-        res.json({ message: 'Usuario creado correctamente' });
+        res.status(200).json({ token });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: 'Error al iniciar sesión', error });
     }
 };
