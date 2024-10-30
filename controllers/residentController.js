@@ -8,9 +8,9 @@ const router = express.Router();
 // Middleware de validación para residente
 const validateResident = [
     check('nombre').not().isEmpty().withMessage('El nombre es requerido'),
-    check('email').isEmail().withMessage('El email debe ser válido'),
-    check('numeroContacto').isNumeric().withMessage('El número de contacto debe ser numérico'),
-    check('numeroDepartamento').not().isEmpty().withMessage('El número de departamento es requerido'),
+    check('idDepartamento').isInt().withMessage('ID de departamento debe ser un número entero'),
+    check('numRegistro').not().isEmpty().withMessage('El número de registro es requerido'),
+    check('identificacion').not().isEmpty().withMessage('La identificación es requerida'),
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -33,9 +33,9 @@ router.get("/residents", async (req, res) => {
 // Crear un nuevo residente con validación
 router.post("/residents", validateResident, async (req, res) => {
     try {
-        const { nombre, email, numeroContacto, numeroDepartamento, historialSolicitudes } = req.body;
-        const newResident = new Resident(null, nombre, email, numeroContacto, numeroDepartamento, historialSolicitudes);
-        const addedResident = await residentService.addResident(newResident);
+        const { idDepartamento, numRegistro, identificacion, nombre } = req.body;
+        const newResident = new Resident(null, idDepartamento, numRegistro, identificacion, nombre);
+        const addedResident = await residentService.createResident(newResident);
         res.status(201).json(addedResident);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -65,10 +65,9 @@ router.delete("/residents/:id", async (req, res) => {
     }
 });
 
-// Obtener residentes por número de departamento con validación
-router.get("/residents/department/:departmentNumber", [
-    check("departmentNumber")
-        .matches(/^[a-zA-Z0-9]+$/).withMessage("El número de departamento debe contener solo letras y números"),
+// Obtener residentes por ID de departamento con validación
+router.get("/residents/department/:departmentId", [
+    check("departmentId").isInt().withMessage("El ID de departamento debe ser un número entero"),
 ], async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -76,7 +75,7 @@ router.get("/residents/department/:departmentNumber", [
     }
 
     try {
-        const residents = await residentService.findResidentsByDepartment(req.params.departmentNumber);
+        const residents = await residentService.findResidentsByDepartment(req.params.departmentId);
         res.json(residents);
     } catch (error) {
         res.status(500).json({ error: error.message });

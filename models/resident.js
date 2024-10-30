@@ -1,12 +1,9 @@
-class Resident {
-    constructor(id, nombre, email, numeroContacto, numeroDepartamento, historialSolicitudes = []) {
+export default class Resident {
+    constructor(id, idDepartamento, numRegistro, identificacion, nombre) {
         this.id = id;
+        this.idDepartamento = idDepartamento;
+        this.numRegistro = numRegistro;
+        this.identificacion = identificacion;
         this.nombre = nombre;
-        this.email = email;
-        this.numeroContacto = numeroContacto;
-        this.numeroDepartamento = numeroDepartamento;
-        this.historialSolicitudes = historialSolicitudes;
     }
 }
-
-export default Resident;

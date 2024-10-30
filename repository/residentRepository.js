@@ -1,66 +1,50 @@
-import fs from 'fs-extra';
-import Resident from '../models/resident.js';
+// repository/residentRepository.js
+import db from '../config/db.js';
 
-const filePath = './data/fixya.json';
+const ResidentRepository = {
+    // Obtener todos los residentes
+    async getAllResidents() {
+        const query = 'SELECT * FROM Residente';
+        const { rows } = await db.query(query);
+        return rows;
+    },
 
-// Leer datos de residentes del archivo
-async function residentsData() {
-    try {
-        const data = await fs.readJson(filePath);
-        return data.residentes || [];
-    } catch (error) {
-        console.error('Error al leer el archivo JSON:', error);
-        throw error;
-    }
-}
+    // Obtener un residente por su ID
+    async getResidentById(id) {
+        const query = 'SELECT * FROM Residente WHERE ID = $1';
+        const { rows } = await db.query(query, [id]);
+        return rows[0];
+    },
 
-// Obtener todos los residentes
-async function getResidents() {
-    try {
-        const residents = await residentsData();
-        return residents.map(resident => new Resident(
-            resident.id,
-            resident.nombre,
-            resident.email,
-            resident.numeroContacto,
-            resident.numeroDepartamento,
-            resident.historialSolicitudes
-        ));
-    } catch (error) {
-        console.error('Error al obtener los residentes:', error);
-        throw error;
-    }
-}
+    // Crear un nuevo residente
+    async createResident({ idDepartamento, numRegistro, identificacion, nombre }) {
+        const query = `
+        INSERT INTO Residente (IDDepartamento, numRegistro, identificacion, nombre)
+        VALUES ($1, $2, $3, $4)
+        RETURNING *
+        `;
+        const { rows } = await db.query(query, [idDepartamento, numRegistro, identificacion, nombre]);
+        return rows[0];
+    },
 
-// Guardar residentes en el archivo
-async function saveResident(newResidents) {
-    try {
-        // Lee el contenido actual del archivo
-        const currentData = await fs.readJson(filePath);
+    // Actualizar un residente existente
+    async updateResident(id, { idDepartamento, numRegistro, identificacion, nombre }) {
+        const query = `
+        UPDATE Residente
+        SET IDDepartamento = $1, numRegistro = $2, identificacion = $3, nombre = $4
+        WHERE ID = $5
+        RETURNING *
+        `;
+        const { rows } = await db.query(query, [idDepartamento, numRegistro, identificacion, nombre, id]);
+        return rows[0];
+    },
 
-        // Asegúrate de que currentData tenga la propiedad residentes
-        currentData.residentes = newResidents;
-
-        // Guarda el archivo completo
-        await fs.writeJson(filePath, currentData, { spaces: 4 });
-    } catch (error) {
-        console.error('Error al guardar los residentes:', error);
-        throw error;
-    }
-}
-
-// Validar datos del residente
-async function validateResident(resident) {
-    const { id, ...otherFields } = resident;
-    const hasEmptyFields = Object.values(otherFields).some(value => !value);
-
-    if (hasEmptyFields) {
-        throw new Error("Debes llenar todos los datos del residente.");
-    }
-}
-
-export default {
-    getResidents,
-    saveResident,
-    validateResident,
+    // Eliminar un residente
+    async deleteResident(id) {
+        const query = 'DELETE FROM Residente WHERE ID = $1 RETURNING *';
+        const { rows } = await db.query(query, [id]);
+        return rows[0];
+    },
 };
+
+export default ResidentRepository;

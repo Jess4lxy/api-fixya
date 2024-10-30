@@ -19,37 +19,31 @@ const router = express.Router();
  *       type: object
  *       required:
  *         - nombre
- *         - email
- *         - numeroContacto
- *         - numeroDepartamento
+ *         - idDepartamento
+ *         - numRegistro
+ *         - identificacion
  *       properties:
  *         id:
  *           type: integer
- *           description: ID del residente
+ *           description: ID del residente (generado automáticamente)
  *         nombre:
  *           type: string
  *           description: Nombre completo del residente
- *         email:
+ *         idDepartamento:
+ *           type: integer
+ *           description: ID del departamento al que pertenece el residente
+ *         numRegistro:
  *           type: string
- *           description: Correo electrónico del residente
- *         numeroContacto:
+ *           description: Número de registro único del residente
+ *         identificacion:
  *           type: string
- *           description: Número de contacto del residente
- *         numeroDepartamento:
- *           type: string
- *           description: Número de departamento del residente
- *         historialSolicitudes:
- *           type: array
- *           items:
- *             type: object
- *           description: Historial de solicitudes de servicio realizadas por el residente
+ *           description: Identificación única del residente
  *       example:
  *         id: 1
  *         nombre: "Renato Augusto Ávila"
- *         email: "renato.avila@correo.com"
- *         numeroContacto: "555-236-5225"
- *         numeroDepartamento: "283"
- *         historialSolicitudes: []
+ *         idDepartamento: 3
+ *         numRegistro: "R123456"
+ *         identificacion: "ID123456"
  */
 
 /**
