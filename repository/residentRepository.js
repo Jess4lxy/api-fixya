@@ -1,5 +1,5 @@
 // repository/residentRepository.js
-import db from '../config/db.js';
+import db from '../data/database.js';
 
 const ResidentRepository = {
     // Obtener todos los residentes
