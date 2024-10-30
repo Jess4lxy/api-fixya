@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { pool } from '../database.js'; // Asegúrate de usar la conexión correcta
+import pool from '../data/database'; // Asegúrate de usar la conexión correcta
 
 // Registro de administrador
 export const register = async (req, res) => {
