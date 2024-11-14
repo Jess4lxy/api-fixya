@@ -1,5 +1,5 @@
 import Resident from '../models/resident.js';
-import ResidentRepository from '../repositories/ResidentRepository.js';
+import ResidentRepository from '../repository/residentRepository.js';
 
 const ResidentService = {
     // Obtener todos los residentes
