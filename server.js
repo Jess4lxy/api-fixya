@@ -8,14 +8,6 @@ import cors from 'cors';
 import swaggerUI from 'swagger-ui-express'
 import swaggerSpec from './config/swagger.js';
 import residentRoutes from './controllers/residentController.js';
-import serviceRoutes from './controllers/serviceController.js';
-import solicitudRoutes from './controllers/solicitudController.js';
-import proveedorRoutes from './controllers/proveedorController.js';
-import historyserviceRoutes from './controllers/historyserviceController.js';
-import administrativeRoutes from './controllers/administrativeController.js';
-import paymentRoutes from './controllers/paymentController.js';
-import invoiceRoutes from './controllers/invoiceController.js';
-import notificationRoutes from './controllers/notificationController.js';
 import authRoutes from './routes/authRoutes.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
 
