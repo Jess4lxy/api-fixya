@@ -1,21 +1,28 @@
-import { registerResident, loginResident } from '../services/residentService.js';
+import ResidentUserService from "../services/residentUserService";
 
-export const registerController = async (req, res) => {
+export const registerResident = async (req, res) => {
     try {
         const residentData = req.body;
-        const newResident = await registerResident(residentData);
+        const newResident = await ResidentUserService.registerResidentUser(
+            residentData.residentId,
+            residentData.username,
+            residentData.email,
+            residentData.password
+        );
         res.status(201).json({ message: 'Usuario registrado exitosamente', resident: newResident });
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        console.error(error);
+        res.status(400).json({ message: error.message || 'Error al registrar el usuario' });
     }
 };
 
-export const loginController = async (req, res) => {
+export const loginResident = async (req, res) => {
     try {
         const { email, password } = req.body;
-        const { token, resident } = await loginResident(email, password);
+        const { token, resident } = await ResidentUserService.loginResidentUser(email, password);
         res.status(200).json({ message: 'Inicio de sesión exitoso', token, resident });
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        console.error(error);
+        res.status(400).json({ message: error.message || 'Error al iniciar sesión' });
     }
 };

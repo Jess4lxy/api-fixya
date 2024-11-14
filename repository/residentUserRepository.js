@@ -6,13 +6,13 @@ const ResidentUserRepository = {
     async createResidentUser(residentId, username, email, password) {
         try {
             const query = `
-                INSERT INTO UsuarioResidente (residentId, username, email, password)
+                INSERT INTO UsuarioResidente (IDResidente, username, correo, contrasenia)
                 VALUES ($1, $2, $3, $4)
                 RETURNING *
             `;
             const { rows } = await db.query(query, [residentId, username, email, password]);
             const row = rows[0];
-            return new ResidentUser(row.id, row.residentId, row.username, row.email, row.password);
+            return new ResidentUser(row.id, row.IDResidente, row.username, row.correo, row.contrasenia);
         } catch (error) {
             throw new Error(`Error al crear usuario: ${error.message}`);
         }
@@ -22,14 +22,14 @@ const ResidentUserRepository = {
     async getResidentUserById(id) {
         try {
             const query = `
-                SELECT * FROM UsuarioResidente WHERE id = $1
+                SELECT * FROM UsuarioResidente WHERE ID = $1
             `;
             const { rows } = await db.query(query, [id]);
             if (rows.length === 0) {
                 throw new Error('Usuario no encontrado');
             }
             const row = rows[0];
-            return new ResidentUser(row.id, row.residentId, row.username, row.email, row.password);
+            return new ResidentUser(row.id, row.IDResidente, row.username, row.correo, row.contrasenia);
         } catch (error) {
             throw new Error(`Error al obtener usuario: ${error.message}`);
         }
@@ -39,14 +39,14 @@ const ResidentUserRepository = {
     async getResidentUserByEmail(email) {
         try {
             const query = `
-                SELECT * FROM UsuarioResidente WHERE email = $1
+                SELECT * FROM UsuarioResidente WHERE correo = $1
             `;
             const { rows } = await db.query(query, [email]);
             if (rows.length === 0) {
                 throw new Error('Usuario no encontrado');
             }
             const row = rows[0];
-            return new ResidentUser(row.id, row.residentId, row.username, row.email, row.password);
+            return new ResidentUser(row.id, row.IDResidente, row.username, row.correo, row.contrasenia);
         } catch (error) {
             throw new Error(`Error al obtener usuario: ${error.message}`);
         }
@@ -57,8 +57,8 @@ const ResidentUserRepository = {
         try {
             const query = `
                 UPDATE UsuarioResidente
-                SET username = $2, email = $3, password = $4
-                WHERE id = $1
+                SET username = $2, correo = $3, contrasenia = $4
+                WHERE ID = $1
                 RETURNING *
             `;
             const { rows } = await db.query(query, [id, username, email, password]);
@@ -66,7 +66,7 @@ const ResidentUserRepository = {
                 throw new Error('Usuario no encontrado');
             }
             const row = rows[0];
-            return new ResidentUser(row.id, row.residentId, row.username, row.email, row.password);
+            return new ResidentUser(row.id, row.IDResidente, row.username, row.correo, row.contrasenia);
         } catch (error) {
             throw new Error(`Error al actualizar usuario: ${error.message}`);
         }
@@ -76,7 +76,7 @@ const ResidentUserRepository = {
     async deleteResidentUser(id) {
         try {
             const query = `
-                DELETE FROM UsuarioResidente WHERE id = $1 RETURNING *
+                DELETE FROM UsuarioResidente WHERE ID = $1 RETURNING *
             `;
             const { rows } = await db.query(query, [id]);
             if (rows.length === 0) {
