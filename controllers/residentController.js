@@ -1,7 +1,6 @@
 import express from "express";
 import { check, validationResult } from 'express-validator';
 import residentService from "../services/residentService.js";
-import Resident from "../models/resident.js";
 
 const router = express.Router();
 
@@ -30,38 +29,52 @@ router.get("/residents", async (req, res) => {
     }
 });
 
-// Crear un nuevo residente con validación
-router.post("/residents", validateResident, async (req, res) => {
+// Obtener un residente por su ID
+router.get("/residents/:id", async (req, res) => {
     try {
-        const { idDepartamento, numRegistro, identificacion, nombre } = req.body;
-        const newResident = new Resident(null, idDepartamento, numRegistro, identificacion, nombre);
-        const addedResident = await residentService.createResident(newResident);
-        res.status(201).json(addedResident);
+        const resident = await residentService.getResidentById(req.params.id);
+        if (!resident) {
+            return res.status(404).json({ error: "Residente no encontrado" });
+        }
+        res.json(resident);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
 
-// Actualizar un residente
-router.put("/residents/:id", validateResident, async (req, res) => {
-    const { id } = req.params;
-    const updatedData = req.body;
-
+// Crear un nuevo residente con validación
+router.post("/residents", validateResident, async (req, res) => {
     try {
-        const updatedResident = await residentService.updateResident(id, updatedData);
+        const newResident = await residentService.createResident(req.body);
+        res.status(201).json(newResident);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Actualizar un residente existente
+router.put("/residents/:id", validateResident, async (req, res) => {
+    try {
+        const updatedResident = await residentService.updateResident(req.params.id, req.body);
+        if (!updatedResident) {
+            return res.status(404).json({ error: "Residente no encontrado" });
+        }
         res.json(updatedResident);
     } catch (error) {
-        res.status(404).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 
 // Eliminar un residente
 router.delete("/residents/:id", async (req, res) => {
     try {
-        const result = await residentService.deleteResident(req.params.id);
-        res.json(result);
+        const deletedResident = await residentService.deleteResident(req.params.id);
+        if (!deletedResident) {
+            return res.status(404).json({ error: "Residente no encontrado o ya eliminado" });
+        }
+        res.json(deletedResident);
     } catch (error) {
-        res.status(404).json({ error: error.message });
+        res.status(500).json({ error: error.message });
     }
 });
 

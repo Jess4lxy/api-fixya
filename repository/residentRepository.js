@@ -1,4 +1,4 @@
-// repository/residentRepository.js
+import Resident from '../models/resident.js';
 import db from '../data/database.js';
 
 const ResidentRepository = {
@@ -6,14 +6,28 @@ const ResidentRepository = {
     async getAllResidents() {
         const query = 'SELECT * FROM Residente';
         const { rows } = await db.query(query);
-        return rows;
+        return rows.map(row => new Resident(row.id, row.iddepartamento, row.numregistro, row.identificacion, row.nombre));
     },
 
     // Obtener un residente por su ID
     async getResidentById(id) {
         const query = 'SELECT * FROM Residente WHERE ID = $1';
         const { rows } = await db.query(query, [id]);
-        return rows[0];
+        if (rows.length === 0) {
+            return null;
+        }
+        const row = rows[0];
+        return new Resident(row.id, row.iddepartamento, row.numregistro, row.identificacion, row.nombre);
+    },
+
+    // Obtener residentes por ID de departamento
+    async getResidentsByDepartment(departmentId) {
+        const query = 'SELECT * FROM Residente WHERE IDDepartamento = $1';
+        const { rows } = await db.query(query, [departmentId]);
+        if (rows.length === 0) {
+            return [];
+        }
+        return rows.map(row => new Resident(row.id, row.iddepartamento, row.numregistro, row.identificacion, row.nombre));
     },
 
     // Crear un nuevo residente
@@ -24,7 +38,8 @@ const ResidentRepository = {
         RETURNING *
         `;
         const { rows } = await db.query(query, [idDepartamento, numRegistro, identificacion, nombre]);
-        return rows[0];
+        const row = rows[0];
+        return new Resident(row.id, row.iddepartamento, row.numregistro, row.identificacion, row.nombre);
     },
 
     // Actualizar un residente existente
@@ -36,14 +51,22 @@ const ResidentRepository = {
         RETURNING *
         `;
         const { rows } = await db.query(query, [idDepartamento, numRegistro, identificacion, nombre, id]);
-        return rows[0];
+        if (rows.length === 0) {
+            return null;
+        }
+        const row = rows[0];
+        return new Resident(row.id, row.iddepartamento, row.numregistro, row.identificacion, row.nombre);
     },
 
     // Eliminar un residente
     async deleteResident(id) {
         const query = 'DELETE FROM Residente WHERE ID = $1 RETURNING *';
         const { rows } = await db.query(query, [id]);
-        return rows[0];
+        if (rows.length === 0) {
+            return null;
+        }
+        const row = rows[0];
+        return new Resident(row.id, row.iddepartamento, row.numregistro, row.identificacion, row.nombre);
     },
 };
 

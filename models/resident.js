@@ -1,9 +1,9 @@
 export default class Resident {
-    constructor(id, idDepartamento, numRegistro, identificacion, nombre) {
+    constructor(id, idApartment, numRegister, identification, name) {
         this.id = id;
-        this.idDepartamento = idDepartamento;
-        this.numRegistro = numRegistro;
-        this.identificacion = identificacion;
-        this.nombre = nombre;
+        this.idApartment = idApartment;
+        this.numRegister = numRegister;
+        this.identification = identification;
+        this.name = name;
     }
 }

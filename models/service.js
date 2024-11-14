@@ -1,10 +1,10 @@
-class Service {
-    constructor(id, nombre, descripcion, costoBase) {
+export default class Service {
+    constructor(id, category, serviceType, basePrice, quantityAdjustment, description){
         this.id = id;
-        this.nombre = nombre;
-        this.descripcion = descripcion;
-        this.costoBase = costoBase;
+        this.category = category;
+        this.serviceType = serviceType;
+        this.basePrice = basePrice;
+        this.quantityAdjustment = quantityAdjustment;
+        this.description = description;
     }
 }
-
-export default Service;

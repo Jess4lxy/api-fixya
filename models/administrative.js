@@ -1,11 +1,9 @@
-class Administrative {
-    constructor(id, nombre, email, rol, fechaIngreso) {
+export default class Administrative {
+    constructor(id, name, username, email, password) {
         this.id = id;
-        this.nombre = nombre;
+        this.name = name;
+        this.username = username;
         this.email = email;
-        this.rol = rol;
-        this.fechaIngreso = fechaIngreso;
+        this.password = password;
     }
 }
-
-export default Administrative;

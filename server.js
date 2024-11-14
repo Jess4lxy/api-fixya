@@ -67,14 +67,6 @@ app.use(authMiddleware)
 // Rutas
 const routes = [
     residentRoutes,
-    serviceRoutes,
-    solicitudRoutes,
-    proveedorRoutes,
-    historyserviceRoutes,
-    invoiceRoutes,
-    paymentRoutes,
-    notificationRoutes,
-    administrativeRoutes,
 ];
 
 routes.forEach(route => app.use('/api', route));
