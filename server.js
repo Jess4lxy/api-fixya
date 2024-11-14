@@ -56,7 +56,7 @@ app.use(authMiddleware);
 
 // Rutas protegidas
 const routes = [
-    residentRoutes,
+    residentRoutes
 ];
 
 routes.forEach(route => app.use('/api', route));
