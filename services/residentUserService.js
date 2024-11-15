@@ -1,5 +1,5 @@
 import ResidentUserRepository from "../repository/residentUserRepository.js";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import ResidentUser from "../models/residentUser.js";
 
