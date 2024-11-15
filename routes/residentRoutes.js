@@ -14,7 +14,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /residents:
+ * api/residents:
  *   get:
  *     summary: Obtener todos los residentes
  *     tags: [Residente]
@@ -43,7 +43,7 @@ router.get("/residents", async (req, res) => {
 
 /**
  * @swagger
- * /residents/{id}:
+ * api/residents/{id}:
  *   get:
  *     summary: Obtener un residente por su ID
  *     tags: [Residente]
@@ -80,7 +80,7 @@ router.get("/residents/:id", async (req, res) => {
 
 /**
  * @swagger
- * /residents:
+ * api/residents:
  *   post:
  *     summary: Crear un nuevo residente
  *     tags: [Residente]
@@ -113,7 +113,7 @@ router.post("/residents", validateResident, async (req, res) => {
 
 /**
  * @swagger
- * /residents/{id}:
+ * api/residents/{id}:
  *   put:
  *     summary: Actualizar un residente
  *     tags: [Residente]
@@ -154,7 +154,7 @@ router.put("/residents/:id", validateResident, async (req, res) => {
 
 /**
  * @swagger
- * /residents/{id}:
+ * api/residents/{id}:
  *   delete:
  *     summary: Eliminar un residente
  *     tags: [Residente]
@@ -187,7 +187,7 @@ router.delete("/residents/:id", async (req, res) => {
 // Obtener residentes por ID de departamento con validación
 /**
  * @swagger
- * /residents/department/{departmentId}:
+ * api/residents/department/{departmentId}:
  *   get:
  *     summary: Obtener residentes por ID de departamento
  *     tags: [Residente]
