@@ -5,7 +5,7 @@ const router = express.Router();
 
 /**
  * @swagger
- * /auth/register:
+ * /register:
  *   post:
  *     summary: Registrar un nuevo residente
  *     description: Registra un nuevo residente proporcionando la información necesaria.
@@ -44,7 +44,7 @@ router.post('/register', registerResident);
 
 /**
  * @swagger
- * /auth/login:
+ * /login:
  *   post:
  *     summary: Iniciar sesión como residente
  *     description: Inicia sesión con el correo electrónico y la contraseña para obtener un token JWT.
