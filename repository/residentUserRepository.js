@@ -11,10 +11,17 @@ const ResidentUserRepository = {
                 RETURNING *
             `;
             const { rows } = await db.query(query, [residentId, username, email, password]);
+            if (!rows.length) {
+                throw new Error('No se pudo insertar el usuario residente');
+            }
             const row = rows[0];
+
+            console.log('Consulta SQL con datos:', residentId, username, email, password);
+
             return new ResidentUser(row.id, row.IDResidente, row.username, row.correo, row.contrasenia);
         } catch (error) {
-            throw new Error(`Error al crear usuario: ${error.message}`);
+            console.error('Error al crear el usuario residente:', error.message);
+            throw new Error(`Error al crear el usuario: ${error.message}`);
         }
     },
 

@@ -9,6 +9,9 @@ export const registerResident = async (req, res) => {
             residentData.email,
             residentData.password
         );
+
+        console.log('Datos recibidos en el controlador:', residentData);
+
         res.status(201).json({ message: 'Usuario registrado exitosamente', resident: newResident });
     } catch (error) {
         console.error(error);

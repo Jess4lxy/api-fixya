@@ -14,6 +14,9 @@ const ResidentUserService = {
 
             const hashedPassword = await bcrypt.hash(password, 10);
             const residentUser = await ResidentUserRepository.createResidentUser(residentId, username, email, hashedPassword);
+
+            console.log('Datos enviados al repositorio:', { residentId, username, email, password });
+
             return new ResidentUser(residentUser.id, residentUser.residentId, residentUser.username, residentUser.email, residentUser.password);
         } catch (error) {
             throw new Error(`Error al registrar el usuario de residente: ${error.message}`);
