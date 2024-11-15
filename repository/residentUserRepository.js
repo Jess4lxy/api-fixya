@@ -50,7 +50,7 @@ const ResidentUserRepository = {
             `;
             const { rows } = await db.query(query, [email]);
             if (rows.length === 0) {
-                throw new Error('Usuario no encontrado');
+                return null; // Devuelve null si no encuentra el usuario
             }
             const row = rows[0];
             return new ResidentUser(row.id, row.IDResidente, row.username, row.correo, row.contrasenia);
