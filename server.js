@@ -51,15 +51,12 @@ app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 // Rutas de autenticación (públicas)
 app.use('/api', authRoutes);
 
-// Middleware de autorización que protege las siguientes rutas
-app.use(authMiddleware);
-
 // Rutas protegidas
 const routes = [
     residentRoutes
 ];
 
-routes.forEach(route => app.use('/api', route));
+routes.forEach(route => app.use('/api', authMiddleware, route));
 
 // Manejo de errores
 app.use((err, req, res, next) => {
