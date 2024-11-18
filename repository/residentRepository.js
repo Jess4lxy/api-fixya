@@ -5,9 +5,9 @@ const ResidentRepository = {
     // Obtener todos los residentes
     async getAllResidents() {
         try {
-            const query = 'SELECT * FROM Residente';
+            const query = 'SELECT * FROM Resident';
             const { rows } = await db.query(query);
-            return rows.map(row => new Resident(row.id, row.iddepartamento, row.numregistro, row.identificacion, row.nombre));
+            return rows.map(row => new Resident(row.id, row.idapartment, row.numregister, row.identification, row.name));
         } catch (error) {
             throw new Error(`Error al obtener todos los residentes: ${error.message}`);
         }
@@ -16,13 +16,13 @@ const ResidentRepository = {
     // Obtener un residente por su ID
     async getResidentById(id) {
         try {
-            const query = 'SELECT * FROM Residente WHERE ID = $1';
+            const query = 'SELECT * FROM Resident WHERE id = $1';
             const { rows } = await db.query(query, [id]);
             if (rows.length === 0) {
                 return null;
             }
             const row = rows[0];
-            return new Resident(row.id, row.iddepartamento, row.numregistro, row.identificacion, row.nombre);
+            return new Resident(row.id, row.idapartment, row.numregister, row.identification, row.name);
         } catch (error) {
             throw new Error(`Error al obtener residente por ID: ${error.message}`);
         }
@@ -31,48 +31,48 @@ const ResidentRepository = {
     // Obtener residentes por ID de departamento
     async getResidentsByDepartment(departmentId) {
         try {
-            const query = 'SELECT * FROM Residente WHERE IDDepartamento = $1';
+            const query = 'SELECT * FROM Resident WHERE idapartment = $1';
             const { rows } = await db.query(query, [departmentId]);
             if (rows.length === 0) {
                 return [];
             }
-            return rows.map(row => new Resident(row.id, row.iddepartamento, row.numregistro, row.identificacion, row.nombre));
+            return rows.map(row => new Resident(row.id, row.idapartment, row.numregister, row.identification, row.name));
         } catch (error) {
             throw new Error(`Error al obtener residentes por departamento: ${error.message}`);
         }
     },
 
     // Crear un nuevo residente
-    async createResident({ idDepartamento, numRegistro, identificacion, nombre }) {
+    async createResident({ idApartment, numRegister, identification, name }) {
         try {
             const query = `
-                INSERT INTO Residente (IDDepartamento, numRegistro, identificacion, nombre)
+                INSERT INTO Resident (idApartment, numRegister, identification, name)
                 VALUES ($1, $2, $3, $4)
                 RETURNING *
             `;
-            const { rows } = await db.query(query, [idDepartamento, numRegistro, identificacion, nombre]);
+            const { rows } = await db.query(query, [idApartment, numRegister, identification, name]);
             const row = rows[0];
-            return new Resident(row.id, row.iddepartamento, row.numregistro, row.identificacion, row.nombre);
+            return new Resident(row.id, row.idapartment, row.numregister, row.identification, row.name);
         } catch (error) {
             throw new Error(`Error al crear residente: ${error.message}`);
         }
     },
 
     // Actualizar un residente existente
-    async updateResident(id, { idDepartamento, numRegistro, identificacion, nombre }) {
+    async updateResident(id, { idApartment, numRegister, identification, name }) {
         try {
             const query = `
-                UPDATE Residente
-                SET IDDepartamento = $1, numRegistro = $2, identificacion = $3, nombre = $4
-                WHERE ID = $5
+                UPDATE Resident
+                SET idApartment = $1, numRegister = $2, identification = $3, name = $4
+                WHERE id = $5
                 RETURNING *
             `;
-            const { rows } = await db.query(query, [idDepartamento, numRegistro, identificacion, nombre, id]);
+            const { rows } = await db.query(query, [idApartment, numRegister, identification, name, id]);
             if (rows.length === 0) {
                 return null;
             }
             const row = rows[0];
-            return new Resident(row.id, row.iddepartamento, row.numregistro, row.identificacion, row.nombre);
+            return new Resident(row.id, row.idapartment, row.numregister, row.identification, row.name);
         } catch (error) {
             throw new Error(`Error al actualizar residente: ${error.message}`);
         }
@@ -81,13 +81,13 @@ const ResidentRepository = {
     // Eliminar un residente
     async deleteResident(id) {
         try {
-            const query = 'DELETE FROM Residente WHERE ID = $1 RETURNING *';
+            const query = 'DELETE FROM Resident WHERE id = $1 RETURNING *';
             const { rows } = await db.query(query, [id]);
             if (rows.length === 0) {
                 return null;
             }
             const row = rows[0];
-            return new Resident(row.id, row.iddepartamento, row.numregistro, row.identificacion, row.nombre);
+            return new Resident(row.id, row.idapartment, row.numregister, row.identification, row.name);
         } catch (error) {
             throw new Error(`Error al eliminar residente: ${error.message}`);
         }
