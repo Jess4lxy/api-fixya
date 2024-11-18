@@ -5,7 +5,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import swaggerUI from 'swagger-ui-express';
 import swaggerSpec from './config/swagger.js';
-import residentRoutes from './controllers/residentController.js';
+import residentRoutes from './routes/residentRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
 import db from './data/database.js';

@@ -2,7 +2,7 @@ import express from "express";
 import residentController from "../controllers/residentController.js";
 import { validateResident, validateDepartmentId } from "../middleware/validationMiddleware.js";
 
-const router = express.Router();
+const residentRoutes = express.Router();
 
 /**
  * @swagger
@@ -91,7 +91,7 @@ const router = express.Router();
  *       500:
  *         description: Error getting residents
  */
-router.get("/residents", residentController.getAllResidents);
+residentRoutes.get("/residents", residentController.getAllResidents);
 
 /**
  * @swagger
@@ -120,7 +120,7 @@ router.get("/residents", residentController.getAllResidents);
  *       500:
  *         description: Error fetching the resident
  */
-router.get("/residents/:id", residentController.getResidentById);
+residentRoutes.get("/residents/:id", residentController.getResidentById);
 
 /**
  * @swagger
@@ -166,7 +166,7 @@ router.get("/residents/:id", residentController.getResidentById);
  *       500:
  *         description: Error creating the resident
  */
-router.post("/residents", validateResident, residentController.createResident);
+residentRoutes.post("/residents", validateResident, residentController.createResident);
 
 /**
  * @swagger
@@ -197,7 +197,7 @@ router.post("/residents", validateResident, residentController.createResident);
  *       500:
  *         description: Error updating the resident
  */
-router.put("/residents/:id", validateResident, residentController.updateResident);
+residentRoutes.put("/residents/:id", validateResident, residentController.updateResident);
 
 /**
  * @swagger
@@ -222,7 +222,7 @@ router.put("/residents/:id", validateResident, residentController.updateResident
  *       500:
  *         description: Error deleting the resident
  */
-router.delete("/residents/:id", residentController.deleteResident);
+residentRoutes.delete("/residents/:id", residentController.deleteResident);
 
 /**
  * @swagger
@@ -253,6 +253,6 @@ router.delete("/residents/:id", residentController.deleteResident);
  *       500:
  *         description: Error fetching residents
  */
-router.get("/residents/department/:departmentId", validateDepartmentId, residentController.getResidentsByDepartment);
+residentRoutes.get("/residents/department/:departmentId", validateDepartmentId, residentController.getResidentsByDepartment);
 
-export default router;
+export default residentRoutes;
