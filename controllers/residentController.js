@@ -21,13 +21,28 @@ const validateResident = [
 
 // Obtener todos los residentes
 router.get("/residents", async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 100;
+
     try {
-        const residents = await residentService.getAllResidents();
-        res.json(residents);
+        const residents = await residentService.getAllResidents(page, pageSize);
+
+        // Obtener el total de residentes para calcular la cantidad de páginas
+        const totalResidents = await residentService.getTotalResidents();
+        const totalPages = Math.ceil(totalResidents / pageSize);
+
+        res.json({
+            residents,
+            totalResidents,
+            totalPages,
+            currentPage: page,
+            pageSize: pageSize
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
+
 
 // Obtener un residente por su ID
 router.get("/residents/:id", async (req, res) => {

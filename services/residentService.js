@@ -2,13 +2,21 @@ import Resident from '../models/resident.js';
 import ResidentRepository from '../repository/residentRepository.js';
 
 const ResidentService = {
-    // Obtener todos los residentes
-    async getAllResidents() {
+    // Obtener el total de residentes
+    async getTotalResidents() {
         try {
-            const residentsData = await ResidentRepository.getAllResidents();
-            return residentsData.map(
-                (resident) => new Resident(resident.id, resident.idApartment, resident.numRegister, resident.identification, resident.name)
-            );
+            return await ResidentRepository.getTotalResidents();
+        } catch (error) {
+            throw new Error(`Error al obtener el total de residentes: ${error.message}`);
+        }
+    },
+
+    // Obtener todos los residentes
+    async getAllResidents(page = 1, pageSize = 50) {
+        try {
+            const offset = (page - 1) * pageSize;
+            const residentsData = await ResidentRepository.getAllResidents({limit: pageSize, offset});
+            return residentsData;
         } catch (error) {
             throw new Error(`Error al obtener todos los residentes: ${error.message}`);
         }

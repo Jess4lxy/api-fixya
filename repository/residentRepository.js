@@ -2,11 +2,22 @@ import Resident from '../models/resident.js';
 import db from '../data/database.js';
 
 const ResidentRepository = {
-    // Obtener todos los residentes
-    async getAllResidents() {
+    // Obtener el total de residentes
+    async getTotalResidents() {
         try {
-            const query = 'SELECT * FROM Resident';
+            const query = 'SELECT COUNT(*) FROM Resident';
             const { rows } = await db.query(query);
+            return parseInt(rows[0].count, 10); // Convertir el conteo a un número entero
+        } catch (error) {
+            throw new Error(`Error al obtener el total de residentes: ${error.message}`);
+        }
+    },
+
+    // Obtener todos los residentes
+    async getAllResidents({ limit = 50, offset = 0 }) {
+        try {
+            const query = 'SELECT * FROM Resident LIMIT $1 OFFSET $2';
+            const { rows } = await db.query(query, [limit, offset]);
             return rows.map(row => new Resident(row.id, row.idapartment, row.numregister, row.identification, row.name));
         } catch (error) {
             throw new Error(`Error al obtener todos los residentes: ${error.message}`);

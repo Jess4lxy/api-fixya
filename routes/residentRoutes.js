@@ -16,30 +16,79 @@ const router = express.Router();
  * @swagger
  * /api/residents:
  *   get:
- *     summary: Obtener todos los residentes
+ *     summary: Obtener todos los residentes con paginación
  *     tags: [Residente]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Número de página para la paginación (por defecto 1)
+ *       - in: query
+ *         name: pageSize
+ *         required: false
+ *         schema:
+ *           type: integer
+ *           default: 100
+ *         description: Cantidad de residentes por página (por defecto 100)
  *     responses:
  *       200:
- *         description: Lista de residentes
+ *         description: Lista de residentes con metadatos de paginación
  *         content:
  *           application/json:
  *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Resident'
+ *               type: object
+ *               properties:
+ *                 residents:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Resident'
+ *                 totalResidents:
+ *                   type: integer
+ *                   description: Total de residentes en la base de datos
+ *                 totalPages:
+ *                   type: integer
+ *                   description: Número total de páginas
+ *                 currentPage:
+ *                   type: integer
+ *                   description: Página actual
+ *                 pageSize:
+ *                   type: integer
+ *                   description: Cantidad de elementos por página
  *       500:
  *         description: Error al obtener los residentes
  */
 router.get("/residents", async (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 100;
+
     try {
-        const residents = await residentService.getAllResidents();
-        res.json(residents);
+        // Obtener los residentes con paginación
+        const residents = await residentService.getAllResidents(page, pageSize);
+
+        // Obtener el total de residentes
+        const totalResidents = await residentService.getTotalResidents();
+
+        // Calcular la cantidad total de páginas
+        const totalPages = Math.ceil(totalResidents / pageSize);
+
+        // Responder con los residentes y metadatos de la paginación
+        res.json({
+            residents,
+            totalResidents,
+            totalPages,
+            currentPage: page,
+            pageSize: pageSize
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
+
 
 /**
  * @swagger
