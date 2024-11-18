@@ -7,7 +7,7 @@ const ResidentService = {
         try {
             const residentsData = await ResidentRepository.getAllResidents();
             return residentsData.map(
-                (resident) => new Resident(resident.id, resident.idDepartamento, resident.numRegistro, resident.identificacion, resident.nombre)
+                (resident) => new Resident(resident.id, resident.idApartment, resident.numRegister, resident.identification, resident.name)
             );
         } catch (error) {
             throw new Error(`Error al obtener todos los residentes: ${error.message}`);
@@ -20,7 +20,7 @@ const ResidentService = {
         try {
             const residentData = await ResidentRepository.getResidentById(id);
             if (!residentData) throw new Error('Residente no encontrado');
-            return new Resident(residentData.id, residentData.idDepartamento, residentData.numRegistro, residentData.identificacion, residentData.nombre);
+            return new Resident(residentData.id, residentData.idApartment, residentData.numRegister, residentData.identification, residentData.name);
         } catch (error) {
             throw new Error(`Error al obtener el residente con ID ${id}: ${error.message}`);
         }
@@ -33,7 +33,7 @@ const ResidentService = {
             if (rows.length === 0) {
                 throw new Error('No se encontraron residentes para este departamento');
             }
-            return rows.map(row => new Resident(row.id, row.iddepartamento, row.numregistro, row.identificacion, row.nombre));
+            return rows.map(row => new Resident(row.id, row.idApartment, row.numRegister, row.identification, row.name));
         } catch (error) {
             throw new Error('Error al obtener los residentes: ' + error.message);
         }
@@ -41,15 +41,15 @@ const ResidentService = {
 
     // Crear un nuevo residente
     async createResident(data) {
-        const { idDepartamento, numRegistro, identificacion, nombre } = data;
+        const { idApartment, numRegister, identification, name } = data;
 
-        if (!idDepartamento || !numRegistro || !identificacion || !nombre) {
+        if (!idApartment || !numRegister || !identification || !name) {
             throw new Error('Todos los campos son requeridos para crear un residente');
         }
 
         try {
-            const newResidentData = await ResidentRepository.createResident({ idDepartamento, numRegistro, identificacion, nombre });
-            return new Resident(newResidentData.id, newResidentData.idDepartamento, newResidentData.numRegistro, newResidentData.identificacion, newResidentData.nombre);
+            const newResidentData = await ResidentRepository.createResident({ idApartment, numRegister, identification, name });
+            return new Resident(newResidentData.id, newResidentData.idApartment, newResidentData.numRegister, newResidentData.identification, newResidentData.name);
         } catch (error) {
             throw new Error(`Error al crear el residente: ${error.message}`);
         }
@@ -57,17 +57,17 @@ const ResidentService = {
 
     // Actualizar un residente existente
     async updateResident(id, data) {
-        const { idDepartamento, numRegistro, identificacion, nombre } = data;
+        const { idApartment, numRegister, identification, name } = data;
 
         if (!id) throw new Error('ID de residente es requerido');
-        if (!idDepartamento || !numRegistro || !identificacion || !nombre) {
+        if (!idApartment || !numRegister || !identification || !name) {
             throw new Error('Todos los campos son requeridos para actualizar un residente');
         }
 
         try {
-            const updatedResidentData = await ResidentRepository.updateResident(id, { idDepartamento, numRegistro, identificacion, nombre });
+            const updatedResidentData = await ResidentRepository.updateResident(id, { idApartment, numRegister, identification, name });
             if (!updatedResidentData) throw new Error('Residente no encontrado o no actualizado');
-            return new Resident(updatedResidentData.id, updatedResidentData.idDepartamento, updatedResidentData.numRegistro, updatedResidentData.identificacion, updatedResidentData.nombre);
+            return new Resident(updatedResidentData.id, updatedResidentData.idApartment, updatedResidentData.numRegister, updatedResidentData.identification, updatedResidentData.name);
         } catch (error) {
             throw new Error(`Error al actualizar el residente con ID ${id}: ${error.message}`);
         }
@@ -80,7 +80,7 @@ const ResidentService = {
         try {
             const deletedResidentData = await ResidentRepository.deleteResident(id);
             if (!deletedResidentData) throw new Error('Residente no encontrado o ya eliminado');
-            return new Resident(deletedResidentData.id, deletedResidentData.idDepartamento, deletedResidentData.numRegistro, deletedResidentData.identificacion, deletedResidentData.nombre);
+            return new Resident(deletedResidentData.id, deletedResidentData.idApartment, deletedResidentData.numRegister, deletedResidentData.identification, deletedResidentData.name);
         } catch (error) {
             throw new Error(`Error al eliminar el residente con ID ${id}: ${error.message}`);
         }

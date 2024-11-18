@@ -47,6 +47,8 @@ router.get("/residents", async (req, res) => {
  *   get:
  *     summary: Obtener un residente por su ID
  *     tags: [Residente]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: id
  *         in: path
@@ -191,6 +193,8 @@ router.delete("/residents/:id", async (req, res) => {
  *   get:
  *     summary: Obtener residentes por ID de departamento
  *     tags: [Residente]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - name: departmentId
  *         in: path
