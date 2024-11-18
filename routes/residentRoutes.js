@@ -33,8 +33,8 @@ const router = express.Router();
  *         required: false
  *         schema:
  *           type: integer
- *           default: 100
- *         description: Cantidad de residentes por página (por defecto 100)
+ *           default: 50
+ *         description: Cantidad de residentes por página (por defecto 50)
  *     responses:
  *       200:
  *         description: Lista de residentes con metadatos de paginación
