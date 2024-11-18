@@ -1,7 +1,6 @@
 import express from "express";
-import { check, validationResult } from "express-validator";
-import residentService from "../services/residentService.js";
-import Resident from "../models/resident.js";
+import residentController from "../controllers/residentController.js";
+import { validateResident, validateDepartmentId } from "../middleware/validationMiddleware.js";
 
 const router = express.Router();
 
@@ -92,33 +91,7 @@ const router = express.Router();
  *       500:
  *         description: Error getting residents
  */
-router.get("/residents", async (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.pageSize) || 50;
-
-    try {
-        // Obtener los residentes con paginación
-        const residents = await residentService.getAllResidents(page, pageSize);
-
-        // Obtener el total de residentes
-        const totalResidents = await residentService.getTotalResidents();
-
-        // Calcular la cantidad total de páginas
-        const totalPages = Math.ceil(totalResidents / pageSize);
-
-        // Responder con los residentes y metadatos de la paginación
-        res.json({
-            residents,
-            totalResidents,
-            totalPages,
-            currentPage: page,
-            pageSize: pageSize
-        });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
+router.get("/residents", residentController.getAllResidents);
 
 /**
  * @swagger
@@ -147,17 +120,7 @@ router.get("/residents", async (req, res) => {
  *       500:
  *         description: Error fetching the resident
  */
-router.get("/residents/:id", async (req, res) => {
-    try {
-        const resident = await residentService.getResidentById(req.params.id);
-        if (!resident) {
-            return res.status(404).json({ error: "Resident not found" });
-        }
-        res.json(resident);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+router.get("/residents/:id", residentController.getResidentById);
 
 /**
  * @swagger
@@ -203,16 +166,7 @@ router.get("/residents/:id", async (req, res) => {
  *       500:
  *         description: Error creating the resident
  */
-router.post("/residents", validateResident, async (req, res) => {
-    try {
-        const { idApartment, numRegister, identification, name } = req.body;
-        const newResident = { idApartment, numRegister, identification, name };
-        const addedResident = await residentService.createResident(newResident);
-        res.status(201).json(addedResident);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+router.post("/residents", validateResident, residentController.createResident);
 
 /**
  * @swagger
@@ -243,19 +197,7 @@ router.post("/residents", validateResident, async (req, res) => {
  *       500:
  *         description: Error updating the resident
  */
-router.put("/residents/:id", validateResident, async (req, res) => {
-    try {
-        const { id } = req.params;
-        const updatedData = req.body;
-        const updatedResident = await residentService.updateResident(id, updatedData);
-        if (!updatedResident) {
-            return res.status(404).json({ error: "Resident not found" });
-        }
-        res.json(updatedResident);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+router.put("/residents/:id", validateResident, residentController.updateResident);
 
 /**
  * @swagger
@@ -280,17 +222,7 @@ router.put("/residents/:id", validateResident, async (req, res) => {
  *       500:
  *         description: Error deleting the resident
  */
-router.delete("/residents/:id", async (req, res) => {
-    try {
-        const result = await residentService.deleteResident(req.params.id);
-        if (!result) {
-            return res.status(404).json({ error: "Resident not found" });
-        }
-        res.json({ message: "Resident successfully deleted" });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+router.delete("/residents/:id", residentController.deleteResident);
 
 /**
  * @swagger
@@ -321,16 +253,6 @@ router.delete("/residents/:id", async (req, res) => {
  *       500:
  *         description: Error fetching residents
  */
-router.get("/residents/department/:departmentId", async (req, res) => {
-    try {
-        const residents = await residentService.findResidentsByDepartment(req.params.departmentId);
-        if (!residents.length) {
-            return res.status(404).json({ error: "No residents found for this department" });
-        }
-        res.json(residents);
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
+router.get("/residents/department/:departmentId", validateDepartmentId, residentController.getResidentsByDepartment);
 
 export default router;
