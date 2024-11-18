@@ -6,7 +6,7 @@ const ResidentUserRepository = {
     async createResidentUser(residentId, username, email, password) {
         try {
             const query = `
-                INSERT INTO ResidentUser (idResident, username, email, password)
+                INSERT INTO ResidentUser (residentId, username, email, password)
                 VALUES ($1, $2, $3, $4)
                 RETURNING *
             `;
@@ -50,7 +50,7 @@ const ResidentUserRepository = {
             `;
             const { rows } = await db.query(query, [email]);
             if (rows.length === 0) {
-                return null; // Devuelve null si no encuentra el usuario
+                return null;
             }
             const row = rows[0];
             return new ResidentUser(row.id, row.idResident, row.username, row.email, row.password);
