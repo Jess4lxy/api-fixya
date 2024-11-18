@@ -12,7 +12,7 @@ export const validateResident = [
     }
 ];
 
-export const validateDepartmentId = [
+export const validateApartmentId = [
     check("idApartment").isInt().withMessage("El ID de departamento debe ser un número entero"),
     (req, res, next) => {
         const errors = validationResult(req);

@@ -40,10 +40,10 @@ const ResidentRepository = {
     },
 
     // Obtener residentes por ID de departamento
-    async getResidentsByDepartment(departmentId) {
+    async getResidentsByApartment(idApartment) {
         try {
             const query = 'SELECT * FROM Resident WHERE idapartment = $1';
-            const { rows } = await db.query(query, [departmentId]);
+            const { rows } = await db.query(query, [idApartment]);
             if (rows.length === 0) {
                 return [];
             }

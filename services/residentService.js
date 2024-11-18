@@ -35,9 +35,9 @@ const ResidentService = {
     },
 
     // Obtener residentes por ID de departamento
-    async findResidentsByDepartment(departmentId) {
+    async findResidentsByApartment(idApartment) {
         try {
-            const rows = await ResidentRepository.getResidentsByDepartment(departmentId);
+            const rows = await ResidentRepository.getResidentsByApartment(idApartment);
             if (rows.length === 0) {
                 throw new Error('No se encontraron residentes para este departamento');
             }

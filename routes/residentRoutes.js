@@ -1,6 +1,6 @@
 import express from "express";
 import residentController from "../controllers/residentController.js";
-import { validateResident, validateDepartmentId } from "../middleware/validationMiddleware.js";
+import { validateResident, validateApartmentId } from "../middleware/validationMiddleware.js";
 
 const residentRoutes = express.Router();
 
@@ -188,7 +188,25 @@ residentRoutes.post("/residents", validateResident, residentController.createRes
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Resident'
+ *             type: object
+ *             properties:
+ *               nombre:
+ *                 type: string
+ *                 description: The name of the resident
+ *               idApartment:
+ *                 type: integer
+ *                 description: The ID of the apartment
+ *               numRegister:
+ *                 type: string
+ *                 description: The registration number
+ *               identification:
+ *                 type: string
+ *                 description: The identification number
+ *             required:
+ *               - nombre
+ *               - idApartment
+ *               - numRegister
+ *               - identification
  *     responses:
  *       200:
  *         description: Resident successfully updated
@@ -226,22 +244,22 @@ residentRoutes.delete("/residents/:id", residentController.deleteResident);
 
 /**
  * @swagger
- * /api/residents/department/{departmentId}:
+ * /api/residents/apartment/{idApartment}:
  *   get:
- *     summary: Get residents by department ID
+ *     summary: Get residents by Apartment ID
  *     tags: [Resident]
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - name: departmentId
+ *       - name: idApartment
  *         in: path
  *         required: true
- *         description: Department ID
+ *         description: resident's apartment id
  *         schema:
  *           type: integer
  *     responses:
  *       200:
- *         description: List of residents in the department
+ *         description: List of residents in the apartment
  *         content:
  *           application/json:
  *             schema:
@@ -253,6 +271,6 @@ residentRoutes.delete("/residents/:id", residentController.deleteResident);
  *       500:
  *         description: Error fetching residents
  */
-residentRoutes.get("/residents/department/:departmentId", validateDepartmentId, residentController.getResidentsByDepartment);
+residentRoutes.get("/residents/apartment/:idApartment", validateApartmentId, residentController.getResidentsByApartment);
 
 export default residentRoutes;

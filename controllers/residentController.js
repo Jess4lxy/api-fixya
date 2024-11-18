@@ -52,9 +52,9 @@ const deleteResident = async (req, res) => {
     }
 };
 
-const getResidentsByDepartment = async (req, res) => {
+const getResidentsByApartment = async (req, res) => {
     try {
-        const residents = await residentService.findResidentsByDepartment(req.params.departmentId);
+        const residents = await residentService.findResidentsByApartment(req.params.idApartment);
         if (!residents.length) return res.status(404).json({ error: "No se encontraron residentes" });
         res.json(residents);
     } catch (error) {
@@ -68,5 +68,5 @@ export default {
     createResident,
     updateResident,
     deleteResident,
-    getResidentsByDepartment,
+    getResidentsByApartment,
 };
