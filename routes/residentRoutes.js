@@ -8,8 +8,38 @@ const router = express.Router();
 /**
  * @swagger
  * tags:
- *   - name: Residente
+ *   - name: Resident
  *     description: Operaciones relacionadas con los residentes.
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     Resident:
+ *       type: object
+ *       properties:
+ *         ID:
+ *           type: integer
+ *           description: ID del residente
+ *         IDDepartamento:
+ *           type: integer
+ *           description: ID del departamento asociado al residente
+ *         numRegistro:
+ *           type: string
+ *           description: Número de registro único del residente
+ *         identificacion:
+ *           type: string
+ *           description: Identificación del residente
+ *         nombre:
+ *           type: string
+ *           description: Nombre del residente
+ *       required:
+ *         - ID
+ *         - IDDepartamento
+ *         - numRegistro
+ *         - identificacion
+ *         - nombre
  */
 
 /**
@@ -64,7 +94,7 @@ const router = express.Router();
  */
 router.get("/residents", async (req, res) => {
     const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.pageSize) || 100;
+    const pageSize = parseInt(req.query.pageSize) || 50;
 
     try {
         // Obtener los residentes con paginación
