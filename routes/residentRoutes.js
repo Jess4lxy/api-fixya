@@ -190,9 +190,6 @@ residentRoutes.post("/residents", validateResident, residentController.createRes
  *           schema:
  *             type: object
  *             properties:
- *               nombre:
- *                 type: string
- *                 description: The name of the resident
  *               idApartment:
  *                 type: integer
  *                 description: The ID of the apartment
@@ -202,11 +199,14 @@ residentRoutes.post("/residents", validateResident, residentController.createRes
  *               identification:
  *                 type: string
  *                 description: The identification number
+ *               name:
+ *                 type: string
+ *                 description: The name of the resident
  *             required:
- *               - nombre
  *               - idApartment
  *               - numRegister
  *               - identification
+ *               - name
  *     responses:
  *       200:
  *         description: Resident successfully updated
