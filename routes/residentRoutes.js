@@ -9,7 +9,7 @@ const router = express.Router();
  * @swagger
  * tags:
  *   - name: Resident
- *     description: Operaciones relacionadas con los residentes.
+ *     description: Movements related to residents
  */
 
 /**
@@ -19,35 +19,35 @@ const router = express.Router();
  *     Resident:
  *       type: object
  *       properties:
- *         ID:
+ *         id:
  *           type: integer
- *           description: ID del residente
- *         IDDepartamento:
+ *           description: resident id in the database
+ *         idApartment:
  *           type: integer
- *           description: ID del departamento asociado al residente
- *         numRegistro:
+ *           description: resident's apartment id
+ *         numRegister:
  *           type: string
- *           description: Número de registro único del residente
- *         identificacion:
+ *           description: resident's unique number registration
+ *         identification:
  *           type: string
- *           description: Identificación del residente
- *         nombre:
+ *           description: resident identification
+ *         name:
  *           type: string
- *           description: Nombre del residente
+ *           description: resident name
  *       required:
- *         - ID
- *         - IDDepartamento
- *         - numRegistro
- *         - identificacion
- *         - nombre
+ *         - id
+ *         - idApartment
+ *         - numRegister
+ *         - identification
+ *         - name
  */
 
 /**
  * @swagger
  * /api/residents:
  *   get:
- *     summary: Obtener todos los residentes con paginación
- *     tags: [Residente]
+ *     summary: Get all residents
+ *     tags: [Resident]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -57,17 +57,17 @@ const router = express.Router();
  *         schema:
  *           type: integer
  *           default: 1
- *         description: Número de página para la paginación (por defecto 1)
+ *         description: Pages number (default 1)
  *       - in: query
  *         name: pageSize
  *         required: false
  *         schema:
  *           type: integer
  *           default: 50
- *         description: Cantidad de residentes por página (por defecto 50)
+ *         description: Residents per page (default 50)
  *     responses:
  *       200:
- *         description: Lista de residentes con metadatos de paginación
+ *         description: Resident List
  *         content:
  *           application/json:
  *             schema:
@@ -79,18 +79,18 @@ const router = express.Router();
  *                     $ref: '#/components/schemas/Resident'
  *                 totalResidents:
  *                   type: integer
- *                   description: Total de residentes en la base de datos
+ *                   description: Total residents in the database
  *                 totalPages:
  *                   type: integer
- *                   description: Número total de páginas
+ *                   description: Total pages to show
  *                 currentPage:
  *                   type: integer
- *                   description: Página actual
+ *                   description: Current showed page
  *                 pageSize:
  *                   type: integer
- *                   description: Cantidad de elementos por página
+ *                   description: Elements per page
  *       500:
- *         description: Error al obtener los residentes
+ *         description: Error getting residents
  */
 router.get("/residents", async (req, res) => {
     const page = parseInt(req.query.page) || 1;
