@@ -7,9 +7,9 @@ const router = express.Router();
  * @swagger
  * /api/register:
  *   post:
- *     summary: Registrar un nuevo residente
- *     description: Registra un nuevo residente proporcionando la información necesaria.
- *     tags: [Autenticación]
+ *     summary: Register a new resident user
+ *     tags: [Authentication]
+ *     description: Registers a new resident user by providing the necessary information.
  *     requestBody:
  *       required: true
  *       content:
@@ -24,21 +24,23 @@ const router = express.Router();
  *             properties:
  *               residentId:
  *                 type: string
- *                 description: ID único del residente
+ *                 description: Unique ID of the resident
  *               username:
  *                 type: string
- *                 description: Nombre de usuario del residente
+ *                 description: Username of the resident
  *               email:
  *                 type: string
- *                 description: Correo electrónico del residente
+ *                 description: Resident's email address
  *               password:
  *                 type: string
- *                 description: Contraseña del residente
+ *                 description: Resident's password
  *     responses:
  *       201:
- *         description: Usuario registrado exitosamente
+ *         description: User successfully registered
  *       400:
- *         description: Error al registrar el usuario
+ *         description: Error registering the user
+ *       500:
+ *         description: Server error
  */
 router.post('/register', registerResident);
 
@@ -46,9 +48,9 @@ router.post('/register', registerResident);
  * @swagger
  * /api/login:
  *   post:
- *     summary: Iniciar sesión como residente
- *     description: Inicia sesión con el correo electrónico y la contraseña para obtener un token JWT.
- *     tags: [Autenticación]
+ *     summary: Login as a resident
+ *     tags: [Authentication]
+ *     description: Logs in with the email and password to obtain a JWT token.
  *     requestBody:
  *       required: true
  *       content:
@@ -61,13 +63,13 @@ router.post('/register', registerResident);
  *             properties:
  *               email:
  *                 type: string
- *                 description: Correo electrónico del residente
+ *                 description: Resident's email address
  *               password:
  *                 type: string
- *                 description: Contraseña del residente
+ *                 description: Resident's password
  *     responses:
  *       200:
- *         description: Inicio de sesión exitoso
+ *         description: Successful login
  *         content:
  *           application/json:
  *             schema:
@@ -75,15 +77,19 @@ router.post('/register', registerResident);
  *               properties:
  *                 message:
  *                   type: string
- *                   example: "Inicio de sesión exitoso"
+ *                   example: "Login successful"
  *                 token:
  *                   type: string
- *                   description: Token JWT para autenticación
+ *                   description: JWT token for authentication
  *                 resident:
  *                   type: object
- *                   description: Datos del residente autenticado
+ *                   description: Data of the authenticated resident
  *       400:
- *         description: Error al iniciar sesión
+ *         description: Error logging in
+ *       401:
+ *         description: Incorrect credentials
+ *       500:
+ *         description: Server error
  */
 router.post('/login', loginResident);
 
