@@ -24,7 +24,7 @@ const router = express.Router();
  *               - password
  *             properties:
  *               residentId:
- *                 type: string
+ *                 type: int
  *                 description: Unique ID of the resident
  *               username:
  *                 type: string
