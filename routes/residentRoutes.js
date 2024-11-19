@@ -124,7 +124,7 @@ residentRoutes.get("/residents/:id", residentController.getResidentById);
 
 /**
  * @swagger
- * /api/residents:
+ * /api/residents/create:
  *   post:
  *     summary: Create a new resident
  *     tags: [Resident]
@@ -166,11 +166,11 @@ residentRoutes.get("/residents/:id", residentController.getResidentById);
  *       500:
  *         description: Error creating the resident
  */
-residentRoutes.post("/residents", validateResident, residentController.createResident);
+residentRoutes.post("/residents/create", validateResident, residentController.createResident);
 
 /**
  * @swagger
- * /api/residents/{id}:
+ * /api/residents/update/{id}:
  *   put:
  *     summary: Update a resident
  *     tags: [Resident]
@@ -215,11 +215,11 @@ residentRoutes.post("/residents", validateResident, residentController.createRes
  *       500:
  *         description: Error updating the resident
  */
-residentRoutes.put("/residents/:id", validateResident, residentController.updateResident);
-
+residentRoutes.put("/residents/update/:id", validateResident, residentController.updateResident);
+//recuerda hacer un nuevo validateResident unicamente para el put, debido a que en la actualizacion no es necesario que se cambien todos los datos
 /**
  * @swagger
- * /api/residents/{id}:
+ * /api/residents/delete/{id}:
  *   delete:
  *     summary: Delete a resident
  *     tags: [Resident]
@@ -240,7 +240,7 @@ residentRoutes.put("/residents/:id", validateResident, residentController.update
  *       500:
  *         description: Error deleting the resident
  */
-residentRoutes.delete("/residents/:id", residentController.deleteResident);
+residentRoutes.delete("/residents/delete/:id", residentController.deleteResident);
 
 /**
  * @swagger

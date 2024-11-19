@@ -62,11 +62,4 @@ const getResidentsByApartment = async (req, res) => {
     }
 };
 
-export default {
-    getAllResidents,
-    getResidentById,
-    createResident,
-    updateResident,
-    deleteResident,
-    getResidentsByApartment,
-};
+export default { getAllResidents, getResidentById, createResident, updateResident, deleteResident, getResidentsByApartment };

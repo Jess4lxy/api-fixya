@@ -2,7 +2,7 @@ import Resident from '../models/resident.js';
 import db from '../data/database.js';
 
 const ResidentRepository = {
-    // Obtener el total de residentes
+// Obtener el total de residentes
     async getTotalResidents() {
         try {
             const query = 'SELECT COUNT(*) FROM Resident';
