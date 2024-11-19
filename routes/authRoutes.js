@@ -1,5 +1,6 @@
 import express from 'express';
 import { registerResident, loginResident } from '../controllers/authController.js';
+import { validateResidentRegister } from '../middleware/validationMiddleware.js';
 
 const router = express.Router();
 
@@ -91,6 +92,6 @@ router.post('/register', registerResident);
  *       500:
  *         description: Server error
  */
-router.post('/login', loginResident);
+router.post('/login', validateResidentRegister, loginResident);
 
 export default router;

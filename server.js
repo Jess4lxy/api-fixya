@@ -21,14 +21,14 @@ const initializeDBConnection = async () => {
         console.log('Conexión a la base de datos establecida:', res.rows[0]);
     } catch (err) {
         console.error('Error al conectar a la base de datos:', err);
-        process.exit(1); // Salir si no se puede conectar
+        process.exit(1);
     }
 };
 
 await initializeDBConnection();
 
 // CORS middleware
-app.use(cors({ origin: ['https://api-fixya.onrender.com', 'http://localhost:3000'] }));
+app.use(cors({ origin: ['https://api-fixya.onrender.com', 'http://localhost:10000'] }));
 
 // Middleware de Morgan para logging de peticiones HTTP
 app.use(morgan('dev'));
