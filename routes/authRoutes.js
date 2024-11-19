@@ -43,7 +43,7 @@ const router = express.Router();
  *       500:
  *         description: Server error
  */
-router.post('/register', registerResident);
+router.post('/register', validateResidentRegister, registerResident);
 
 /**
  * @swagger
