@@ -1,5 +1,6 @@
 import express from "express";
 import apartmentController from "../controllers/apartmentController.js";
+import { validateApartment, validateUpdatingApartment } from "../middleware/validationMiddleware.js";
 
 const apartmentRoutes = express.Router();
 

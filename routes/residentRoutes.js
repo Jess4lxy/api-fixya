@@ -1,6 +1,6 @@
 import express from "express";
 import residentController from "../controllers/residentController.js";
-import { validateResident, validateApartmentId } from "../middleware/validationMiddleware.js";
+import { validateResident, validateUpdatingResident, validateApartmentId } from "../middleware/validationMiddleware.js";
 
 const residentRoutes = express.Router();
 
@@ -215,7 +215,7 @@ residentRoutes.post("/residents/create", validateResident, residentController.cr
  *       500:
  *         description: Error updating the resident
  */
-residentRoutes.put("/residents/update/:id", validateResident, residentController.updateResident);
+residentRoutes.put("/residents/update/:id", validateUpdatingResident, residentController.updateResident);
 //recuerda hacer un nuevo validateResident unicamente para el put, debido a que en la actualizacion no es necesario que se cambien todos los datos
 /**
  * @swagger
