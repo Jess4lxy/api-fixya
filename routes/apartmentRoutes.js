@@ -8,7 +8,7 @@ const apartmentRoutes = express.Router();
  * @swagger
  * tags:
  *   - name: Apartment
- *     description: Movements related to Apartment administration.
+ *     description: Operations related to apartment management.
  */
 
 /**
@@ -20,24 +20,29 @@ const apartmentRoutes = express.Router();
  *       properties:
  *         id:
  *           type: integer
- *           description: apartment id in the database
+ *           description: Unique identifier of the apartment in the database.
+ *           example: 1
  *         apartmentNumber:
  *           type: string
- *           description: apartment numeration or "physical identification"
+ *           description: Apartment's number or physical identification.
+ *           example: "A-101"
  *         floor:
  *           type: integer
- *           description: apartment floor in the building
+ *           description: Apartment's floor in the building.
+ *           example: 2
  *         squareMeters:
- *           type: decimal
- *           description: apartment square meters
+ *           type: number
+ *           description: Apartment's size in square meters.
+ *           example: 75.5
  *         bathroomsNumber:
  *           type: integer
- *           description: number of bathrooms in the apartment
+ *           description: Number of bathrooms in the apartment.
+ *           example: 2
  *         roomsNumber:
  *           type: integer
- *           description: number of dormrooms in the apartment
+ *           description: Number of rooms in the apartment.
+ *           example: 3
  *       required:
- *         - id
  *         - apartmentNumber
  *         - floor
  *         - squareMeters
@@ -49,7 +54,7 @@ const apartmentRoutes = express.Router();
  * @swagger
  * /api/apartments:
  *   get:
- *     summary: Get all apartments
+ *     summary: Retrieve all apartments
  *     tags: [Apartment]
  *     security:
  *       - bearerAuth: []
@@ -60,17 +65,17 @@ const apartmentRoutes = express.Router();
  *         schema:
  *           type: integer
  *           default: 1
- *         description: Pages number (default 1)
+ *         description: Page number (default is 1).
  *       - in: query
  *         name: pageSize
  *         required: false
  *         schema:
  *           type: integer
  *           default: 50
- *         description: Apartments per page (default 50)
+ *         description: Number of apartments per page (default is 50).
  *     responses:
  *       200:
- *         description: Apartment List
+ *         description: List of apartments retrieved successfully.
  *         content:
  *           application/json:
  *             schema:
@@ -82,18 +87,22 @@ const apartmentRoutes = express.Router();
  *                     $ref: '#/components/schemas/Apartment'
  *                 totalApartments:
  *                   type: integer
- *                   description: Total apartments in the database
+ *                   description: Total number of apartments.
+ *                   example: 150
  *                 totalPages:
  *                   type: integer
- *                   description: Total pages to show
+ *                   description: Total number of pages available.
+ *                   example: 3
  *                 currentPage:
  *                   type: integer
- *                   description: Current showed page
+ *                   description: Current page number.
+ *                   example: 1
  *                 pageSize:
  *                   type: integer
- *                   description: Elements per page
+ *                   description: Number of apartments per page.
+ *                   example: 50
  *       500:
- *         description: Error getting apartments
+ *         description: Internal server error.
  */
 apartmentRoutes.get("/apartments", apartmentController.getAllApartments);
 
@@ -101,36 +110,37 @@ apartmentRoutes.get("/apartments", apartmentController.getAllApartments);
  * @swagger
  * /api/apartments/{id}:
  *   get:
- *     summary: Get an apartment by ID
+ *     summary: Retrieve a specific apartment by ID
  *     tags: [Apartment]
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
  *         required: true
- *         description: Apartment's ID
  *         schema:
  *           type: integer
+ *           description: ID of the apartment to retrieve.
+ *           example: 1
  *     responses:
  *       200:
- *         description: Apartment found
+ *         description: Apartment retrieved successfully.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Apartment'
  *       404:
- *         description: Apartment not found
+ *         description: Apartment not found.
  *       500:
- *         description: Error fetching the apartment
+ *         description: Internal server error.
  */
 apartmentRoutes.get("/apartments/:id", apartmentController.getApartmentById);
 
 /**
  * @swagger
- * /api/apartments/create:
+ * /api/apartments:
  *   post:
- *     summary: Create a new apartment into the database
+ *     summary: Add a new apartment
  *     tags: [Apartment]
  *     security:
  *       - bearerAuth: []
@@ -139,119 +149,81 @@ apartmentRoutes.get("/apartments/:id", apartmentController.getApartmentById);
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               apartmentNumber:
- *                 type: string
- *                 description: apartment numeration or "physical identification"
- *               floor:
- *                 type: integer
- *                 description: apartment floor in the building
- *               squareMeters:
- *                 type: decimal
- *                 description: apartment square meters
- *               bathroomsNumber:
- *                 type: integer
- *                 description: number of bathrooms in the apartment
- *               roomsNumber:
- *                 type: integer
- *                 description: number of dormrooms in the apartment
- *             required:
- *               - apartmentNumber
- *               - floor
- *               - squareMeters
- *               - bathroomsNumber
- *               - roomsNumber
+ *             $ref: '#/components/schemas/Apartment'
  *     responses:
  *       201:
- *         description: Apartment successfully created
+ *         description: Apartment created successfully.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Apartment'
  *       400:
- *         description: Invalid input
+ *         description: Invalid input data.
  *       500:
- *         description: Error creating the apartment
+ *         description: Internal server error.
  */
-apartmentRoutes.post("/apartments/create", validateApartment, apartmentController.createApartment);
+apartmentRoutes.post("/apartments", validateApartment, apartmentController.createApartment);
 
 /**
  * @swagger
- * /api/apartments/update/{id}:
+ * /api/apartments/{id}:
  *   put:
- *     summary: Update an apartment
+ *     summary: Update an existing apartment
  *     tags: [Apartment]
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
  *         required: true
- *         description: ID of the apartment to update
  *         schema:
  *           type: integer
+ *           description: ID of the apartment to update.
+ *           example: 1
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             type: object
- *             properties:
- *               apartmentNumber:
- *                 type: string
- *                 description: apartment numeration or "physical identification"
- *               floor:
- *                 type: integer
- *                 description: apartment floor in the building
- *               squareMeters:
- *                 type: decimal
- *                 description: apartment square meters
- *               bathroomsNumber:
- *                 type: integer
- *                 description: number of bathrooms in the apartment
- *               roomsNumber:
- *                 type: integer
- *                 description: number of dormrooms in the apartment
- *             required:
- *               - apartmentNumber
- *               - floor
- *               - squareMeters
- *               - bathroomsNumber
- *               - roomsNumber
+ *             $ref: '#/components/schemas/Apartment'
  *     responses:
  *       200:
- *         description: Apartment successfully updated
+ *         description: Apartment updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Apartment'
  *       404:
- *         description: Apartment not found
+ *         description: Apartment not found.
  *       500:
- *         description: Error updating the apartment
+ *         description: Internal server error.
  */
-apartmentRoutes.put("/apartments/update/:id", validateUpdatingApartment, apartmentController.updateApartment);
+apartmentRoutes.put("/apartments/:id", validateUpdatingApartment, apartmentController.updateApartment);
 
 /**
  * @swagger
- * /api/apartments/delete/{id}:
+ * /api/apartments/{id}:
  *   delete:
  *     summary: Delete an apartment
  *     tags: [Apartment]
  *     security:
  *       - bearerAuth: []
  *     parameters:
- *       - name: id
- *         in: path
+ *       - in: path
+ *         name: id
  *         required: true
- *         description: ID of the apartment to delete
  *         schema:
  *           type: integer
+ *           description: ID of the apartment to delete.
+ *           example: 1
  *     responses:
  *       200:
- *         description: Apartment successfully deleted
+ *         description: Apartment deleted successfully.
  *       404:
- *         description: Apartment not found
+ *         description: Apartment not found.
  *       500:
- *         description: Error deleting the apartment
+ *         description: Internal server error.
  */
-apartmentRoutes.delete("/apartments/delete/:id", apartmentController.deleteApartment);
+apartmentRoutes.delete("/apartments/:id", apartmentController.deleteApartment);
 
 export default apartmentRoutes;
