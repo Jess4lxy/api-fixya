@@ -47,7 +47,7 @@ const apartmentRoutes = express.Router();
 
 /**
  * @swagger
- * /api/apartment:
+ * /api/apartments:
  *   get:
  *     summary: Get all apartments
  *     tags: [Apartment]
