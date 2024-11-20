@@ -46,7 +46,7 @@ export const validateResidentRegister = [
 ];
 
 export const validateResidentLogin = [
-    check('username').exists().withMessage('El nombre de usuario es requerido').notEmpty().withMessage('El nombre de usuario es requerido'),
+    check('email').exists().withMessage('El correo electrónico es requerido').notEmpty().withMessage('El correo electrónico es requerido').isEmail().withMessage('El correo electrónico no es válido'),
     check('password').exists().withMessage('La contraseña es requerida').notEmpty().withMessage('La contraseña es requerida'),
     (req, res, next) => {
         const errors = validationResult(req);
