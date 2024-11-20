@@ -156,12 +156,12 @@ apartmentRoutes.get("/apartments/:id", apartmentController.getApartmentById);
  *               roomsNumber:
  *                 type: integer
  *                 description: number of dormrooms in the apartment
- *       required:
- *         - apartmentNumber
- *         - floor
- *         - squareMeters
- *         - bathroomsNumber
- *         - roomsNumber
+ *             required:
+ *               - apartmentNumber
+ *               - floor
+ *               - squareMeters
+ *               - bathroomsNumber
+ *               - roomsNumber
  *     responses:
  *       201:
  *         description: Apartment successfully created
@@ -213,12 +213,12 @@ apartmentRoutes.post("/apartments/create", validateApartment, apartmentControlle
  *               roomsNumber:
  *                 type: integer
  *                 description: number of dormrooms in the apartment
- *       required:
- *         - apartmentNumber
- *         - floor
- *         - squareMeters
- *         - bathroomsNumber
- *         - roomsNumber
+ *             required:
+ *               - apartmentNumber
+ *               - floor
+ *               - squareMeters
+ *               - bathroomsNumber
+ *               - roomsNumber
  *     responses:
  *       200:
  *         description: Apartment successfully updated
