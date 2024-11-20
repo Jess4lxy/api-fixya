@@ -15,7 +15,7 @@ const getAllApartments = async (req, res) => {
 
 const getApartmentById = async (req, res) => {
     try {
-        const apartment = await ApartmentService.getApartmentById(req.query.id);
+        const apartment = await ApartmentService.getApartmentById(req.params.id);
         if(!apartment) return res.status(404).json({ error: 'Departamento no encontrado'});
         res.json(apartment);
     } catch (error) {
