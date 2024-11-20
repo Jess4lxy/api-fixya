@@ -45,6 +45,16 @@ export const validateResidentRegister = [
     }
 ];
 
+export const validateResidentLogin = [
+    check('username').exists().withMessage('El nombre de usuario es requerido').notEmpty().withMessage('El nombre de usuario es requerido'),
+    check('password').exists().withMessage('La contraseña es requerida').notEmpty().withMessage('La contraseña es requerida'),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+        next();
+    }
+];
+
 export const validateApartment = [
     check("apartmentNumber").exists().withMessage('El ID del departamento es requerido').notEmpty().withMessage('El ID del departamento es requerido'),
     check("floor").exists().withMessage('El piso es requerido').notEmpty().withMessage('El piso es requerido').isInt().withMessage('El piso debe ser un número entero'),
