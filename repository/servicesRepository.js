@@ -1,5 +1,5 @@
 import Service from "../models/service.js";
-import db from '../database/db.js';
+import db from '../data/database.js';
 
 const ServiceRepository = {
     // Obtener el total de servicios
