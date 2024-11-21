@@ -149,41 +149,41 @@ apartmentRoutes.get("/apartments/:id", apartmentController.getApartmentById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Apartment'
+ *             type: object
+ *             properties:
+ *               apartmentNumber:
+ *                 type: string
+ *                 description: Apartment's number or physical identification.
+ *                 example: "A-101"
+ *               floor:
+ *                 type: integer
+ *                 description: Apartment's floor in the building.
+ *                 example: 2
+ *               squareMeters:
+ *                 type: number
+ *                 description: Apartment's size in square meters.
+ *                 example: 75.5
+ *               bathroomsNumber:
+ *                 type: integer
+ *                 description: Number of bathrooms in the apartment.
+ *                 example: 2
+ *               roomsNumber:
+ *                 type: integer
+ *                 description: Number of rooms in the apartment.
+ *                 example: 3
+ *             required:
+ *               - apartmentNumber
+ *               - floor
+ *               - squareMeters
+ *               - bathroomsNumber
+ *               - roomsNumber
  *     responses:
  *       201:
  *         description: Apartment created successfully.
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 apartmentNumber:
- *                   type: string
- *                   description: Apartment's number or physical identification.
- *                   example: "A-101"
- *                 floor:
- *                   type: integer
- *                   description: Apartment's floor in the building.
- *                   example: 2
- *                 squareMeters:
- *                   type: number
- *                   description: Apartment's size in square meters.
- *                   example: 75.5
- *                 bathroomsNumber:
- *                   type: integer
- *                   description: Number of bathrooms in the apartment.
- *                   example: 2
- *                 roomsNumber:
- *                   type: integer
- *                   description: Number of rooms in the apartment.
- *                   example: 3
- *               required:
- *                 - apartmentNumber
- *                 - floor
- *                 - squareMeters
- *                 - bathroomsNumber
- *                 - roomsNumber
+ *               $ref: '#/components/schemas/Apartment'
  *       400:
  *         description: Invalid input data.
  *       500:
