@@ -17,6 +17,7 @@ const ApartmentRepository = {
         try {
             const query = 'SELECT * FROM Apartment LIMIT $1 OFFSET $2';
             const { rows } = await db.query(query, [limit, offset]);
+            console.log("Datos insertados en la base de datos:", rows[0]);
             return rows.map(row => new Apartment(row.id, row.apartmentNumber, row.floor, row.squareMeters, row.bathroomsNumber, row.roomsNumber));
         } catch (error) {
             throw new Error(`Error al obtener todos los departamentos: ${error.message}`);

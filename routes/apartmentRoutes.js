@@ -138,7 +138,7 @@ apartmentRoutes.get("/apartments/:id", apartmentController.getApartmentById);
 
 /**
  * @swagger
- * /api/apartments:
+ * /api/apartments/create:
  *   post:
  *     summary: Add a new apartment
  *     tags: [Apartment]
@@ -162,11 +162,11 @@ apartmentRoutes.get("/apartments/:id", apartmentController.getApartmentById);
  *       500:
  *         description: Internal server error.
  */
-apartmentRoutes.post("/apartments", validateApartment, apartmentController.createApartment);
+apartmentRoutes.post("/apartments/create", validateApartment, apartmentController.createApartment);
 
 /**
  * @swagger
- * /api/apartments/{id}:
+ * /api/apartments/update/{id}:
  *   put:
  *     summary: Update an existing apartment
  *     tags: [Apartment]
@@ -198,11 +198,11 @@ apartmentRoutes.post("/apartments", validateApartment, apartmentController.creat
  *       500:
  *         description: Internal server error.
  */
-apartmentRoutes.put("/apartments/:id", validateUpdatingApartment, apartmentController.updateApartment);
+apartmentRoutes.put("/apartments/update/:id", validateUpdatingApartment, apartmentController.updateApartment);
 
 /**
  * @swagger
- * /api/apartments/{id}:
+ * /api/apartments/delete/{id}:
  *   delete:
  *     summary: Delete an apartment
  *     tags: [Apartment]
@@ -224,6 +224,6 @@ apartmentRoutes.put("/apartments/:id", validateUpdatingApartment, apartmentContr
  *       500:
  *         description: Internal server error.
  */
-apartmentRoutes.delete("/apartments/:id", apartmentController.deleteApartment);
+apartmentRoutes.delete("/apartments/delete/:id", apartmentController.deleteApartment);
 
 export default apartmentRoutes;
