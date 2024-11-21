@@ -15,7 +15,7 @@ const servicesService = {
     async getAllServices(page = 1, pageSize = 50) {
         try {
             const offset = (page - 1) * pageSize;
-            const services = await ServiceRepository.getAllServices({ limit, offset });
+            const services = await ServiceRepository.getAllServices({ limit: pageSize, offset });
             return services
         } catch (error) {
             throw new Error(`Error al obtener todos los servicios: ${error.message}`);
