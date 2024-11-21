@@ -49,9 +49,9 @@ const servicesService = {
         const { category, serviceType, description, basePrice, quantityAdjustment } = data;
 
         try {
-            const newServiceData = await ServiceRepository.updateService(id, {category, serviceType, description, basePrice, quantityAdjustment});
-            if (!newServiceData) throw new Error("Servicio no encontrado o no actualizado");
-            return new Service(newServiceData);
+            const updatedServiceData = await ServiceRepository.updateService(id, {category, serviceType, description, basePrice, quantityAdjustment});
+            if (!updatedServiceData) throw new Error("Servicio no encontrado o no actualizado");
+            return new Service(updatedServiceData);
         } catch(error) {
             throw new Error(`Error al actualizar el servicio con ID ${id}: ${error.message}`);
         }
@@ -63,7 +63,7 @@ const servicesService = {
             const deletedServiceData = await ServiceRepository.deleteService(id);
             if (!deletedServiceData) throw new Error("Servicio no encontrado o ya eliminado");
             return new Service(deletedServiceData);
-        } catch {
+        } catch (error) {
             throw new Error(`Error al eliminar el servicio con ID ${id}: ${error.message}`);
         }
     },
