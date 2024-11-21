@@ -17,8 +17,7 @@ const ApartmentRepository = {
         try {
             const query = 'SELECT * FROM Apartment LIMIT $1 OFFSET $2';
             const { rows } = await db.query(query, [limit, offset]);
-            console.log("Datos insertados en la base de datos:", rows[0]);
-            return rows.map(row => new Apartment(row.id, row.apartmentNumber, row.floor, row.squareMeters, row.bathroomsNumber, row.roomsNumber));
+            return rows.map(row => new Apartment(row.id, row.apartmentnumber, row.floor, row.squaremeters, row.bathroomsnumber, row.roomsnumber));
         } catch (error) {
             throw new Error(`Error al obtener todos los departamentos: ${error.message}`);
         }
@@ -32,7 +31,7 @@ const ApartmentRepository = {
                 return null;
             }
             const row = rows[0];
-            return new Apartment(row.id, row.apartmentNumber, row.floor, row.squareMeters, row.bathroomsNumber, row.roomsNumber);
+            return new Apartment(row.id, row.apartmentnumber, row.floor, row.squaremeters, row.bathroomsnumber, row.roomsnumber);
         } catch (error) {
             throw new Error(`Error al obtener el departamento: ${error.message}`);
         }
@@ -44,7 +43,7 @@ const ApartmentRepository = {
             const query = 'INSERT INTO Apartment (apartmentNumber, floor, squareMeters, bathroomsNumber, roomsNumber) VALUES ($1, $2, $3, $4, $5) RETURNING *';
             const { rows } = await db.query(query, [apartmentNumber, floor, squareMeters, bathroomsNumber, roomsNumber]);
             const row = rows[0];
-            return new Apartment(row.id, row.apartmentNumber, row.floor, row.squareMeters, row.bathroomsNumber, row.roomsNumber);
+            return new Apartment(row.id, row.apartmentnumber, row.floor, row.squaremeters, row.bathroomsnumber, row.roomsnumber);
         } catch (error) {
             throw new Error(`Error al crear el departamento: ${error.message}`);
         }
@@ -59,7 +58,7 @@ const ApartmentRepository = {
                 return null;
             }
             const row = rows[0];
-            return new Apartment(row.id, row.apartmentNumber, row.floor, row.squareMeters, row.bathroomsNumber, row.roomsNumber);
+            return new Apartment(row.id, row.apartmentnumber, row.floor, row.squaremeters, row.bathroomsnumber, row.roomsnumber);
         } catch (error) {
             throw new Error(`Error al actualizar el departamento: ${error.message}`);
         }
@@ -73,7 +72,7 @@ const ApartmentRepository = {
                 return null;
             }
             const row = rows[0];
-            return new Apartment(row.id, row.apartmentNumber, row.floor, row.squareMeters, row.bathroomsNumber, row.roomsNumber);
+            return new Apartment(row.id, row.apartmentnumber, row.floor, row.squaremeters, row.bathroomsnumber, row.roomsnumber);
         } catch (error) {
             throw new Error(`Error al eliminar el departamento: ${error.message}`);
         }

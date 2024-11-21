@@ -16,7 +16,6 @@ const ApartmentService = {
         try {
             const offset = (page - 1) * pageSize;
             const apartmentsData = await ApartmentRepository.getAllApartments({limit: pageSize, offset});
-            console.log('datos pasando por el service: ', apartmentsData);
             return apartmentsData;
         } catch (error) {
             throw new Error(`Error al obtener todos los departamentos: ${error.message}`);
