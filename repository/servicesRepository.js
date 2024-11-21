@@ -22,7 +22,7 @@ const ServiceRepository = {
                 LIMIT $1 OFFSET $2
             `;
             const { rows } = await db.query(query, [limit, offset]);
-            return rows.map(row => Service.fromDb(row));
+            return rows.map(row => new Service(row.id, row.category, row.servicetype, row.description, row.basePrice, row.quantityadjustment));
         } catch (error) {
             throw new Error(`Error al obtener todos los servicios: ${error.message}`);
         }
@@ -36,7 +36,8 @@ const ServiceRepository = {
             if (rows.length === 0) {
                 throw new Error('No se encontró el servicio con el ID especificado');
             }
-            return Service.fromDb(rows[0]);
+            const row = rows[0];
+            return new Service(row.id, row.category, row.servicetype, row.description, row.basePrice, row.quantityadjustment);
         } catch (error) {
             throw new Error(`Error al obtener el servicio con ID ${id}: ${error.message}`);
         }
@@ -49,7 +50,8 @@ const ServiceRepository = {
             const query = 'INSERT INTO Service (category, serviceType, description, basePrice, quantityAdjustment) VALUES ($1, $2, $3, $4, $5) RETURNING *';
             const values = [category, serviceType, description, basePrice, quantityAdjustment];
             const { rows } = await db.query(query, values);
-            return Service.fromDb(rows[0]);
+            const row = rows[0];
+            return new Service(row.id, row.category, row.servicetype, row.description, row.basePrice, row.quantityadjustment);
         } catch (error) {
             throw new Error(`Error al crear el nuevo servicio: ${error.message}`);
         }
@@ -64,7 +66,8 @@ const ServiceRepository = {
             if (rows.length === 0) {
                 throw new Error('No se encontró el servicio con el ID especificado');
             }
-            return Service.fromDb(rows[0]);
+            const row = rows[0];
+            return new Service(row.id, row.category, row.servicetype, row.description, row.basePrice, row.quantityadjustment);
         } catch (error) {
             throw new Error(`Error al actualizar el servicio con ID ${id}: ${error.message}`);
         }
@@ -78,7 +81,8 @@ const ServiceRepository = {
             if (rows.length === 0) {
                 throw new Error('No se encontró el servicio con el ID especificado');
             }
-            return Service.fromDb(rows[0]);
+            const row = rows[0];
+            return new Service(row.id, row.category, row.servicetype, row.description, row.basePrice, row.quantityadjustment);
         } catch (error) {
             throw new Error(`Error al eliminar el servicio con ID ${id}: ${error.message}`);
         }
