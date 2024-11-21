@@ -21,8 +21,7 @@ const ServiceRepository = {
                 FROM Service
                 LIMIT $1 OFFSET $2
             `;
-            const values = [limit, offset];
-            const { rows } = await db.query(query, values);
+            const { rows } = await db.query(query, [limit, offset]);
             return rows.map(row => Service.fromDb(row));
         } catch (error) {
             throw new Error(`Error al obtener todos los servicios: ${error.message}`);
