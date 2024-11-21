@@ -148,7 +148,30 @@ serviceRoutes.get("/services/:id", serviceController.getServiceById);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Service'
+ *             type: object
+ *             properties:
+ *               category:
+ *                 type: string
+ *                 description: The category of the service
+ *               serviceType:
+ *                 type: string
+ *                 description: The type of the service
+ *               description:
+ *                 type: string
+ *                 description: A detailed description of the service
+ *               basePrice:
+ *                 type: number
+ *                 format: float
+ *                 description: The base price of the service
+ *               quantityAdjustment:
+ *                 type: boolean
+ *                 description: Whether the service allows quantity adjustments
+ *             required:
+ *               - category
+ *               - serviceType
+ *               - description
+ *               - basePrice
+ *               - quantityAdjustment
  *     responses:
  *       201:
  *         description: Service created successfully.

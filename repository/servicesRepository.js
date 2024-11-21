@@ -18,7 +18,7 @@ const ServiceRepository = {
         try {
             const query = 'SELECT * FROM Service LIMIT $1 OFFSET $2';
             const { rows } = await db.query(query, [limit, offset]);
-            return rows.map(row => new Service(row.id, row.category, row.servicetype, row.description, row.basePrice, row.quantityadjustment));
+            return rows.map(row => new Service(row.id, row.category, row.servicetype, row.description, row.baseprice, row.quantityadjustment));
         } catch (error) {
             throw new Error(`Error al obtener todos los servicios: ${error.message}`);
         }
@@ -30,10 +30,10 @@ const ServiceRepository = {
             const query = 'SELECT * FROM Service WHERE id = $1';
             const { rows } = await db.query(query, [id]);
             if (rows.length === 0) {
-                throw new Error('No se encontró el servicio con el ID especificado');
+                return null;
             }
             const row = rows[0];
-            return new Service(row.id, row.category, row.servicetype, row.description, row.basePrice, row.quantityadjustment);
+            return new Service(row.id, row.category, row.servicetype, row.description, row.baseprice, row.quantityadjustment);
         } catch (error) {
             throw new Error(`Error al obtener el servicio con ID ${id}: ${error.message}`);
         }
@@ -47,7 +47,7 @@ const ServiceRepository = {
             const values = [category, serviceType, description, basePrice, quantityAdjustment];
             const { rows } = await db.query(query, values);
             const row = rows[0];
-            return new Service(row.id, row.category, row.servicetype, row.description, row.basePrice, row.quantityadjustment);
+            return new Service(row.id, row.category, row.servicetype, row.description, row.baseprice, row.quantityadjustment);
         } catch (error) {
             throw new Error(`Error al crear el nuevo servicio: ${error.message}`);
         }
@@ -60,10 +60,10 @@ const ServiceRepository = {
             const query = 'UPDATE Service SET category = $1, serviceType = $2, description = $3, basePrice = $4, quantityAdjustment = $5 WHERE id = $6 RETURNING *';
             const { rows } = await db.query(query, [category, serviceType, description, basePrice, quantityAdjustment, id]);
             if (rows.length === 0) {
-                throw new Error('No se encontró el servicio con el ID especificado');
+                return null;
             }
             const row = rows[0];
-            return new Service(row.id, row.category, row.servicetype, row.description, row.basePrice, row.quantityadjustment);
+            return new Service(row.id, row.category, row.servicetype, row.description, row.baseprice, row.quantityadjustment);
         } catch (error) {
             throw new Error(`Error al actualizar el servicio con ID ${id}: ${error.message}`);
         }
@@ -75,10 +75,10 @@ const ServiceRepository = {
             const query = 'DELETE FROM Service WHERE id = $1 RETURNING *';
             const { rows } = await db.query(query, [id]);
             if (rows.length === 0) {
-                throw new Error('No se encontró el servicio con el ID especificado');
+                return null;
             }
             const row = rows[0];
-            return new Service(row.id, row.category, row.servicetype, row.description, row.basePrice, row.quantityadjustment);
+            return new Service(row.id, row.category, row.servicetype, row.description, row.baseprice, row.quantityadjustment);
         } catch (error) {
             throw new Error(`Error al eliminar el servicio con ID ${id}: ${error.message}`);
         }

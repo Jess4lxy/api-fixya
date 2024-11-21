@@ -46,8 +46,8 @@ const servicesService = {
     },
 
     // Actualizar un servicio existente
-    async updateService(data) {
-        const { id, category, serviceType, description, basePrice, quantityAdjustment } = data;
+    async updateService(id, data) {
+        const { category, serviceType, description, basePrice, quantityAdjustment } = data;
 
         try {
             const newServiceData = await ServiceRepository.updateService(id, {category, serviceType, description, basePrice, quantityAdjustment});

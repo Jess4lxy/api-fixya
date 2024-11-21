@@ -14,7 +14,7 @@ export const validateResident = [
 
 export const validateUpdatingResident = [
     check('id').exists().withMessage('El ID del residente es requerido').notEmpty().withMessage('El ID del residente es requerido').isInt().withMessage('El ID del residente debe ser un número entero'),
-    check('idApartment').isInt().withMessage('El ID de departamento debe ser un número entero'),
+    check('idApartment').optional({ checkFalsy: true }).isInt().withMessage('El ID de departamento debe ser un número entero'),
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
@@ -68,10 +68,10 @@ export const validateApartment = [
 
 export const validateUpdatingApartment = [
     check("id").exists().withMessage('El id del departamento es requerido').notEmpty().withMessage('El id del departamento es requerido').isInt().withMessage('El id del departamento debe ser un número entero'),
-    check("floor").isInt().withMessage('El piso debe ser un número entero'),
-    check("squareMeters").isFloat().withMessage('El área debe ser un número decimal'),
-    check("bathroomsNumber").isInt().withMessage('El número de baños debe ser un número entero'),
-    check("roomsNumber").isInt().withMessage('El número de cuartos debe ser un número entero'),
+    check("floor").optional({ checkFalsy: true }).isInt().withMessage('El piso debe ser un número entero'),
+    check("squareMeters").optional({ checkFalsy: true }).isFloat().withMessage('El área debe ser un número decimal'),
+    check("bathroomsNumber").optional({ checkFalsy: true }).isInt().withMessage('El número de baños debe ser un número entero'),
+    check("roomsNumber").optional({ checkFalsy: true }).isInt().withMessage('El número de cuartos debe ser un número entero'),
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
@@ -94,8 +94,8 @@ export const validateService = [
 
 export const validateUpdatingService = [
     check("id").exists().withMessage('El id del servicio es requerido').notEmpty().withMessage('El id del servicio es requerido').isInt().withMessage('El id del servicio debe ser un número entero'),
-    check("basePrice").isDecimal().withMessage('El precio base del servicio debe ser decimal'),
-    check("quantityAdjustment").isBoolean().withMessage('La confirmación de aumento por cantidad debe ser boolean'),
+    check("basePrice").optional({ checkFalsy: true }).isDecimal().withMessage('El precio base del servicio debe ser decimal'),
+    check("quantityAdjustment").optional({ checkFalsy: true }).isBoolean().withMessage('La confirmación de aumento por cantidad debe ser boolean'),
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
