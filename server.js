@@ -7,6 +7,7 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerSpec from './config/swagger.js';
 import residentRoutes from './routes/residentRoutes.js';
 import apartmentRoutes from './routes/apartmentRoutes.js';
+import residentRoutes from './routes/residentRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
 import db from './data/database.js';
@@ -55,7 +56,8 @@ app.use('/api', authRoutes);
 // Rutas protegidas
 const routes = [
     residentRoutes,
-    apartmentRoutes
+    apartmentRoutes,
+    residentRoutes
 ];
 
 routes.forEach(route => app.use('/api', authMiddleware, route));
