@@ -24,7 +24,6 @@ const servicesService = {
 
     // Obtener un servicio por su ID
     async getServiceById(id) {
-        if (!id) throw new Error("ID del servicio es requerido");
         try {
             const service = await ServiceRepository.getServiceById(id);
             return new Service(service);

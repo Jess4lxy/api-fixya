@@ -207,7 +207,30 @@ serviceRoutes.post("/services/create", validateService, serviceController.create
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Service'
+ *             type: object
+ *             properties:
+ *               category:
+ *                 type: string
+ *                 description: The category of the service
+ *               serviceType:
+ *                 type: string
+ *                 description: The type of the service
+ *               description:
+ *                 type: string
+ *                 description: A detailed description of the service
+ *               basePrice:
+ *                 type: number
+ *                 format: float
+ *                 description: The base price of the service
+ *               quantityAdjustment:
+ *                 type: boolean
+ *                 description: Whether the service allows quantity adjustments
+ *             required:
+ *               - category
+ *               - serviceType
+ *               - description
+ *               - basePrice
+ *               - quantityAdjustment
  *     responses:
  *       200:
  *         description: Service updated successfully.
