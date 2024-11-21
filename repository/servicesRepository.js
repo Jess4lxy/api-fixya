@@ -16,11 +16,7 @@ const ServiceRepository = {
     // Obtener todos los servicios
     async getAllServices({ limit = 50, offset = 0 }) {
         try {
-            const query = `
-                SELECT *
-                FROM Service
-                LIMIT $1 OFFSET $2
-            `;
+            const query = 'SELECT * FROM Service LIMIT $1 OFFSET $2';
             const { rows } = await db.query(query, [limit, offset]);
             return rows.map(row => new Service(row.id, row.category, row.servicetype, row.description, row.basePrice, row.quantityadjustment));
         } catch (error) {

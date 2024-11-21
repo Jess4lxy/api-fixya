@@ -2,7 +2,7 @@ import servicesService from "../services/servicesService.js";
 
 const getAllServices = async (req, res) => {
     const page = parseInt(req.query.page) || 1;
-    const pageSize = parseInt(req.query.page) || 50;
+    const pageSize = parseInt(req.query.pageSize) || 50;
     try {
         const services = await servicesService.getAllServices(page, pageSize);
         const totalServices = await servicesService.getTotalServices();
