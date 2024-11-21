@@ -9,6 +9,7 @@ import residentRoutes from './routes/residentRoutes.js';
 import apartmentRoutes from './routes/apartmentRoutes.js';
 import serviceRoutes from './routes/serviceRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import requestRoutes from './routes/requestRoutes.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
 import db from './data/database.js';
 
@@ -57,7 +58,8 @@ app.use('/api', authRoutes);
 const routes = [
     residentRoutes,
     apartmentRoutes,
-    serviceRoutes
+    serviceRoutes,
+    requestRoutes,
 ];
 
 routes.forEach(route => app.use('/api', authMiddleware, route));
