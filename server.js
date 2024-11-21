@@ -7,10 +7,11 @@ import swaggerUI from 'swagger-ui-express';
 import swaggerSpec from './config/swagger.js';
 import residentRoutes from './routes/residentRoutes.js';
 import apartmentRoutes from './routes/apartmentRoutes.js';
-import residentRoutes from './routes/residentRoutes.js';
+import serviceRoutes from './routes/serviceRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
 import db from './data/database.js';
+import serviceRoutes from './routes/serviceRoutes.js';
 
 dotenv.config();
 
@@ -57,7 +58,7 @@ app.use('/api', authRoutes);
 const routes = [
     residentRoutes,
     apartmentRoutes,
-    residentRoutes
+    serviceRoutes
 ];
 
 routes.forEach(route => app.use('/api', authMiddleware, route));
