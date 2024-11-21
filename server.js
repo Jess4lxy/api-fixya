@@ -11,7 +11,6 @@ import serviceRoutes from './routes/serviceRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import { authMiddleware } from './middleware/authMiddleware.js';
 import db from './data/database.js';
-import serviceRoutes from './routes/serviceRoutes.js';
 
 dotenv.config();
 
