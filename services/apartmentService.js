@@ -53,11 +53,6 @@ const ApartmentService = {
     async updateApartment(id, data) {
         const { apartmentNumber, floor, squareMeters, bathroomsNumber, roomsNumber } = data;
 
-        if (!id) throw new Error('ID del departamento es requerido');
-        if (!apartmentNumber || !floor || !squareMeters || !bathroomsNumber || !roomsNumber) {
-            throw new Error('Todos los campos son requeridos para actualizar un departamento');
-        }
-
         try {
             const updatedApartmentData = await ApartmentRepository.updateApartment(id, {apartmentNumber, floor, squareMeters, bathroomsNumber, roomsNumber});
             if (!updatedApartmentData) throw new Error('Departamento no encontrado o no actualizado');

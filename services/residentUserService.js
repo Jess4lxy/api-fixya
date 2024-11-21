@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import ResidentUser from "../models/residentUser.js";
 
 const ResidentUserService = {
+    // Obtener el total de usuarios residentes
     // Registrar a un nuevo usuario de residente
     async registerResidentUser(residentId, username, email, password) {
         try {
