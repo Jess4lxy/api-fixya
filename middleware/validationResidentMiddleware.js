@@ -44,3 +44,33 @@ export const validateResidentLogin = [
         next();
     }
 ];
+
+export const validateDeleteResidentById = [
+    param('id')
+        .exists().withMessage('El ID del residente es requerido')
+        .notEmpty().withMessage('El ID del residente no puede estar vacío')
+        .isInt().withMessage('El ID del residente debe ser un número entero'),
+    // Middleware para manejar los errores de validación
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    }
+];
+
+export const validateGetResidentById = [
+    param('id')
+        .exists().withMessage('El ID del residente es requerido')
+        .notEmpty().withMessage('El ID del residente no puede estar vacío')
+        .isInt().withMessage('El ID del residente debe ser un número entero'),
+    // Middleware para manejar los errores de validación
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    }
+];

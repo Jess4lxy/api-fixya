@@ -61,3 +61,83 @@ export const validateUpdatingRequest = [
         next();
     }
 ];
+
+export const validateGetRequestById = [
+    param("id")
+        .exists().withMessage("El ID de la solicitud es requerido")
+        .notEmpty().withMessage("El ID de la solicitud no puede estar vacío")
+        .isInt().withMessage("El ID de la solicitud debe ser un número entero"),
+    // Middleware para manejar los errores de validación
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    }
+];
+
+export const validateDeleteRequestById = [
+    param("id")
+        .exists().withMessage("El ID de la solicitud es requerido")
+        .notEmpty().withMessage("El ID de la solicitud no puede estar vacío")
+        .isInt().withMessage("El ID de la solicitud debe ser un número entero"),
+    // Middleware para manejar los errores de validación
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    }
+];
+
+export const validateCreateRequest = [
+    check("residentUserId")
+        .exists().withMessage("El ID del usuario residente es requerido")
+        .notEmpty().withMessage("El ID del usuario residente no puede estar vacío")
+        .isInt().withMessage("El ID del usuario residente debe ser un número entero"),
+    check("serviceId")
+        .exists().withMessage("El ID del servicio es requerido")
+        .notEmpty().withMessage("El ID del servicio no puede estar vacío")
+        .isInt().withMessage("El ID del servicio debe ser un número entero"),
+    check("quantity")
+        .exists().withMessage("La cantidad de servicios solicitados es requerida")
+        .notEmpty().withMessage("La cantidad de servicios solicitados no puede estar vacía")
+        .isInt().withMessage("La cantidad de servicios solicitados debe ser un número entero"),
+    check("totalPrice")
+        .exists().withMessage("El precio total del servicio es requerido")
+        .notEmpty().withMessage("El precio total del servicio no puede estar vacío")
+        .isDecimal().withMessage("El precio total del servicio debe ser un número decimal"),
+    check("requestDate")
+        .exists().withMessage("La fecha de solicitud del servicio es requerida")
+        .notEmpty().withMessage("La fecha de solicitud del servicio no puede estar vacía")
+        .custom((value) => {
+            if (!moment(value, "DD/MM/YYYY", true).isValid()) {
+                throw new Error("La fecha de solicitud del servicio debe tener el formato dd/mm/yyyy");
+            }
+            return true;
+        }),
+    check("scheduledDate")
+        .exists().withMessage("La fecha programada del servicio es requerida")
+        .notEmpty().withMessage("La fecha programada del servicio no puede estar vacía")
+        .custom((value) => {
+            if (!moment(value, "DD/MM/YYYY", true).isValid()) {
+                throw new Error("La fecha programada del servicio debe tener el formato dd/mm/yyyy");
+            }
+            return true;
+        }),
+    check("status")
+        .exists().withMessage("El status del servicio es requerido")
+        .notEmpty().withMessage("El status del servicio no puede estar vacío")
+        .isIn(["Pendiente", "Aceptada", "Rechazada", "En Proceso", "Completa"])
+        .withMessage("El status del servicio debe ser uno de los valores permitidos: Pendiente, Aceptada, Rechazada, En Proceso, Completa"),
+    // Middleware para manejar los errores de validación
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        next();
+    }
+];
