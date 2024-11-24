@@ -2,7 +2,7 @@ import Apartment from "../models/apartment.js";
 import db from "../data/database.js";
 
 const ApartmentRepository = {
-    // Obtener el total de de departamentos
+    // Obtener el total de departamentos
     async getTotalApartments() {
         try {
             const query = 'SELECT COUNT(*) FROM Apartment';
