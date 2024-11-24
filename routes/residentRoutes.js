@@ -1,6 +1,6 @@
 import express from "express";
 import residentController from "../controllers/residentController.js";
-import { validateResident, validateUpdatingResident, validateApartmentId } from "../middleware/validationMiddleware.js";
+import { validateResident, validateUpdatingResident, validateApartmentId } from "../middleware/validationResidentMiddleware.js";
 
 const residentRoutes = express.Router();
 

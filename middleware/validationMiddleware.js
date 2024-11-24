@@ -1,6 +1,28 @@
 import { check, validationResult } from "express-validator";
 import moment from 'moment';
 
+export const validateResidentRegister = [
+    check('residentId').exists().withMessage('El ID del residente es requerido').notEmpty().withMessage('El ID del residente es requerido').isInt().withMessage('El ID del residente debe ser un número entero'),
+    check('username').exists().withMessage('El nombre de usuario es requerido').notEmpty().withMessage('El nombre de usuario es requerido'),
+    check('email').exists().withMessage('El correo electrónico es requerido').notEmpty().withMessage('El correo electrónico es requerido').isEmail().withMessage('El correo electrónico no es válido'),
+    check('password').exists().withMessage('La contraseña es requerida').notEmpty().withMessage('La contraseña es requerida').isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres'),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+        next();
+    }
+];
+
+export const validateResidentLogin = [
+    check('email').exists().withMessage('El correo electrónico es requerido').notEmpty().withMessage('El correo electrónico es requerido').isEmail().withMessage('El correo electrónico no es válido'),
+    check('password').exists().withMessage('La contraseña es requerida').notEmpty().withMessage('La contraseña es requerida'),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+        next();
+    }
+];
+/*
 export const validateResident = [
     check('name').exists().withMessage('El nombre es requerido').notEmpty().withMessage('El nombre es requerido'),
     check('idApartment').exists().withMessage('El ID del departamento es requerido').notEmpty().withMessage('El ID del departamento es requerido').isInt().withMessage('El ID de departamento debe ser un número entero'),
@@ -23,6 +45,7 @@ export const validateUpdatingResident = [
     }
 ];
 
+
 export const validateApartmentId = [
     check("idApartment").exists().withMessage('El ID del departamento es requerido').notEmpty().withMessage('El ID del departamento es requerido').isInt().withMessage("El ID de departamento debe ser un número entero"),
     (req, res, next) => {
@@ -32,27 +55,7 @@ export const validateApartmentId = [
     }
 ];
 
-export const validateResidentRegister = [
-    check('residentId').exists().withMessage('El ID del residente es requerido').notEmpty().withMessage('El ID del residente es requerido').isInt().withMessage('El ID del residente debe ser un número entero'),
-    check('username').exists().withMessage('El nombre de usuario es requerido').notEmpty().withMessage('El nombre de usuario es requerido'),
-    check('email').exists().withMessage('El correo electrónico es requerido').notEmpty().withMessage('El correo electrónico es requerido').isEmail().withMessage('El correo electrónico no es válido'),
-    check('password').exists().withMessage('La contraseña es requerida').notEmpty().withMessage('La contraseña es requerida').isLength({ min: 8 }).withMessage('La contraseña debe tener al menos 8 caracteres'),
-    (req, res, next) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-        next();
-    }
-];
 
-export const validateResidentLogin = [
-    check('email').exists().withMessage('El correo electrónico es requerido').notEmpty().withMessage('El correo electrónico es requerido').isEmail().withMessage('El correo electrónico no es válido'),
-    check('password').exists().withMessage('La contraseña es requerida').notEmpty().withMessage('La contraseña es requerida'),
-    (req, res, next) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
-        next();
-    }
-];
 
 export const validateApartment = [
     check("apartmentNumber").exists().withMessage('El número de departamento es requerido').notEmpty().withMessage('El número de departamento es requerido'),
@@ -164,3 +167,4 @@ export const validateUpdatingRequest = [
         next();
     }
 ];
+*/

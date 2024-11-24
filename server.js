@@ -10,7 +10,11 @@ import apartmentRoutes from './routes/apartmentRoutes.js';
 import serviceRoutes from './routes/serviceRoutes.js';
 import authRoutes from './routes/authRoutes.js';
 import requestRoutes from './routes/requestRoutes.js';
-import { authMiddleware } from './middleware/authMiddleware.js';
+/*import { authMiddleware } from './middleware/validationMiddleware*/
+import { authMiddleware } from './middleware/validationResidentMiddleware.js';
+import { authMiddleware } from './middleware/validationApartamentMiddleware.js';
+import { authMiddleware } from './middleware/validationRequestMiddleware.js';
+import { authMiddleware } from './middleware/validationServiceMiddleware.js';
 import db from './data/database.js';
 
 dotenv.config();

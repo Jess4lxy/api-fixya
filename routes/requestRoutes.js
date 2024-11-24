@@ -1,6 +1,6 @@
 import express from 'express';
 import requestController from '../controllers/requestController.js';
-import { validateRequest, validateUpdatingRequest } from '../middleware/validationMiddleware.js';
+import { validateRequest, validateUpdatingRequest } from '../middleware/validationRequestMiddleware.js';
 
 const requestRoutes = express.Router();
 
