@@ -97,3 +97,16 @@ export const validateDeleteApartmentById = [
         next();
     }
 ];
+
+export const validateUpdatingApartment = [
+    check("id").exists().withMessage('El id del departamento es requerido').notEmpty().withMessage('El id del departamento es requerido').isInt().withMessage('El id del departamento debe ser un número entero'),
+    check("floor").optional({ checkFalsy: true }).isInt().withMessage('El piso debe ser un número entero'),
+    check("squareMeters").optional({ checkFalsy: true }).isFloat().withMessage('El área debe ser un número decimal'),
+    check("bathroomsNumber").optional({ checkFalsy: true }).isInt().withMessage('El número de baños debe ser un número entero'),
+    check("roomsNumber").optional({ checkFalsy: true }).isInt().withMessage('El número de cuartos debe ser un número entero'),
+    (req, res, next) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+        next();
+    }
+];
